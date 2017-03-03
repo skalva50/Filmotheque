@@ -33,6 +33,11 @@ public class SerieService implements ISerieService{
 	}
 	
 
+	public boolean idTMDBExists(Serie serie) {		
+		return dao.idTMDBExists(serie);
+	}
+
+
 
 	public void majSerie() {		
 		String path = "/media/Disque_PI/Serie";
@@ -43,7 +48,7 @@ public class SerieService implements ISerieService{
 				SearchSerie searchSerie = tmdbRequest.searchSerie(nameSerie);
 				if(searchSerie != null){
 					Serie serie = searchSerie.toSerie();
-					if (serie != null){
+					if (serie != null && !idTMDBExists(serie)){
 						SerieDetails serieDetail = tmdbRequest.getSerieByID(serie.getIdTMDB());
 						serieDetail.toSerie(serie);
 						saveSerie(serie);
@@ -73,10 +78,6 @@ public class SerieService implements ISerieService{
 			}
 		}   	
 		return listDossier;
-	}
-
-
-
-	
+	}	
 
 }
