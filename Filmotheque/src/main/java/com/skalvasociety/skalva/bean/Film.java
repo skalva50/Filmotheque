@@ -26,6 +26,7 @@ public class Film {
 	private String siteVideo;
 	
 	private Double popularite;
+	private Double note;
 
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -110,6 +111,14 @@ public class Film {
 
 	public void setPopularite(Double popularite) {
 		this.popularite = popularite;
+	}
+
+	public Double getNote() {
+		return note;
+	}
+
+	public void setNote(Double note) {
+		this.note = note;
 	}
 	
 	

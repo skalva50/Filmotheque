@@ -19,7 +19,7 @@ public class SerieDao extends AbstractDao<Integer, Serie>  implements ISerieDao{
 	@SuppressWarnings("unchecked")
 	public List<Serie> findAllSeries() {
 		Criteria criteria = createEntityCriteria();	
-		criteria.addOrder(Order.desc("popularite"));
+		criteria.addOrder(Order.desc("note"));
         return (List<Serie>) criteria.list();
 	}
 

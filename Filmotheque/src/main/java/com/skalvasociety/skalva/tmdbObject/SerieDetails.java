@@ -200,5 +200,6 @@ public class SerieDetails {
 		serie.setTitre(this.getName());
 		serie.setTitreOriginal(this.getOriginal_name());
 		serie.setPopularite(getPopularity());
+		serie.setNote(getVote_average());
 	}
 }

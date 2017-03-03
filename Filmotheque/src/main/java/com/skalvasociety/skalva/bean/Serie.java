@@ -17,6 +17,7 @@ public class Serie {
 	private String resume;
 	private String affiche;
 	private Double popularite;
+	private Double note;
 	
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -61,6 +62,12 @@ public class Serie {
 	}
 	public void setPopularite(Double popularite) {
 		this.popularite = popularite;
+	}
+	public Double getNote() {
+		return note;
+	}
+	public void setNote(Double note) {
+		this.note = note;
 	}
 	
 	

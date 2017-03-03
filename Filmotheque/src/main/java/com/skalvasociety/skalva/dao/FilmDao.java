@@ -18,7 +18,7 @@ public class FilmDao extends AbstractDao<Integer, Film> implements IFilmDao {
 	@SuppressWarnings("unchecked")
 	public List<Film> findAllFilms() {
 		Criteria criteria = createEntityCriteria();
-		criteria.addOrder(Order.desc("popularite"));
+		criteria.addOrder(Order.desc("note"));
         return (List<Film>) criteria.list();
 	}
 
