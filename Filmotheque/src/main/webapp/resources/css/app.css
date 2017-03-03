@@ -1,0 +1,18 @@
+.header {
+	background-color : #108a93 ;
+	padding : 8px;
+}
+
+.menu {
+	padding : 20px;
+}
+
+tr{
+	max-height: 50px;
+}
+
+.titreSite{
+	font-family: 'Gotham SSm A', 'Gotham SSm B', Arial !important;
+	font-weight: bold;
+	font-size: 46px;
+}
