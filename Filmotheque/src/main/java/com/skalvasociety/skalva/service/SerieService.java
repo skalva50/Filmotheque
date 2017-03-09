@@ -8,10 +8,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.skalvasociety.skalva.bean.Saison;
 import com.skalvasociety.skalva.bean.Serie;
 import com.skalvasociety.skalva.dao.ISerieDao;
 import com.skalvasociety.skalva.tmdbObject.SearchSerie;
 import com.skalvasociety.skalva.tmdbObject.SerieDetails;
+import com.skalvasociety.skalva.tmdbObject.SerieSaisonDetails;
 import com.skalvasociety.skalva.tmdbObject.TMDBRequest;
 
 
@@ -20,24 +22,32 @@ import com.skalvasociety.skalva.tmdbObject.TMDBRequest;
 public class SerieService implements ISerieService{
 	
 	@Autowired
-	ISerieDao dao;
+	ISerieDao serieDao;
+	
+	@Autowired
+	ISaisonService saisonService;
+
 	
 	public void saveSerie(Serie serie) {
-		dao.saveSerie(serie);		
+		serieDao.saveSerie(serie);		
 	}
-	
 
-
-	public List<Serie> getAllSeries() {		
-		return dao.findAllSeries();
+	public List<Serie> getAllSeries() {	
+		return serieDao.findAllSeries();
 	}
 	
 
 	public boolean idTMDBExists(Serie serie) {		
-		return dao.idTMDBExists(serie);
+		return serieDao.idTMDBExists(serie);
 	}
-
-
+	
+	public Serie getSerieByIdTMDB(int idTMDB){
+		return serieDao.getSerieByIdTMDB(idTMDB);
+	}
+	
+	public Serie getSerieById(Integer idSerie) {	
+		return serieDao.getSerieById(idSerie);
+	}	
 
 	public void majSerie() {		
 		String path = "/media/Disque_PI/Serie";
@@ -47,13 +57,32 @@ public class SerieService implements ISerieService{
 			try {
 				SearchSerie searchSerie = tmdbRequest.searchSerie(nameSerie);
 				if(searchSerie != null){
-					Serie serie = searchSerie.toSerie();
-					if (serie != null && !idTMDBExists(serie)){
-						SerieDetails serieDetail = tmdbRequest.getSerieByID(serie.getIdTMDB());
-						serieDetail.toSerie(serie);
-						saveSerie(serie);
-					}
-				}					
+					Serie serie = searchSerie.toSerie();						
+					
+					if (serie != null){
+						if(!idTMDBExists(serie)){
+							SerieDetails serieDetail = tmdbRequest.getSerieByID(serie.getIdTMDB());
+							serieDetail.toSerie(serie);
+							saveSerie(serie);
+						}else{
+							serie = getSerieByIdTMDB(serie.getIdTMDB());
+						}
+						List<String> listSaisonDossier = this.listDossier(path+"/"+nameSerie);
+						
+						for (String saisonDossier : listSaisonDossier) {
+							System.out.println("Serie dosiier: " + nameSerie + " Saiosn " + saisonDossier );
+							SerieSaisonDetails serieSaisonDetails = tmdbRequest.getSerieSaison(serie.getIdTMDB(), saisonDossier);
+							if (serieSaisonDetails != null){
+								Saison saison = serieSaisonDetails.toSaison();
+								saison.setSerie(serie);
+								saisonService.saveSaison(saison);
+								System.out.println("Serie: " +serieSaisonDetails.getOverview() +  " Saison: " +serieSaisonDetails.getSeason_number());
+							}								
+							else
+								System.out.println("Serie null");
+						}						
+					}					
+				}			
 				
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -78,6 +107,6 @@ public class SerieService implements ISerieService{
 			}
 		}   	
 		return listDossier;
-	}	
+	}
 
 }

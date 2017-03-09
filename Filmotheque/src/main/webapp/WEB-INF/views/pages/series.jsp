@@ -12,13 +12,13 @@
 	<tbody>    
 	    <c:forEach items="${series}" var="serie">	   	
 	        <tr> 
-	        	<td>						
-	        	<!--	<c:url value="/filmDetails" var="url">
-					<c:param name="idFilm" value="${film.id}"/>
+	        	<td  width="10%">				
+	        		<c:url value="/saisons" var="url">
+						<c:param name="idSerie" value="${serie.id}"/>
 					</c:url>
-					<a href="${url}">	-->			
+					<a href="${url}">	
 	        			<img src ="https://image.tmdb.org/t/p/w500${serie.affiche}" class="img-thumbnail img-responsive"/>
-	        	<!--	</a>  	-->	      		        		
+	        		</a>      		        		
 	        	</td> 
 	        	<td>${serie.titre}</td>
 	        	<td>${serie.resume}</td> 

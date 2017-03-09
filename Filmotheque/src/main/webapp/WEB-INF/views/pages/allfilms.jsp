@@ -12,7 +12,7 @@
 	<tbody>    
 	    <c:forEach items="${films}" var="film">	   	
 	        <tr> 
-	        	<td>						
+	        	<td  width="10%">						
 	        		<c:url value="/filmDetails" var="url">
 					<c:param name="idFilm" value="${film.id}"/>
 					</c:url>

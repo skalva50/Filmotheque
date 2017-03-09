@@ -8,5 +8,6 @@ public interface ISerieService {
 	public void saveSerie(Serie serie);
 	public void majSerie();
 	public List<Serie> getAllSeries();
+	public Serie getSerieById(Integer idSerie);
 	public boolean idTMDBExists(Serie serie);
 }

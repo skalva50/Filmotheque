@@ -7,6 +7,7 @@
  
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+    <link rel="icon" type="image/png" href="<c:url value='/resources/images/icone/icon.png'/>"  />
     <title><tiles:getAsString name="title" /></title>
     <link href="<c:url value='/resources/css/app.css' />"  rel="stylesheet"></link>  
     <link href="<c:url value='/resources/bootstrap/dist/css/bootstrap.min.css' />"  rel="stylesheet"></link>    
@@ -26,12 +27,14 @@
 	</div>
         
              
-        <section>
+   	<div class="row">
+     	<div class="col-md-12" id="corps">
             <tiles:insertAttribute name="body" />
-        </section>
-         
-        <footer>
-            <tiles:insertAttribute name="footer" />
-        </footer>
+        </div>     	
+	</div>
+	
+    <footer>
+        <tiles:insertAttribute name="footer" />
+    </footer>
 </body>
 </html>

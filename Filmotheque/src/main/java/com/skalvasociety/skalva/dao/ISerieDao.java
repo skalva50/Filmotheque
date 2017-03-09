@@ -9,6 +9,7 @@ public interface ISerieDao {
 	void saveSerie(Serie serie);
 	List<Serie> findAllSeries();
 	Serie getSerieById(Integer idSerie);
-	public boolean idTMDBExists(Serie serie);
+	public Serie getSerieByIdTMDB(Integer idTMDB);
+	public boolean idTMDBExists(Serie serie);	
 
 }

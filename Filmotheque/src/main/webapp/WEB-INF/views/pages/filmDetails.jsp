@@ -16,10 +16,13 @@
 		<h4 class ="text-center">Résumé: </h4>
 			<p> ${film.resume}</p>			
 		<hr/>
-		Chemin: ${film.fichier.chemin}<br/>		
+		Chemin: ${film.fichier.chemin}<br/>	
+		<hr/>
+		<h4 class ="text-center">Bande annonce: </h4>		
+		<iframe  width="100%" height="60%" src="https://www.youtube.com/embed/${film.cleVideo}" frameborder="0" allowfullscreen></iframe>	
 	</div>	
 </div>
 <hr/>
 <div class ="row text-center">
-	<iframe  width="854" height="480" src="https://www.youtube.com/embed/${film.cleVideo}" frameborder="0" allowfullscreen></iframe>
+	
 </div>

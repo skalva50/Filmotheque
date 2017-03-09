@@ -77,8 +77,7 @@ public class TMDBRequest {
 				//System.out.println("Response Code : " + responseCode);
 				
 				
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
+			} catch (InterruptedException e) {				
 				e.printStackTrace();
 			}
 		}
@@ -395,4 +394,93 @@ public class TMDBRequest {
 			return null;
 		}
 	}
+
+	
+	public SerieSaisonDetails getSerieSaison (int id, String sNumSaison) throws IOException{
+		// Au minimum le nom doit contenir saison + espace + numSaison soit 8  caractètres
+		if(sNumSaison.length()<=7)
+			return null;
+		
+		// Suppression extension
+		String numSaisonFormat = sNumSaison.substring(7, sNumSaison.length());
+		int numSaison;
+		System.out.println("numSaisonFormat: |"+ numSaisonFormat + "|" );
+		try {
+			numSaison = Integer.parseInt(numSaisonFormat);
+		} catch (Exception e) {
+			return null;
+		}	
+		
+		
+		//https://api.themoviedb.org/3/tv/46533/season/1?api_key=806c2dcfdd6cab66be30e3353293fee2&language=fr-FR
+			
+		String url = "https://api.themoviedb.org/3/tv/"+ id;
+		// numero saison
+		url += "/season/"+numSaison;
+		// Api_key
+		url += "?api_key="+API_KEY;
+		// Language
+		url += "&language=fr-FR";
+		
+		
+		URL obj = new URL(url);
+		HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+		
+		// optional default is GET
+		con.setRequestMethod("GET");
+		
+		//add request header
+		con.setRequestProperty("User-Agent", USER_AGENT);
+
+		int responseCode = con.getResponseCode();
+		//System.out.println("\nSending 'GET' request to URL : " + url);
+		//System.out.println("Response Code : " + responseCode);
+		
+		if (responseCode == 429){
+			try {
+				Thread.sleep(5000);
+				obj = new URL(url);
+				con = (HttpURLConnection) obj.openConnection();
+				
+				// optional default is GET
+				con.setRequestMethod("GET");
+				
+				//add request header
+				con.setRequestProperty("User-Agent", USER_AGENT);
+
+				responseCode = con.getResponseCode();
+				//System.out.println("2 eme essai");
+				//System.out.println("\nSending 'GET' request to URL : " + url);
+				//System.out.println("Response Code : " + responseCode);
+				
+				
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
+		
+		if (responseCode == 200){
+			BufferedReader in = new BufferedReader(
+			        new InputStreamReader(con.getInputStream()));
+			String inputLine;
+			StringBuffer response = new StringBuffer();
+
+			while ((inputLine = in.readLine()) != null) {
+				response.append(inputLine);
+			}
+			in.close();
+
+			//print result
+			//System.out.println(response.toString());
+			
+			ObjectMapper objectMapper = new ObjectMapper(); 
+			SerieSaisonDetails serieSaison = objectMapper.readValue(response.toString(),SerieSaisonDetails.class );
+			return serieSaison;
+		}else{
+			return null;
+		}
+	}
+	
 }

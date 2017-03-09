@@ -1,9 +1,16 @@
 package com.skalvasociety.skalva.bean;
 
+
+import java.util.LinkedList;
+import java.util.List;
+
+
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -17,8 +24,8 @@ public class Serie {
 	private String resume;
 	private String affiche;
 	private Double popularite;
-	private Double note;
-	
+	private Double note;	
+	private List<Saison> saison = new LinkedList<Saison>();
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
 	public int getId() {
@@ -68,6 +75,14 @@ public class Serie {
 	}
 	public void setNote(Double note) {
 		this.note = note;
+	}
+	
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "serie")
+	public List<Saison> getSaison() {
+		return saison;
+	}
+	public void setSaison(List<Saison> saison) {
+		this.saison = saison;
 	}
 	
 	

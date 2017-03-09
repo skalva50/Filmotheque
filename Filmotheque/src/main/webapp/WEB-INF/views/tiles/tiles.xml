@@ -34,5 +34,10 @@
        <put-attribute name="title" value="Series" />  
        <put-attribute name="body" value="/WEB-INF/views/pages/series.jsp" />  
    </definition> 
+   
+   <definition name="saisons" extends="base-definition">  
+       <put-attribute name="title" value="Saisons" />  
+       <put-attribute name="body" value="/WEB-INF/views/pages/saisons.jsp" />  
+   </definition> 
        
 </tiles-definitions>
