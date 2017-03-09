@@ -9,6 +9,9 @@ import java.net.URL;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.skalvasociety.skalva.bean.Film;
+import com.skalvasociety.skalva.bean.MediaTMDB;
+import com.skalvasociety.skalva.bean.Serie;
 
 public class TMDBRequest {
 	
@@ -176,12 +179,17 @@ public class TMDBRequest {
 		}
 	}
 	
-	public Video getVideoByID (int id) throws IOException{
-		
-		
+	public Video getVideoByID (MediaTMDB media) throws IOException{
 		//https://api.themoviedb.org/3/movie/75/videos?api_key=806c2dcfdd6cab66be30e3353293fee2&language=en-US
-			
-		String url = "https://api.themoviedb.org/3/movie/"+ id + "/videos";
+		String url = "";
+		if (media.getClass() == Film.class){
+			url = "https://api.themoviedb.org/3/movie/"+  ((Film)media).getIdTMDB()+ "/videos";
+		}else if (media.getClass() == Serie.class){
+			url = "https://api.themoviedb.org/3/tv/"+  ((Serie)media).getIdTMDB()+ "/videos";
+		}else{
+			return null;
+		}
+		
 		// Api_key
 		url += "?api_key="+API_KEY;
 		// Language

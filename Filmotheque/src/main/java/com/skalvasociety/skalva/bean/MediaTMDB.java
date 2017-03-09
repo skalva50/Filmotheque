@@ -1,0 +1,54 @@
+package com.skalvasociety.skalva.bean;
+
+import javax.persistence.MappedSuperclass;
+
+@MappedSuperclass
+public abstract class MediaTMDB extends EntiteTmdb {
+	
+	private String titre;
+	private String titreOriginal;
+	private String resume;
+	private String affiche;	
+	private String cleVideo;
+	private String siteVideo;
+	
+	public String getTitre() {
+		return titre;
+	}
+	public void setTitre(String titre) {
+		this.titre = titre;
+	}
+	public String getTitreOriginal() {
+		return titreOriginal;
+	}
+	public void setTitreOriginal(String titreOriginal) {
+		this.titreOriginal = titreOriginal;
+	}
+	public String getResume() {
+		return resume;
+	}
+	public void setResume(String resume) {
+		this.resume = resume;
+	}
+	public String getAffiche() {
+		return affiche;
+	}
+	public void setAffiche(String affiche) {
+		this.affiche = affiche;
+	}
+	public String getCleVideo() {
+		return cleVideo;
+	}
+	public void setCleVideo(String cleVideo) {
+		this.cleVideo = cleVideo;
+	}
+	public String getSiteVideo() {
+		return siteVideo;
+	}
+	public void setSiteVideo(String siteVideo) {
+		this.siteVideo = siteVideo;
+	}
+	
+	
+
+}

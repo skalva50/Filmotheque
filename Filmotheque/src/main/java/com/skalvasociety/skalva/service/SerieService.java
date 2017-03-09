@@ -15,6 +15,7 @@ import com.skalvasociety.skalva.tmdbObject.SearchSerie;
 import com.skalvasociety.skalva.tmdbObject.SerieDetails;
 import com.skalvasociety.skalva.tmdbObject.SerieSaisonDetails;
 import com.skalvasociety.skalva.tmdbObject.TMDBRequest;
+import com.skalvasociety.skalva.tmdbObject.Video;
 
 
 @Service("serieService")
@@ -62,24 +63,24 @@ public class SerieService implements ISerieService{
 					if (serie != null){
 						if(!idTMDBExists(serie)){
 							SerieDetails serieDetail = tmdbRequest.getSerieByID(serie.getIdTMDB());
-							serieDetail.toSerie(serie);
+							if (serieDetail != null)
+								serieDetail.toSerie(serie);
+							Video video = tmdbRequest.getVideoByID(serie);
+							if(video != null)								
+								video.toMedia(serie);
 							saveSerie(serie);
 						}else{
 							serie = getSerieByIdTMDB(serie.getIdTMDB());
 						}
 						List<String> listSaisonDossier = this.listDossier(path+"/"+nameSerie);
 						
-						for (String saisonDossier : listSaisonDossier) {
-							System.out.println("Serie dosiier: " + nameSerie + " Saiosn " + saisonDossier );
+						for (String saisonDossier : listSaisonDossier) {							
 							SerieSaisonDetails serieSaisonDetails = tmdbRequest.getSerieSaison(serie.getIdTMDB(), saisonDossier);
 							if (serieSaisonDetails != null){
 								Saison saison = serieSaisonDetails.toSaison();
 								saison.setSerie(serie);
-								saisonService.saveSaison(saison);
-								System.out.println("Serie: " +serieSaisonDetails.getOverview() +  " Saison: " +serieSaisonDetails.getSeason_number());
-							}								
-							else
-								System.out.println("Serie null");
+								saisonService.saveSaison(saison);								
+							}							
 						}						
 					}					
 				}			

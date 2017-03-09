@@ -15,7 +15,9 @@
 		<hr/>
 		<h4 class ="text-center">Résumé: </h4>
 			<p> ${serie.resume}</p>			
-		<hr/>
+		<hr/>		
+		<h4 class ="text-center">Bande annonce: </h4>		
+		<iframe  width="100%" height="60%" src="https://www.youtube.com/embed/${serie.cleVideo}" frameborder="0" allowfullscreen></iframe>
 	</div>
 </div>
 <hr/>

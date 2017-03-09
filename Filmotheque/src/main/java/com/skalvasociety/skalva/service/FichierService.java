@@ -78,9 +78,9 @@ public class FichierService implements IFichierService {
 							if(movieDetails !=  null)
 								movieDetails.toFilm(film);
 							
-							Video video = tmdbRequest.getVideoByID(film.getIdTMDB());
+							Video video = tmdbRequest.getVideoByID(film);
 							if(video != null)
-								video.toFilm(film);
+								video.toMedia(film);
 						}					
 					}																
 				} catch (IOException e) {			

@@ -1,8 +1,8 @@
 package com.skalvasociety.skalva.tmdbObject;
 
 import java.util.List;
+import com.skalvasociety.skalva.bean.MediaTMDB;
 
-import com.skalvasociety.skalva.bean.Film;
 
 public class Video {
 	private Integer id;
@@ -20,12 +20,14 @@ public class Video {
 	public void setResults(List<ResultsVideos> results) {
 		this.results = results;
 	}
-	public void toFilm(Film film) {
+
+	
+	public void toMedia(MediaTMDB media){
 		if (this.getResults() != null && !this.getResults().isEmpty()){
 			ResultsVideos result = this.getResults().get(0);
-			film.setCleVideo(result.getKey());
-			film.setSiteVideo(result.getSite());
-		}		
+			media.setCleVideo(result.getKey());
+			media.setSiteVideo(result.getSite());
+		}
 	}
 	
 	
