@@ -10,7 +10,8 @@
     <link rel="icon" type="image/png" href="<c:url value='/resources/images/icone/icon.png'/>"  />
     <title><tiles:getAsString name="title" /></title>
     <link href="<c:url value='/resources/css/app.css' />"  rel="stylesheet"></link>  
-    <link href="<c:url value='/resources/bootstrap/dist/css/bootstrap.min.css' />"  rel="stylesheet"></link>    
+    <link href="<c:url value='/resources/bootstrap/dist/css/bootstrap.min.css' />"  rel="stylesheet"></link>
+    <link href="<c:url value='/resources/bootstrap/dist/css/themeJournal.css' />"  rel="stylesheet"></link>    
    	
 </head>
   

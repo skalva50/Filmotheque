@@ -2,7 +2,7 @@
 
 <div class="row menu text-center">
 	<div class="col-md-6">
-		<a class="btn text-center " href="/Filmotheque/listFilms" role="button">
+		<a class="btn text-center " href="/Filmotheque/films" role="button">
 			<img src="/Filmotheque/resources/images/icone/video-camera.png" />
 			<h2 class="text-center">Films</h2>
 		</a>

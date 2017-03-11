@@ -20,3 +20,11 @@ tr{
 #corps{
 	padding : 60px;
 }
+
+.titreClickable{
+	color : #000000 ;
+}
+
+.titreClickable:hover{
+	color : #108a93 ;
+}

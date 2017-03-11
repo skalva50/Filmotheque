@@ -18,21 +18,24 @@ public class FilmController {
 	@Autowired
 	IFilmService service;
 	
-    @RequestMapping(value = { "/", "/listFilms" }, method = RequestMethod.GET)
+    @RequestMapping(value = { "/", "/films" }, method = RequestMethod.GET)
     public String listFilm(ModelMap model) { 
         List<Film> films = service.findAllFilms();
         model.addAttribute("films", films);
-        return "allfilms";
+        model.addAttribute("nbFilms", films.size());
+        return "films";
     }
     
 	@RequestMapping(value="/filmDetails" ,method = RequestMethod.GET)
-	public String filmById(@RequestParam(value="idFilm") Integer idFilm, ModelMap model){		
+	public String filmById(@RequestParam(value="idFilm") Integer idFilm, ModelMap model){	
+		if (idFilm == null)
+			return "redirect:/films";
 		Film film = service.getFilmById(idFilm);
 		if(film != null){
 			model.addAttribute("film", film);
 			return "filmDetails";
 		}else{
-			return "redirect:/listFilms";
+			return "redirect:/films";
 		}
 		
 	}

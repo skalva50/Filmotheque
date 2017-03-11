@@ -27,7 +27,9 @@ public class SerieController {
     }
     
     @RequestMapping(value="/saisons" ,method = RequestMethod.GET)
-	public String serieById(@RequestParam(value="idSerie") Integer idSerie, ModelMap model){		
+	public String serieById(@RequestParam(value="idSerie") Integer idSerie, ModelMap model){	
+		if (idSerie == null)
+			return "redirect:/series";
 		Serie serie = service.getSerieById(idSerie);
 		if(serie != null){
 			model.addAttribute("serie", serie);

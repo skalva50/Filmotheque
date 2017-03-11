@@ -14,9 +14,9 @@
    </definition>  
   
    <!-- Film Page -->
-   <definition name="allfilms" extends="base-definition">  
+   <definition name="films" extends="base-definition"> 
        <put-attribute name="title" value="Films" />  
-       <put-attribute name="body" value="/WEB-INF/views/pages/allfilms.jsp" />  
+       <put-attribute name="body" value="/WEB-INF/views/pages/films.jsp" />   
    </definition>  
  
    <!--  Fichier Page -->
@@ -28,6 +28,7 @@
    <definition name="filmDetails" extends="base-definition">  
        <put-attribute name="title" value="Fiche film" />  
        <put-attribute name="body" value="/WEB-INF/views/pages/filmDetails.jsp" />  
+       <put-attribute name="menu" value="" />
    </definition> 
    
    <definition name="series" extends="base-definition">  
