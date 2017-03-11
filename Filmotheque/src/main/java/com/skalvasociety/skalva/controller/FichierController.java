@@ -28,7 +28,7 @@ public class FichierController {
     @RequestMapping(value = { "/maj" }, method = RequestMethod.GET)
     public String majFichiers() {
     	service.majFichier();
-        return "redirect:/listFilms";
+        return "redirect:/films";
     }
 
 }

@@ -15,5 +15,3 @@
     </c:forEach>
 </table>  
 
-<br/>
-<a href="<c:url value='/maj' />">Maj Fichier</a>

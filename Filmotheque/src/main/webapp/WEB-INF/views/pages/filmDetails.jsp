@@ -23,6 +23,3 @@
 	</div>	
 </div>
 <hr/>
-<div class ="row text-center">
-	
-</div>

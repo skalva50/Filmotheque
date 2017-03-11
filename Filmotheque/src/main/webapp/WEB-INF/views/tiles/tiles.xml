@@ -28,7 +28,6 @@
    <definition name="filmDetails" extends="base-definition">  
        <put-attribute name="title" value="Fiche film" />  
        <put-attribute name="body" value="/WEB-INF/views/pages/filmDetails.jsp" />  
-       <put-attribute name="menu" value="" />
    </definition> 
    
    <definition name="series" extends="base-definition">  
@@ -39,6 +38,16 @@
    <definition name="saisons" extends="base-definition">  
        <put-attribute name="title" value="Saisons" />  
        <put-attribute name="body" value="/WEB-INF/views/pages/saisons.jsp" />  
+   </definition> 
+   
+   <definition name="accueil" extends="base-definition">  
+       <put-attribute name="title" value="Accueil" />  
+       <put-attribute name="body" value="/WEB-INF/views/pages/accueil.jsp" />  
+   </definition> 
+   
+   <definition name="administration" extends="base-definition">  
+       <put-attribute name="title" value="Administration" />  
+       <put-attribute name="body" value="/WEB-INF/views/pages/administration.jsp" />  
    </definition> 
        
 </tiles-definitions>

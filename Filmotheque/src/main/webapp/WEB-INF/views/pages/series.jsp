@@ -2,7 +2,7 @@
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
 
-<h2>Liste des Series</h2>  
+<h1 class="text-center">Serie</h1><br/>
 <table class="table table-hover">
 	<thead>
 	    <tr>
@@ -30,5 +30,3 @@
     </tbody>
 </table>  
 
-<br/>
-<a href="<c:url value='/maj' />">Maj Fichier</a>

@@ -8,11 +8,10 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
     <link rel="icon" type="image/png" href="<c:url value='/resources/images/icone/icon.png'/>"  />
-    <title><tiles:getAsString name="title" /></title>
-    <link href="<c:url value='/resources/css/app.css' />"  rel="stylesheet"></link>  
+    <title><tiles:getAsString name="title" /></title>     
     <link href="<c:url value='/resources/bootstrap/dist/css/bootstrap.min.css' />"  rel="stylesheet"></link>
     <link href="<c:url value='/resources/bootstrap/dist/css/themeJournal.css' />"  rel="stylesheet"></link>    
-   	
+   	<link href="<c:url value='/resources/css/app.css' />"  rel="stylesheet"></link> 
 </head>
   
 <body>
@@ -33,9 +32,12 @@
             <tiles:insertAttribute name="body" />
         </div>     	
 	</div>
-	
-    <footer>
-        <tiles:insertAttribute name="footer" />
-    </footer>
+	<footer>
+ 	<nav class="navbar navbar-default" id="footer">
+		<div class="container">		     	
+  	    	<tiles:insertAttribute name="footer" />
+  		</div>
+  	</nav>	
+  	</footer>             	
 </body>
 </html>

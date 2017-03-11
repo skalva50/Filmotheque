@@ -13,6 +13,7 @@ public class Film extends MediaTMDB {
 	private Fichier fichier;	
 	private Double popularite;
 	private Double note;
+	private String resumeCourt;
 
 	@OneToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "idfichier", nullable = false)
@@ -39,6 +40,14 @@ public class Film extends MediaTMDB {
 
 	public void setNote(Double note) {
 		this.note = note;
+	}
+
+	public String getResumeCourt() {
+		return resumeCourt;
+	}
+
+	public void setResumeCourt(String resumeCourt) {
+		this.resumeCourt = resumeCourt;
 	}
 	
 	

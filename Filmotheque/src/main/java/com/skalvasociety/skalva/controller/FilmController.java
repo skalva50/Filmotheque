@@ -18,7 +18,7 @@ public class FilmController {
 	@Autowired
 	IFilmService service;
 	
-    @RequestMapping(value = { "/", "/films" }, method = RequestMethod.GET)
+    @RequestMapping(value = {"/films" }, method = RequestMethod.GET)
     public String listFilm(ModelMap model) { 
         List<Film> films = service.findAllFilms();
         model.addAttribute("films", films);

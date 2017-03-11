@@ -1,19 +1,12 @@
+<nav class="navbar navbar-default">
+ 
+    <div class="collapse navbar-collapse" id ="menu" >
+      <ul class="nav navbar-nav">
+      	<li><a href="/Filmotheque" id="navHover">Accueil</a></li>
+        <li><a href="/Filmotheque/films" id="navHover">Film</a></li>
+        <li><a href="/Filmotheque/series" id="navHover">Serie</a></li>   
+        <li><a href="/Filmotheque/administration" id="navHover">Administration</a></li>     
+      </ul>      
+    </div><!-- /.navbar-collapse -->
 
-
-<div class="row menu text-center">
-	<div class="col-md-6">
-		<a class="btn text-center " href="/Filmotheque/films" role="button">
-			<img src="/Filmotheque/resources/images/icone/video-camera.png" />
-			<h2 class="text-center">Films</h2>
-		</a>
-	</div>
-	<div class="col-md-6 text-center">  	
-		<a class="btn text-center" href="/Filmotheque/series" role="button">
-			<img src="/Filmotheque/resources/images/icone/television.png" />
-			<h2 class="text-center">Series TV</h2>	
-		</a>	
-	</div>  
-	<a href="/Filmotheque/majSerie"> Maj Serie </a>
-	  
-	
-</div>
+</nav>

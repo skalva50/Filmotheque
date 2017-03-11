@@ -188,6 +188,7 @@ public class MovieDetails {
 		film.setAffiche(getPoster_path());
 		film.setPopularite(getPopularity());
 		film.setNote(getVote_average());
+		film.setResumeCourt(getTagline());
 	}
 	
 	
