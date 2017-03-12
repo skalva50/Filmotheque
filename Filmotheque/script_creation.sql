@@ -21,6 +21,7 @@ CREATE TABLE FILM
 	siteVideo varchar(255),
 	popularite float,
 	note float,
+	resumeCourt varchar(500),
 	CONSTRAINT prk_constraint_film PRIMARY KEY (id),	
 	CONSTRAINT fk_film_idFichier FOREIGN KEY (idFichier)
 		REFERENCES fichier(id) 

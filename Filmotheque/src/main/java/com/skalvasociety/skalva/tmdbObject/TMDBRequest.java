@@ -6,6 +6,9 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
+
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -13,13 +16,18 @@ import com.skalvasociety.skalva.bean.Film;
 import com.skalvasociety.skalva.bean.MediaTMDB;
 import com.skalvasociety.skalva.bean.Serie;
 
+
 public class TMDBRequest {
+    
+	public TMDBRequest(String API_KEY){
+		this.setApi_key(API_KEY);
+	}
 	
 	private final String USER_AGENT = "Mozilla/5.0";
-	private final String API_KEY = "806c2dcfdd6cab66be30e3353293fee2";
-	
+	private String api_key;
 	
 	public SearchMovie searchMovie(String nameMovie) throws IOException{
+			
 		
 		// Au minimum le nom doit contenir 1 caractères + l'extension
 		if(nameMovie.length()<=4)
@@ -40,7 +48,7 @@ public class TMDBRequest {
 		
 		String url = "https://api.themoviedb.org/3/search/movie";
 		// Api_key
-		url += "?api_key="+API_KEY;
+		url += "?api_key="+getApi_key();
 		// Language
 		url += "&language=fr-FR";
 		// Query
@@ -111,10 +119,10 @@ public class TMDBRequest {
 	public MovieDetails getMovieByID (int id) throws IOException{
 	
 		//https://api.themoviedb.org/3/movie/100?api_key=806c2dcfdd6cab66be30e3353293fee2&language=fr-FR
-			
+		
 		String url = "https://api.themoviedb.org/3/movie/"+ id;
 		// Api_key
-		url += "?api_key="+API_KEY;
+		url += "?api_key="+getApi_key();
 		// Language
 		url += "&language=fr-FR";
 		
@@ -151,7 +159,6 @@ public class TMDBRequest {
 				
 				
 			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
@@ -181,6 +188,7 @@ public class TMDBRequest {
 	
 	public Video getVideoByID (MediaTMDB media) throws IOException{
 		//https://api.themoviedb.org/3/movie/75/videos?api_key=806c2dcfdd6cab66be30e3353293fee2&language=en-US
+		
 		String url = "";
 		if (media.getClass() == Film.class){
 			url = "https://api.themoviedb.org/3/movie/"+  ((Film)media).getIdTMDB()+ "/videos";
@@ -191,7 +199,7 @@ public class TMDBRequest {
 		}
 		
 		// Api_key
-		url += "?api_key="+API_KEY;
+		url += "?api_key="+getApi_key();
 		// Language
 		url += "&language=en-US";
 		
@@ -228,7 +236,6 @@ public class TMDBRequest {
 				
 				
 			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
@@ -259,11 +266,10 @@ public class TMDBRequest {
 	public SearchSerie searchSerie (String name) throws JsonParseException, JsonMappingException, IOException{
 		//https://api.themoviedb.org/3/search/tv?api_key=806c2dcfdd6cab66be30e3353293fee2&language=fr-FR&query=Vikings&page=1
 		
-		String nameSerieFormat = name.replaceAll(" ", "%20");
-		
+		String nameSerieFormat = name.replaceAll(" ", "%20");		
 		String url = "https://api.themoviedb.org/3/search/tv";
 		// Api_key
-		url += "?api_key="+API_KEY;
+		url += "?api_key="+getApi_key();
 		// Language
 		url += "&language=fr-FR";
 		// Query
@@ -304,7 +310,6 @@ public class TMDBRequest {
 				
 				
 			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
@@ -338,7 +343,7 @@ public class TMDBRequest {
 			
 		String url = "https://api.themoviedb.org/3/tv/"+ id;
 		// Api_key
-		url += "?api_key="+API_KEY;
+		url += "?api_key="+getApi_key();
 		// Language
 		url += "&language=fr-FR";
 		
@@ -374,8 +379,7 @@ public class TMDBRequest {
 				//System.out.println("Response Code : " + responseCode);
 				
 				
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
+			} catch (InterruptedException e) {				
 				e.printStackTrace();
 			}
 		}
@@ -426,7 +430,7 @@ public class TMDBRequest {
 		// numero saison
 		url += "/season/"+numSaison;
 		// Api_key
-		url += "?api_key="+API_KEY;
+		url += "?api_key="+getApi_key();
 		// Language
 		url += "&language=fr-FR";
 		
@@ -462,8 +466,7 @@ public class TMDBRequest {
 				//System.out.println("Response Code : " + responseCode);
 				
 				
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
+			} catch (InterruptedException e) {				
 				e.printStackTrace();
 			}
 		}
@@ -479,9 +482,6 @@ public class TMDBRequest {
 				response.append(inputLine);
 			}
 			in.close();
-
-			//print result
-			//System.out.println(response.toString());
 			
 			ObjectMapper objectMapper = new ObjectMapper(); 
 			SerieSaisonDetails serieSaison = objectMapper.readValue(response.toString(),SerieSaisonDetails.class );
@@ -489,6 +489,14 @@ public class TMDBRequest {
 		}else{
 			return null;
 		}
+	}
+
+	public String getApi_key() {
+		return api_key;
+	}
+
+	public void setApi_key(String api_key) {
+		this.api_key = api_key;
 	}
 	
 }

@@ -7,6 +7,7 @@ import java.util.List;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -27,6 +28,9 @@ public class FichierService implements IFichierService {
 	
 	@Autowired
 	private IFilmService filmService;
+	
+	@Autowired
+    private Environment environment;
 
 	public Fichier findByID(int id) {		
 		return dao.findById(id);
@@ -55,8 +59,9 @@ public class FichierService implements IFichierService {
 	
 
 	public void majFichier() {		
-		String path = "/media/Disque_PI/Film";
-		TMDBRequest tmdbRequest = new TMDBRequest();
+		String path = environment.getProperty("film.path");
+		String API_KEY = environment.getProperty("tmdb.API_KEY");
+		TMDBRequest tmdbRequest = new TMDBRequest(API_KEY);
 		List<String> listeFichier = this.listFichierVideo(path);
 		for (String chemin : listeFichier) {
 			Fichier fichier = new Fichier();

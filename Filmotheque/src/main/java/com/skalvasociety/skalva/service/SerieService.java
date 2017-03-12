@@ -5,6 +5,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -27,6 +28,9 @@ public class SerieService implements ISerieService{
 	
 	@Autowired
 	ISaisonService saisonService;
+	
+	@Autowired
+    private Environment environment;
 
 	
 	public void saveSerie(Serie serie) {
@@ -51,8 +55,9 @@ public class SerieService implements ISerieService{
 	}	
 
 	public void majSerie() {		
-		String path = "/media/Disque_PI/Serie";
-		TMDBRequest tmdbRequest = new TMDBRequest();
+		String path = environment.getProperty("serie.path");
+		String API_KEY = environment.getProperty("tmdb.API_KEY");
+		TMDBRequest tmdbRequest = new TMDBRequest(API_KEY);
 		List<String> listeNomSerie = this.listDossier(path);
 		for (String nameSerie : listeNomSerie) {			
 			try {
