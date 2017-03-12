@@ -21,7 +21,7 @@
 	        		</a>      		        		
 	        	</td> 
 	        	<td>${serie.titre}</td>
-	        	<td>${serie.resume}</td> 
+	        	<td>${serie.resumeCourt}</td> 
 	        	<td>
 
 				</td>     	

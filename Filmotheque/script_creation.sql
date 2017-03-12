@@ -41,6 +41,7 @@ CREATE TABLE SERIE
 	note float,
 	cleVideo varchar(255),
 	siteVideo varchar(255),
+	resumeCourt varchar(500),
 	CONSTRAINT prk_constraint_serie PRIMARY KEY (id),
 	CONSTRAINT unique_constraint_serie UNIQUE (idTMDB)	
  

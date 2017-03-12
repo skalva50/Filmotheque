@@ -18,6 +18,7 @@ public class Serie extends MediaTMDB {
 	private Double popularite;
 	private Double note;	
 	private List<Saison> saison = new LinkedList<Saison>();
+	private static final int RESUME_COURT_LONG = 50;
 	
 
 	public Double getPopularite() {
@@ -40,6 +41,17 @@ public class Serie extends MediaTMDB {
 	public void setSaison(List<Saison> saison) {
 		this.saison = saison;
 	}
-
 	
+	@Override
+	public void setResumeCourt(String resume) {
+		int endIndex = RESUME_COURT_LONG;
+		if(resume ==  null)
+			return;
+		
+		if (resume.length() <= endIndex){
+			endIndex = resume.length();
+		}		
+		super.setResumeCourt(resume.substring(0, endIndex)+"...");
+	}
 }
+

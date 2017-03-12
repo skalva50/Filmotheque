@@ -11,6 +11,7 @@ public abstract class MediaTMDB extends EntiteTmdb {
 	private String affiche;	
 	private String cleVideo;
 	private String siteVideo;
+	private String resumeCourt;
 	
 	public String getTitre() {
 		return titre;
@@ -47,6 +48,12 @@ public abstract class MediaTMDB extends EntiteTmdb {
 	}
 	public void setSiteVideo(String siteVideo) {
 		this.siteVideo = siteVideo;
+	}
+	public String getResumeCourt() {
+		return resumeCourt;
+	}
+	public void setResumeCourt(String resumeCourt) {
+		this.resumeCourt = resumeCourt;
 	}
 	
 	
