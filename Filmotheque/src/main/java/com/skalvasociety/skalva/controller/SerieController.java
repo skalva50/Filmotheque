@@ -23,6 +23,7 @@ public class SerieController {
     public String listSerie(ModelMap model) { 
         List<Serie> series = service.getAllSeries();        
         model.addAttribute("series", series);
+        model.addAttribute("nbSeries", series.size());
         return "series";
     }
     
