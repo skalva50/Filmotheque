@@ -1,6 +1,8 @@
 package com.skalvasociety.skalva.tmdbObject;
 
-public class Genre {
+import com.skalvasociety.skalva.bean.Genre;
+
+public class GenreTmdb {
 	private Integer id;
 	private String name;
 	
@@ -15,6 +17,13 @@ public class Genre {
 	}
 	public void setName(String name) {
 		this.name = name;
+	}
+	
+	public Genre toGenre(){
+		Genre genre = new Genre();
+		genre.setIdTMDB(getId());
+		genre.setLibelle(getName());		
+		return genre;		
 	}
 	
 }

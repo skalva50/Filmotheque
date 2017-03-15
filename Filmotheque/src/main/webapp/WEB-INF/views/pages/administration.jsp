@@ -12,3 +12,11 @@
 		</a>	
 	</div>  	  
 </div>
+<div class="row text-center">
+	<div class="col-md-6">
+		<a class="btn text-center " href="/Filmotheque/majGenre" role="button">
+			<img src="/Filmotheque/resources/images/icone/update.png" />
+			<h2 class="text-center">Mise à jour Genres</h2>
+		</a>
+	</div>	  
+</div>

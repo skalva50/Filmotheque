@@ -8,6 +8,15 @@ CREATE TABLE fichier
   CONSTRAINT unique_constraint_operation UNIQUE (chemin)
 );
 
+CREATE TABLE GENRE
+(
+	id serial NOT NULL,
+	idTMDB Integer,
+	libelle varchar(255),
+	CONSTRAINT prk_constraint_genre PRIMARY KEY (id),
+	CONSTRAINT unique_constraint_genre UNIQUE (idTMDB)
+);
+
 CREATE TABLE FILM
 (
 	id serial NOT NULL,
@@ -27,6 +36,15 @@ CREATE TABLE FILM
 		REFERENCES fichier(id) 
 );
 
+CREATE TABLE FILM_GENRE
+(
+	idFilm Integer,
+	idGenre Integer,
+	CONSTRAINT fk_FILM_GENRE_idFilm FOREIGN KEY (idFilm)
+		REFERENCES FILM(id),
+	CONSTRAINT fk_FILM_GENRE_idGenre FOREIGN KEY (idGenre)
+		REFERENCES GENRE(id)
+);
 
 
 CREATE TABLE SERIE
@@ -61,9 +79,4 @@ CREATE TABLE SAISON
 		REFERENCES SERIE(id) 
  
 );
-
-
-
-
-
 

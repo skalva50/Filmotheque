@@ -3,13 +3,19 @@ package com.skalvasociety.skalva.tmdbObject;
 import java.util.List;
 
 import com.skalvasociety.skalva.bean.Film;
+import com.skalvasociety.skalva.bean.Genre;
 
-public class MovieDetails {
+import com.skalvasociety.skalva.dao.IGenreDao;
+
+
+public class MovieDetails {	
+
+	
 	private Boolean adult;
 	private String backdrop_path;
 	private Object belongs_to_collection;
 	private Integer budget;
-	private List<Genre> genres;
+	private List<GenreTmdb> genres;
 	private String homepage;
 	private Integer id;
 	private String imdb_id;
@@ -54,10 +60,10 @@ public class MovieDetails {
 	public void setBudget(Integer budget) {
 		this.budget = budget;
 	}
-	public List<Genre> getGenres() {
+	public List<GenreTmdb> getGenres() {
 		return genres;
 	}
-	public void setGenres(List<Genre> genres) {
+	public void setGenres(List<GenreTmdb> genres) {
 		this.genres = genres;
 	}
 	public String getHomepage() {
@@ -181,7 +187,7 @@ public class MovieDetails {
 		this.vote_count = vote_count;
 	}
 	
-	public void toFilm(Film film){
+	public void toFilm(Film film, IGenreDao genredao){		
 		film.setResume(getOverview());
 		film.setTitre(getTitle());
 		film.setTitreOriginal(getOriginal_title());
@@ -189,6 +195,18 @@ public class MovieDetails {
 		film.setPopularite(getPopularity());
 		film.setNote(getVote_average());
 		film.setResumeCourt(getTagline());
+		List<GenreTmdb> listGenreTmdb = this.getGenres();
+		List<Genre> listGenre = film.getGenres();
+		for (GenreTmdb genreTmdb : listGenreTmdb) {
+			Genre genre  = genredao.getGenreByIdTmdb(genreTmdb.getId());
+			if(genre == null){
+				genre = genreTmdb.toGenre();
+				genredao.saveGenre(genre);
+			}
+				
+			listGenre.add(genre);
+		}
+		film.setGenres(listGenre);
 	}
 	
 	

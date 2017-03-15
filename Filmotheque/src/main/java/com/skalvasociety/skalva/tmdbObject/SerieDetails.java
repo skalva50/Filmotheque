@@ -7,7 +7,7 @@ import com.skalvasociety.skalva.bean.Serie;
 public class SerieDetails {
 	private Boolean in_production;
 	private String backdrop_path;		
-	private List<Genre> genres;
+	private List<GenreTmdb> genres;
 	private String homepage;
 	private Integer id;	
 	private String original_language;
@@ -39,10 +39,10 @@ public class SerieDetails {
 		this.backdrop_path = backdrop_path;
 	}
 	
-	public List<Genre> getGenres() {
+	public List<GenreTmdb> getGenres() {
 		return genres;
 	}
-	public void setGenres(List<Genre> genres) {
+	public void setGenres(List<GenreTmdb> genres) {
 		this.genres = genres;
 	}
 	public String getHomepage() {

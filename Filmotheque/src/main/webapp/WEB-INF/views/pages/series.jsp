@@ -11,45 +11,18 @@
 				<c:set var="k" scope="session" value="${(i*6)+j}"/>		
 				<c:url value="/saisons" var="url">
 					<c:param name="idSerie" value="${series[k].id}"/>
-				</c:url>							
-				<div class="thumbnail">
-					<a href="${url}"><img src ="https://image.tmdb.org/t/p/w500${series[k].affiche}" class="img-thumbnail img-responsive"/></a> 
-				</div>
-				<div class="caption">  						
-		    		<h4><a href="${url}" class="titreClickable">${series[k].titre}</a></h4>
-		    		<p><a href="${url}" class="titreClickable">${series[k].resumeCourt}</a></p>
-	    		</div>
+				</c:url>	
+				<c:if test="${k<nbSeries}">						
+					<div class="thumbnail">
+						<a href="${url}"><img src ="https://image.tmdb.org/t/p/w500${series[k].affiche}" class="img-thumbnail img-responsive"/></a> 
+					</div>
+					<div class="caption">  						
+			    		<h4><a href="${url}" class="titreClickable">${series[k].titre}</a></h4>
+			    		<p><a href="${url}" class="titreClickable">${series[k].resumeCourt}</a></p>
+		    		</div>
+	    		</c:if>
 	    	</div>	    
 	    </c:forEach>
 	</div>	    	   	 
 	<hr/>
 </c:forEach>
-
-
-<table class="table table-hover">
-	<thead>
-	    <tr>
-	        <th></th><th>Titre</th><th>Résumé</th>
-	    </tr>
-	</thead>
-	<tbody>    
-	    <c:forEach items="${series}" var="serie">	   	
-	        <tr> 
-	        	<td  width="10%">				
-	        		<c:url value="/saisons" var="url">
-						<c:param name="idSerie" value="${serie.id}"/>
-					</c:url>
-					<a href="${url}">	
-	        			<img src ="https://image.tmdb.org/t/p/w500${serie.affiche}" class="img-thumbnail img-responsive"/>
-	        		</a>      		        		
-	        	</td> 
-	        	<td>${serie.titre}</td>
-	        	<td>${serie.resumeCourt}</td> 
-	        	<td>
-
-				</td>     	
-	        </tr>		       	     	
-	    </c:forEach>
-    </tbody>
-</table>  
-

@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.skalvasociety.skalva.bean.Fichier;
 import com.skalvasociety.skalva.bean.Film;
 import com.skalvasociety.skalva.dao.IFichierDao;
+import com.skalvasociety.skalva.dao.IGenreDao;
 import com.skalvasociety.skalva.tmdbObject.MovieDetails;
 import com.skalvasociety.skalva.tmdbObject.SearchMovie;
 import com.skalvasociety.skalva.tmdbObject.TMDBRequest;
@@ -25,6 +26,9 @@ public class FichierService implements IFichierService {
 	
 	@Autowired
     private IFichierDao dao;
+	
+	@Autowired
+    private IGenreDao Genredao;
 	
 	@Autowired
 	private IFilmService filmService;
@@ -61,9 +65,9 @@ public class FichierService implements IFichierService {
 	public void majFichier() {		
 		String path = environment.getProperty("film.path");
 		String API_KEY = environment.getProperty("tmdb.API_KEY");
-		TMDBRequest tmdbRequest = new TMDBRequest(API_KEY);
+		TMDBRequest tmdbRequest = new TMDBRequest(API_KEY);		
 		List<String> listeFichier = this.listFichierVideo(path);
-		for (String chemin : listeFichier) {
+		for (String chemin : listeFichier) {			
 			Fichier fichier = new Fichier();
 			fichier.setChemin(chemin);
 			if(isFichierCheminUnique(fichier.getChemin())){
@@ -81,7 +85,7 @@ public class FichierService implements IFichierService {
 							// Mise à jour du detail du film avec son idTMDB
 							MovieDetails movieDetails = tmdbRequest.getMovieByID(film.getIdTMDB());
 							if(movieDetails !=  null)
-								movieDetails.toFilm(film);
+								movieDetails.toFilm(film, Genredao);
 							
 							Video video = tmdbRequest.getVideoByID(film);
 							if(video != null)
@@ -92,15 +96,7 @@ public class FichierService implements IFichierService {
 					e.printStackTrace();
 				}
 			}			
-		}
-		try {
-			tmdbRequest.getMovieByID(100);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		
+		}	
 		
 	}
 	

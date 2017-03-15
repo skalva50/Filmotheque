@@ -6,6 +6,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
+
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -21,7 +22,15 @@ public class TMDBRequest {
 	}
 	
 	private final String USER_AGENT = "Mozilla/5.0";
-	private String api_key;
+	
+	private String api_key;	
+	public String getApi_key() {
+		return api_key;
+	}
+
+	public void setApi_key(String api_key) {
+		this.api_key = api_key;
+	}
 	
 	public SearchMovie searchMovie(String nameMovie) throws IOException{
 			
@@ -488,12 +497,129 @@ public class TMDBRequest {
 		}
 	}
 
-	public String getApi_key() {
-		return api_key;
-	}
+	public Genres getGenresSeries() throws IOException {
+		// https://api.themoviedb.org/3/genre/movie/list?api_key=806c2dcfdd6cab66be30e3353293fee2&language=fr-FR
+		
+		
+		String url = "https://api.themoviedb.org/3/genre/tv/list";
+		// Api_key
+		url += "?api_key="+getApi_key();
+		// Language
+		url += "&language=fr-FR";
+		
+		
+		URL obj = new URL(url);
+		HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+		
+		// optional default is GET
+		con.setRequestMethod("GET");
+		
+		//add request header
+		con.setRequestProperty("User-Agent", USER_AGENT);
 
-	public void setApi_key(String api_key) {
-		this.api_key = api_key;
+		int responseCode = con.getResponseCode();
+		
+		if (responseCode == 429){
+			try {
+				Thread.sleep(5000);
+				obj = new URL(url);
+				con = (HttpURLConnection) obj.openConnection();
+				
+				// optional default is GET
+				con.setRequestMethod("GET");
+				
+				//add request header
+				con.setRequestProperty("User-Agent", USER_AGENT);
+
+				responseCode = con.getResponseCode();
+				
+				
+			} catch (InterruptedException e) {				
+				e.printStackTrace();
+			}
+		}
+		
+		
+		if (responseCode == 200){
+			BufferedReader in = new BufferedReader(
+			        new InputStreamReader(con.getInputStream()));
+			String inputLine;
+			StringBuffer response = new StringBuffer();
+
+			while ((inputLine = in.readLine()) != null) {
+				response.append(inputLine);
+			}
+			in.close();
+			
+			ObjectMapper objectMapper = new ObjectMapper(); 
+			Genres genres = objectMapper.readValue(response.toString(),Genres.class );
+			return genres;
+		}else{
+			return null;
+		}
 	}
 	
+	public Genres getGenresFilms() throws IOException {
+		// https://api.themoviedb.org/3/genre/movie/list?api_key=806c2dcfdd6cab66be30e3353293fee2&language=fr-FR
+		
+		
+		String url = "https://api.themoviedb.org/3/genre/movie/list";
+		// Api_key
+		url += "?api_key="+getApi_key();
+		// Language
+		url += "&language=fr-FR";
+		
+		
+		URL obj = new URL(url);
+		HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+		
+		// optional default is GET
+		con.setRequestMethod("GET");
+		
+		//add request header
+		con.setRequestProperty("User-Agent", USER_AGENT);
+
+		int responseCode = con.getResponseCode();
+		
+		if (responseCode == 429){
+			try {
+				Thread.sleep(5000);
+				obj = new URL(url);
+				con = (HttpURLConnection) obj.openConnection();
+				
+				// optional default is GET
+				con.setRequestMethod("GET");
+				
+				//add request header
+				con.setRequestProperty("User-Agent", USER_AGENT);
+
+				responseCode = con.getResponseCode();
+				
+				
+			} catch (InterruptedException e) {				
+				e.printStackTrace();
+			}
+		}
+		
+		
+		if (responseCode == 200){
+			BufferedReader in = new BufferedReader(
+			        new InputStreamReader(con.getInputStream()));
+			String inputLine;
+			StringBuffer response = new StringBuffer();
+
+			while ((inputLine = in.readLine()) != null) {
+				response.append(inputLine);
+			}
+			in.close();
+			
+			ObjectMapper objectMapper = new ObjectMapper(); 
+			Genres genres = objectMapper.readValue(response.toString(),Genres.class );
+			return genres;
+		}else{
+			return null;
+		}
+	}
+
+
 }
