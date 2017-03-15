@@ -2,12 +2,6 @@ package com.skalvasociety.skalva.tmdbObject;
 
 import java.util.List;
 
-import com.skalvasociety.skalva.bean.Film;
-import com.skalvasociety.skalva.bean.Genre;
-
-import com.skalvasociety.skalva.dao.IGenreDao;
-
-
 public class MovieDetails {	
 
 	
@@ -186,29 +180,5 @@ public class MovieDetails {
 	public void setVote_count(Integer vote_count) {
 		this.vote_count = vote_count;
 	}
-	
-	public void toFilm(Film film, IGenreDao genredao){		
-		film.setResume(getOverview());
-		film.setTitre(getTitle());
-		film.setTitreOriginal(getOriginal_title());
-		film.setAffiche(getPoster_path());
-		film.setPopularite(getPopularity());
-		film.setNote(getVote_average());
-		film.setResumeCourt(getTagline());
-		List<GenreTmdb> listGenreTmdb = this.getGenres();
-		List<Genre> listGenre = film.getGenres();
-		for (GenreTmdb genreTmdb : listGenreTmdb) {
-			Genre genre  = genredao.getGenreByIdTmdb(genreTmdb.getId());
-			if(genre == null){
-				genre = genreTmdb.toGenre();
-				genredao.saveGenre(genre);
-			}
-				
-			listGenre.add(genre);
-		}
-		film.setGenres(listGenre);
-	}
-	
-	
 	
 }

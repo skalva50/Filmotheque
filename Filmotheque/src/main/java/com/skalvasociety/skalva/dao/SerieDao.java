@@ -1,6 +1,7 @@
 package com.skalvasociety.skalva.dao;
 
 import java.util.Collections;
+import java.util.LinkedList;
 import java.util.List;
 
 
@@ -24,9 +25,17 @@ public class SerieDao extends AbstractDao<Integer, Serie>  implements ISerieDao{
 
 	@SuppressWarnings("unchecked")
 	public List<Serie> findAllSeries() {
-		Criteria criteria = createEntityCriteria();	
+		Criteria criteria = createEntityCriteria();
+		criteria.setFetchMode("genres", FetchMode.JOIN);
 		criteria.addOrder(Order.desc("note"));
-        return (List<Serie>) criteria.list();
+		List<Serie> series = criteria.list();
+        List<Serie> seriesReduce = new LinkedList<Serie>();
+        for (Serie serie : series) {
+			if(!seriesReduce.contains(serie)){
+				seriesReduce.add(serie);
+			}
+		}
+        return seriesReduce;
 	}
 
 

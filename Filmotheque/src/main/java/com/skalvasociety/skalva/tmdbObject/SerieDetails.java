@@ -2,7 +2,6 @@ package com.skalvasociety.skalva.tmdbObject;
 
 import java.util.List;
 
-import com.skalvasociety.skalva.bean.Serie;
 
 public class SerieDetails {
 	private Boolean in_production;
@@ -193,15 +192,5 @@ public class SerieDetails {
 	public void setType(String type) {
 		this.type = type;
 	}	
-	
-	public void toSerie(Serie serie){
-		serie.setResume(this.getOverview());
-		serie.setAffiche(this.getPoster_path());
-		serie.setTitre(this.getName());
-		serie.setTitreOriginal(this.getOriginal_name());
-		serie.setPopularite(getPopularity());
-		serie.setNote(getVote_average());
-		serie.setResumeCourt(serie.getResume());
-		
-	}
+
 }

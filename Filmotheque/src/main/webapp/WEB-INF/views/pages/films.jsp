@@ -18,8 +18,9 @@
 					<div class="caption">  						
 			    		<h4><a href="${url}" class="titreClickable">${films[k].titre}</a></h4>
 			    		<p><a href="${url}" class="titreClickable">${films[k].resumeCourt}</a></p>
-			    		<c:forEach items="${films[k].genres}" var="genre">
-			    			<span>${genre.libelle}</span>
+			    		<c:forEach begin="0" end ="${films[k].genres.size()}" var="l">
+			    			<span>${films[k].genres[l].libelle}</span>
+			    			<c:if test="${l<films[k].genres.size()-1}">, </c:if>
 			    		</c:forEach>
 		    		</div>
 	    		</c:if>

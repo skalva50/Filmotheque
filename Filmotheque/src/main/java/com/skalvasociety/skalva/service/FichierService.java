@@ -13,8 +13,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.skalvasociety.skalva.bean.Fichier;
 import com.skalvasociety.skalva.bean.Film;
+import com.skalvasociety.skalva.bean.Genre;
 import com.skalvasociety.skalva.dao.IFichierDao;
 import com.skalvasociety.skalva.dao.IGenreDao;
+import com.skalvasociety.skalva.tmdbObject.GenreTmdb;
 import com.skalvasociety.skalva.tmdbObject.MovieDetails;
 import com.skalvasociety.skalva.tmdbObject.SearchMovie;
 import com.skalvasociety.skalva.tmdbObject.TMDBRequest;
@@ -28,7 +30,7 @@ public class FichierService implements IFichierService {
     private IFichierDao dao;
 	
 	@Autowired
-    private IGenreDao Genredao;
+    private IGenreDao genreDao;
 	
 	@Autowired
 	private IFilmService filmService;
@@ -84,8 +86,9 @@ public class FichierService implements IFichierService {
 							
 							// Mise à jour du detail du film avec son idTMDB
 							MovieDetails movieDetails = tmdbRequest.getMovieByID(film.getIdTMDB());
-							if(movieDetails !=  null)
-								movieDetails.toFilm(film, Genredao);
+							if(movieDetails !=  null){
+								movieDetailsToFilm(movieDetails, film);
+							}															
 							
 							Video video = tmdbRequest.getVideoByID(film);
 							if(video != null)
@@ -122,6 +125,28 @@ public class FichierService implements IFichierService {
 			}
 		}   	
 		return listFichier;
+	}
+	
+	private void movieDetailsToFilm(MovieDetails movieDetail, Film film){
+		film.setResume(movieDetail.getOverview());
+		film.setTitre(movieDetail.getTitle());
+		film.setTitreOriginal(movieDetail.getOriginal_title());
+		film.setAffiche(movieDetail.getPoster_path());
+		film.setPopularite(movieDetail.getPopularity());
+		film.setNote(movieDetail.getVote_average());
+		film.setResumeCourt(movieDetail.getTagline());
+		List<GenreTmdb> listGenreTmdb = movieDetail.getGenres();
+		List<Genre> listGenre = film.getGenres();
+		for (GenreTmdb genreTmdb : listGenreTmdb) {
+			Genre genre  = genreDao.getGenreByIdTmdb(genreTmdb.getId());
+			if(genre == null){
+				genre = genreTmdb.toGenre();
+				genreDao.saveGenre(genre);
+			}
+				
+			listGenre.add(genre);
+		}
+		film.setGenres(listGenre);
 	}
 	
 

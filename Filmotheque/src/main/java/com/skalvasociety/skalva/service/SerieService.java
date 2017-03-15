@@ -9,9 +9,12 @@ import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.skalvasociety.skalva.bean.Genre;
 import com.skalvasociety.skalva.bean.Saison;
 import com.skalvasociety.skalva.bean.Serie;
+import com.skalvasociety.skalva.dao.IGenreDao;
 import com.skalvasociety.skalva.dao.ISerieDao;
+import com.skalvasociety.skalva.tmdbObject.GenreTmdb;
 import com.skalvasociety.skalva.tmdbObject.SearchSerie;
 import com.skalvasociety.skalva.tmdbObject.SerieDetails;
 import com.skalvasociety.skalva.tmdbObject.SerieSaisonDetails;
@@ -25,6 +28,9 @@ public class SerieService implements ISerieService{
 	
 	@Autowired
 	ISerieDao serieDao;
+	
+	@Autowired
+    private IGenreDao genreDao;
 	
 	@Autowired
 	ISaisonService saisonService;
@@ -68,8 +74,9 @@ public class SerieService implements ISerieService{
 					if (serie != null){
 						if(!idTMDBExists(serie)){
 							SerieDetails serieDetail = tmdbRequest.getSerieByID(serie.getIdTMDB());
-							if (serieDetail != null)
-								serieDetail.toSerie(serie);
+							if (serieDetail != null){
+								serieDetailsToSerie(serieDetail, serie);
+							}								
 							Video video = tmdbRequest.getVideoByID(serie);
 							if(video != null)								
 								video.toMedia(serie);
@@ -113,6 +120,27 @@ public class SerieService implements ISerieService{
 			}
 		}   	
 		return listDossier;
+	}
+	
+	private void serieDetailsToSerie(SerieDetails serieDetails, Serie serie){
+		serie.setResume(serieDetails.getOverview());
+		serie.setAffiche(serieDetails.getPoster_path());
+		serie.setTitre(serieDetails.getName());
+		serie.setTitreOriginal(serieDetails.getOriginal_name());
+		serie.setPopularite(serieDetails.getPopularity());
+		serie.setNote(serieDetails.getVote_average());
+		serie.setResumeCourt(serie.getResume());
+		List<GenreTmdb> listGenreTmdb = serieDetails.getGenres();
+		List<Genre> listGenre = serie.getGenres();
+		for (GenreTmdb genreTmdb : listGenreTmdb) {
+			Genre genre  = genreDao.getGenreByIdTmdb(genreTmdb.getId());
+			if(genre == null){
+				genre = genreTmdb.toGenre();
+				genreDao.saveGenre(genre);
+			}				
+			listGenre.add(genre);
+		}
+		serie.setGenres(listGenre);
 	}
 
 }

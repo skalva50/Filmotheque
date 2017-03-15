@@ -13,6 +13,7 @@ import javax.persistence.Table;
 public class Genre extends EntiteTmdb {
 	private String libelle;
 	private List<Film> films = new LinkedList<Film>();
+	private List<Serie> series = new LinkedList<Serie>();
 
 	public String getLibelle() {
 		return libelle;
@@ -30,6 +31,16 @@ public class Genre extends EntiteTmdb {
 	public void setFilms(List<Film> films) {
 		this.films = films;
 	}
+
+	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "genres")
+	public List<Serie> getSeries() {
+		return series;
+	}
+
+	public void setSeries(List<Serie> series) {
+		this.series = series;
+	}
+
 	
 	
 }

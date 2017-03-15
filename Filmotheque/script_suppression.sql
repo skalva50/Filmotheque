@@ -10,6 +10,7 @@ drop table genre;
 drop table film;
 drop table fichier;
 drop table saison;
+drop table SERIE_GENRE
 drop table serie;
 
 drop database filmotheque;

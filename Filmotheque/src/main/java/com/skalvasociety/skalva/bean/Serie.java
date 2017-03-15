@@ -4,10 +4,12 @@ package com.skalvasociety.skalva.bean;
 import java.util.LinkedList;
 import java.util.List;
 
-
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -18,6 +20,7 @@ public class Serie extends MediaTMDB {
 	private Double popularite;
 	private Double note;	
 	private List<Saison> saison = new LinkedList<Saison>();
+	private List<Genre> genres = new LinkedList<Genre>();
 	private static final int RESUME_COURT_LONG = 50;
 	
 
@@ -52,6 +55,17 @@ public class Serie extends MediaTMDB {
 			endIndex = resume.length();
 		}		
 		super.setResumeCourt(resume.substring(0, endIndex)+"...");
+	}
+	
+	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@JoinTable(name = "serie_genre", 
+			joinColumns = {@JoinColumn(name = "idserie", nullable = false, updatable = false) },
+			inverseJoinColumns = { @JoinColumn(name = "idgenre",	nullable = false, updatable = false) })
+	public List<Genre> getGenres() {
+		return genres;
+	}
+	public void setGenres(List<Genre> genres) {
+		this.genres = genres;
 	}
 }
 
