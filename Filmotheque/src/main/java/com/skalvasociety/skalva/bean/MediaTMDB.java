@@ -2,6 +2,7 @@ package com.skalvasociety.skalva.bean;
 
 import javax.persistence.MappedSuperclass;
 
+
 @MappedSuperclass
 public abstract class MediaTMDB extends EntiteTmdb {
 	
@@ -12,7 +13,7 @@ public abstract class MediaTMDB extends EntiteTmdb {
 	private String cleVideo;
 	private String siteVideo;
 	private String resumeCourt;
-	
+
 	public String getTitre() {
 		return titre;
 	}
@@ -54,8 +55,5 @@ public abstract class MediaTMDB extends EntiteTmdb {
 	}
 	public void setResumeCourt(String resumeCourt) {
 		this.resumeCourt = resumeCourt;
-	}
-	
-	
-
+	}	
 }

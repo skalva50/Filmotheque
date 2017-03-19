@@ -18,8 +18,13 @@
 		<hr/>
 		Chemin: ${film.fichier.chemin}<br/>	
 		<hr/>
-		<h4 class ="text-center">Bande annonce: </h4>		
-		<iframe  width="100%" height="60%" src="https://www.youtube.com/embed/${film.cleVideo}" frameborder="0" allowfullscreen></iframe>	
+		<h4 class ="text-center">Bande annonce: </h4>	
+		<c:if test="${film.cleVideo != String.Empty}">		
+			<iframe  width="100%" height="60%" src="https://www.youtube.com/embed/${film.cleVideo}" frameborder="0" allowfullscreen></iframe>
+		</c:if>	
+		<c:if test="${film.cleVideo == String.Empty}">		
+			<p>Aucune bande annonce disponible pour ce film</p>
+		</c:if>	
 	</div>	
 </div>
 <hr/>

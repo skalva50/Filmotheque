@@ -13,6 +13,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.skalvasociety.skalva.bean.Film;
 import com.skalvasociety.skalva.bean.MediaTMDB;
 import com.skalvasociety.skalva.bean.Serie;
+import com.skalvasociety.skalva.bean.Saison;
+import com.skalvasociety.skalva.bean.Episode;
 
 
 public class TMDBRequest {
@@ -192,7 +194,7 @@ public class TMDBRequest {
 		}
 	}
 	
-	public Video getVideoByID (MediaTMDB media) throws IOException{
+	public void getVideoByID (MediaTMDB media) throws IOException{
 		//https://api.themoviedb.org/3/movie/75/videos?api_key=806c2dcfdd6cab66be30e3353293fee2&language=en-US
 		
 		String url = "";
@@ -200,9 +202,18 @@ public class TMDBRequest {
 			url = "https://api.themoviedb.org/3/movie/"+  ((Film)media).getIdTMDB()+ "/videos";
 		}else if (media.getClass() == Serie.class){
 			url = "https://api.themoviedb.org/3/tv/"+  ((Serie)media).getIdTMDB()+ "/videos";
+		}else if (media.getClass() == Saison.class){
+			url = "https://api.themoviedb.org/3/tv/"+  ((Saison)media).getSerie().getIdTMDB()+ "/season/"+ ((Saison)media).getNumero() +"/videos";
+		}else if (media.getClass() == Episode.class){
+			url = "https://api.themoviedb.org/3/tv/"+
+						((Episode)media).getSaison().getSerie().getIdTMDB()+
+						"/season/"+ ((Episode)media).getSaison().getNumero() +
+						"/episode/" + ((Episode)media).getNumero() +
+						"/videos";
 		}else{
-			return null;
+			return;
 		}
+		
 		
 		// Api_key
 		url += "?api_key="+getApi_key();
@@ -263,9 +274,12 @@ public class TMDBRequest {
 			
 			ObjectMapper objectMapper = new ObjectMapper(); 
 			Video video = objectMapper.readValue(response.toString(),Video.class );
-			return video;
-		}else{
-			return null;
+			
+			if (video.getResults() != null && !video.getResults().isEmpty()){
+				ResultsVideos result = video.getResults().get(0);
+				media.setCleVideo(result.getKey());
+				media.setSiteVideo(result.getSite());
+			}
 		}
 	}
 	
@@ -422,7 +436,7 @@ public class TMDBRequest {
 		// Suppression extension
 		String numSaisonFormat = sNumSaison.substring(7, sNumSaison.length());
 		int numSaison;
-		System.out.println("numSaisonFormat: |"+ numSaisonFormat + "|" );
+		
 		try {
 			numSaison = Integer.parseInt(numSaisonFormat);
 		} catch (Exception e) {
@@ -495,6 +509,78 @@ public class TMDBRequest {
 		}else{
 			return null;
 		}
+	}
+	
+	
+	public EpisodeTMDB getEpisode(Integer idSerie, Integer numSaison, String nomFichier) throws JsonParseException, JsonMappingException, IOException{
+		// Au minimum le nom doit contenir 1 caractères + l'extension
+		if(nomFichier.length()<=4)
+			return null;
+		
+		// Suppression extension
+		String sNumEpisode = nomFichier.substring(0, nomFichier.length()-4);
+		// Recuperation dernier caractère
+		if (sNumEpisode.length()<=1){
+			return null;
+		}
+		sNumEpisode = sNumEpisode.substring(sNumEpisode.length()-2, sNumEpisode.length());		
+		int numEpisode = 0;
+		try {
+			numEpisode = Integer.parseInt(sNumEpisode);
+		} catch (Exception e) {
+			return null;
+		}
+		
+		//https://api.themoviedb.org/3/tv/44217/season/4/episode/13?api_key=806c2dcfdd6cab66be30e3353293fee2&language=fr-FR
+		String url = "https://api.themoviedb.org/3/tv/"+ idSerie;
+		// numero saison
+		url += "/season/"+numSaison;
+		// numero episode
+		url += "/episode/"+numEpisode;
+		// Api_key
+		url += "?api_key="+getApi_key();
+		// Language
+		url += "&language=fr-FR";	
+		
+		URL obj = new URL(url);
+		HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+		
+		// optional default is GET
+		con.setRequestMethod("GET");
+		
+		//add request header
+		con.setRequestProperty("User-Agent", USER_AGENT);
+
+		int responseCode = con.getResponseCode();
+		
+		if (responseCode == 429){
+			try {
+				Thread.sleep(5000);
+				obj = new URL(url);
+				con = (HttpURLConnection) obj.openConnection();		
+				con.setRequestMethod("GET");
+				con.setRequestProperty("User-Agent", USER_AGENT);
+				responseCode = con.getResponseCode();								
+			} catch (InterruptedException e) {				
+				e.printStackTrace();
+			}
+		}	
+		if (responseCode == 200){
+			BufferedReader in = new BufferedReader(
+			        new InputStreamReader(con.getInputStream()));
+			String inputLine;
+			StringBuffer response = new StringBuffer();
+
+			while ((inputLine = in.readLine()) != null) {
+				response.append(inputLine);
+			}
+			in.close();			
+			ObjectMapper objectMapper = new ObjectMapper(); 
+			EpisodeTMDB episodeTMDB = objectMapper.readValue(response.toString(),EpisodeTMDB.class );
+			return episodeTMDB;
+		}else{
+			return null;
+		}							
 	}
 
 	public Genres getGenresSeries() throws IOException {

@@ -2,12 +2,10 @@ package com.skalvasociety.skalva.tmdbObject;
 
 import java.util.List;
 
-import com.skalvasociety.skalva.bean.Saison;
-
 public class SerieSaisonDetails {
 	private String _id;
 	private String air_date;
-	private List<Episodes> episodes;
+	private List<EpisodeTMDB> episodes;
 	private String name;
 	private String overview;
 	private Integer id;
@@ -27,10 +25,10 @@ public class SerieSaisonDetails {
 	public void setAir_date(String air_date) {
 		this.air_date = air_date;
 	}
-	public List<Episodes> getEpisodes() {
+	public List<EpisodeTMDB> getEpisodes() {
 		return episodes;
 	}
-	public void setEpisodes(List<Episodes> episodes) {
+	public void setEpisodes(List<EpisodeTMDB> episodes) {
 		this.episodes = episodes;
 	}
 	public String getName() {
@@ -63,16 +61,5 @@ public class SerieSaisonDetails {
 	public void setOverview(String overview) {
 		this.overview = overview;
 	}
-	
-	public Saison toSaison(){
-		Saison saison = new Saison();
-		saison.setAffiche(this.getPoster_path());
-		saison.setResume(this.getOverview());
-		saison.setNumero(this.getSeason_number());	
-		saison.setDateSortie(this.getAir_date());
-		return saison;
-	}
-	
-	
 
 }

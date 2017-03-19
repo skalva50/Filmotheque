@@ -2,7 +2,7 @@ package com.skalvasociety.skalva.tmdbObject;
 
 import java.util.List;
 
-public class Episodes {
+public class EpisodeTMDB {
 	private String air_date;
 	private List<Crew> crew;
 	private Integer episode_number;

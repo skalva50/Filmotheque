@@ -23,6 +23,7 @@ public class Fichier {
     private String chemin;
 	
 	private Film film;
+	private Episode episode;
 	
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)	
@@ -54,6 +55,12 @@ public class Fichier {
 		this.film = film;
 	}
 
+	@OneToOne(fetch = FetchType.LAZY, mappedBy = "fichier")
+	public Episode getEpisode() {
+		return episode;
+	}
 
-
+	public void setEpisode(Episode episode) {
+		this.episode = episode;
+	}
 }

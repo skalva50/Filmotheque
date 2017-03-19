@@ -8,4 +8,5 @@ import com.skalvasociety.skalva.bean.Serie;
 public interface ISaisonService {
 	public void saveSaison(Saison saison);
 	public List<Saison> getSaisonByIdSerie(Serie serie);
+	public Saison getSaisonById(Integer idSaison);
 }

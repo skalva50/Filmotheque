@@ -37,9 +37,9 @@ public class SerieController {
 			return "saisons";
 		}else{
 			return "redirect:/series";
-		}
-		
-	}
+		}		
+	}    
+    
 	
 	@RequestMapping(value = { "/majSerie" }, method = RequestMethod.GET)
     public String majFichiers() {

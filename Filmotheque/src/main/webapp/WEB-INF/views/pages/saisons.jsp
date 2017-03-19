@@ -16,8 +16,13 @@
 		<h4 class ="text-center">Résumé: </h4>
 			<p> ${serie.resume}</p>			
 		<hr/>		
-		<h4 class ="text-center">Bande annonce: </h4>		
-		<iframe  width="100%" height="60%" src="https://www.youtube.com/embed/${serie.cleVideo}" frameborder="0" allowfullscreen></iframe>
+		<h4 class ="text-center">Bande annonce: </h4>
+		<c:if test="${serie.cleVideo != String.Empty}">		
+			<iframe  width="100%" height="60%" src="https://www.youtube.com/embed/${serie.cleVideo}" frameborder="0" allowfullscreen></iframe>
+		</c:if>	
+		<c:if test="${serie.cleVideo == String.Empty}">		
+			<p>Aucune bande annonce disponible pour cette serie</p>
+		</c:if>	
 	</div>
 </div>
 <hr/>
@@ -30,10 +35,13 @@
 		    </tr>
 		</thead>
 		<tbody>    
-		    <c:forEach items="${serie.saison}" var="saison">	   	
+		    <c:forEach items="${serie.saison}" var="saison">		    		
+				<c:url value="/episodes" var="url">
+					<c:param name="idSaison" value="${saison.id}"/>
+				</c:url>   	
 		        <tr> 
 		        	<td  width="10%">				
-		        		<img src ="https://image.tmdb.org/t/p/w500${saison.affiche}" class="img-thumbnail img-responsive"/>    		        		
+		        		<a href="${url}"><img src ="https://image.tmdb.org/t/p/w500${saison.affiche}" class="img-thumbnail img-responsive"/></a>    		        		
 		        	</td>
 		        	<td width="10%">Saison ${saison.numero}</td>
 		        	<td width="10%">${saison.dateSortie}</td>

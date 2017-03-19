@@ -47,8 +47,7 @@ public class SerieDao extends AbstractDao<Integer, Serie>  implements ISerieDao{
         if(serie !=  null && serie.getSaison() != null){
         	List<Saison> saisons = serie.getSaison();
         	Collections.sort(saisons, new SaisonComparateur());
-        	serie.setSaison(saisons);
-        	System.out.println("appel order");
+        	serie.setSaison(saisons);        	
         }        
         return serie;
 	}

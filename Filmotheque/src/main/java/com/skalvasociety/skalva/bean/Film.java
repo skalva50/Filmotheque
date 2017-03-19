@@ -14,13 +14,12 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name="FILM")
-public class Film extends MediaTMDB {	
-		
-	private Fichier fichier;	
+public class Film extends MediaTMDB {			
+	private Fichier fichier;
 	private Double popularite;
 	private Double note;	
 	private List<Genre> genres = new LinkedList<Genre>();
-
+	
 	@OneToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "idfichier", nullable = false)
 	public Fichier getFichier() {
@@ -30,7 +29,6 @@ public class Film extends MediaTMDB {
 	public void setFichier(Fichier fichier) {
 		this.fichier = fichier;
 	}
-	
 
 	public Double getPopularite() {
 		return popularite;

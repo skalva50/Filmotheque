@@ -78,15 +78,44 @@ CREATE TABLE SERIE_GENRE
 CREATE TABLE SAISON
 (
 	id serial NOT NULL,
-	idSerie integer,		
+	idTMDB Integer,
+	idSerie integer,
+	titre varchar(255),
+	titreOriginal varchar(255),		
 	resume varchar(5000),
 	affiche varchar(255),
 	dateSortie varchar(255),
 	numero Integer,
+	cleVideo varchar(255),
+	siteVideo varchar(255),
+	resumeCourt varchar(500),
 	CONSTRAINT prk_constraint_SAISON PRIMARY KEY (id),
 	CONSTRAINT unique_constraint_saison UNIQUE (idSerie,numero),
 	CONSTRAINT fk_film_idSerie FOREIGN KEY (idSerie)
 		REFERENCES SERIE(id) 
  
 );
+
+CREATE TABLE EPISODE
+(
+	id serial NOT NULL,
+	idTMDB Integer,
+	idFichier Integer,
+	idSaison Integer,
+	titre varchar(255),
+	titreOriginal varchar(255),
+	resume varchar(5000),
+	affiche varchar(255),
+	cleVideo varchar(255),
+	siteVideo varchar(255),
+	numero integer,
+	resumeCourt varchar(500),
+	CONSTRAINT prk_constraint_episode PRIMARY KEY (id),	
+	CONSTRAINT fk_episode_idFichier FOREIGN KEY (idFichier)
+		REFERENCES fichier(id),
+	CONSTRAINT fk_episode_idSaison FOREIGN KEY (idSaison)
+		REFERENCES saison(id)  
+);
+
+select * from saison
 

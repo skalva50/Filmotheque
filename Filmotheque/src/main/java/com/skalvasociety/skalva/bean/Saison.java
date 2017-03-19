@@ -1,51 +1,31 @@
 package com.skalvasociety.skalva.bean;
 
 
+import java.util.LinkedList;
+import java.util.List;
+
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
 @Table(name="SAISON")
-public class Saison {
-	private int id;	
+public class Saison extends MediaTMDB {	
 	private int numero;
-	private String resume;
-	private String affiche;
 	private String dateSortie;
 	private Serie serie;
+	private List<Episode> episodes = new LinkedList<Episode>();
 	
-	@Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-	public int getId() {
-		return id;
-	}
-	public void setId(int id) {
-		this.id = id;
-	}
+
 	public int getNumero() {
 		return numero;
 	}
 	public void setNumero(int numero) {
 		this.numero = numero;
-	}
-	public String getResume() {
-		return resume;
-	}
-	public void setResume(String resume) {
-		this.resume = resume;
-	}
-	public String getAffiche() {
-		return affiche;
-	}
-	public void setAffiche(String affiche) {
-		this.affiche = affiche;
-	}
+	}	
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "idSerie", nullable = false)
@@ -61,5 +41,13 @@ public class Saison {
 	}
 	public void setDateSortie(String dateSortie) {
 		this.dateSortie = dateSortie;
+	}
+	
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "saison")
+	public List<Episode> getEpisodes() {
+		return episodes;
+	}
+	public void setEpisodes(List<Episode> episodes) {
+		this.episodes = episodes;
 	}
 }

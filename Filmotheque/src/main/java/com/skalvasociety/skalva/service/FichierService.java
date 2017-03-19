@@ -1,8 +1,7 @@
 package com.skalvasociety.skalva.service;
 
-import java.io.File;
+
 import java.io.IOException;
-import java.util.LinkedList;
 import java.util.List;
 
 
@@ -20,7 +19,7 @@ import com.skalvasociety.skalva.tmdbObject.GenreTmdb;
 import com.skalvasociety.skalva.tmdbObject.MovieDetails;
 import com.skalvasociety.skalva.tmdbObject.SearchMovie;
 import com.skalvasociety.skalva.tmdbObject.TMDBRequest;
-import com.skalvasociety.skalva.tmdbObject.Video;
+import com.skalvasociety.skalva.tools.Acces;
 
 @Service("fichierService")
 @Transactional
@@ -68,7 +67,7 @@ public class FichierService implements IFichierService {
 		String path = environment.getProperty("film.path");
 		String API_KEY = environment.getProperty("tmdb.API_KEY");
 		TMDBRequest tmdbRequest = new TMDBRequest(API_KEY);		
-		List<String> listeFichier = this.listFichierVideo(path);
+		List<String> listeFichier = new Acces().listFichierVideo(path);
 		for (String chemin : listeFichier) {			
 			Fichier fichier = new Fichier();
 			fichier.setChemin(chemin);
@@ -88,11 +87,8 @@ public class FichierService implements IFichierService {
 							MovieDetails movieDetails = tmdbRequest.getMovieByID(film.getIdTMDB());
 							if(movieDetails !=  null){
 								movieDetailsToFilm(movieDetails, film);
-							}															
-							
-							Video video = tmdbRequest.getVideoByID(film);
-							if(video != null)
-								video.toMedia(film);
+							}														
+							tmdbRequest.getVideoByID(film);							
 						}					
 					}																
 				} catch (IOException e) {			
@@ -101,31 +97,8 @@ public class FichierService implements IFichierService {
 			}			
 		}	
 		
-	}
-	
-	/**
-	 * Lit les fichiers d'un dossier (ne lit pas dans les sous-dossiers)
-	 * @param path
-	 * @return Liste des noms de fichiers
-	 */
-	private List<String> listFichierVideo(String path){		
-		List<String> listFichier = new LinkedList<String>();
-		File file = new File(path);
-		File[] files = file.listFiles();
-		if (files != null) {
-			for (int i = 0; i < files.length; i++) {
-				if (!files[i].isDirectory()) {
-					//TODO: Filtrer sur les types
-					//MimetypesFileTypeMap fileTypeMap = new MimetypesFileTypeMap();			
-					//System.out.println("Ficheir " +files[i].getName() + " - type fichier: " + fileTypeMap.getContentType(files[i].getName()));
-					//if(fileTypeMap.getContentType(files[i].getName()).startsWith("video/x")){						
-						listFichier.add(files[i].getName());						
-					//}
-				}
-			}
-		}   	
-		return listFichier;
-	}
+	}	
+
 	
 	private void movieDetailsToFilm(MovieDetails movieDetail, Film film){
 		film.setResume(movieDetail.getOverview());

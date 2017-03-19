@@ -2,7 +2,6 @@ package com.skalvasociety.skalva.tmdbObject;
 
 import java.util.List;
 
-import com.skalvasociety.skalva.bean.Serie;
 
 
 public class SearchSerie {
@@ -35,14 +34,4 @@ public class SearchSerie {
 	public void setResults(List<ResultsSearchSerie> results) {
 		this.results = results;
 	}
-	
-	public Serie toSerie(){
-		Serie serie = null;
-		if (this !=  null && !this.getResults().isEmpty()){
-			serie = new Serie();
-			serie.setIdTMDB(this.getResults().get(0).getId());			
-		}				
-		return serie;		
-	}
-	
 }

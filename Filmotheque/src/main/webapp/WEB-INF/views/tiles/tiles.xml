@@ -40,6 +40,17 @@
        <put-attribute name="body" value="/WEB-INF/views/pages/saisons.jsp" />  
    </definition> 
    
+   <definition name="episodes" extends="base-definition">  
+       <put-attribute name="title" value="Episodes" />  
+       <put-attribute name="body" value="/WEB-INF/views/pages/episodes.jsp" />  
+   </definition> 
+    
+   <definition name="episode" extends="base-definition">  
+       <put-attribute name="title" value="Episodes" />  
+       <put-attribute name="body" value="/WEB-INF/views/pages/episode.jsp" />  
+   </definition> 
+   
+   
    <definition name="accueil" extends="base-definition">  
        <put-attribute name="title" value="Accueil" />  
        <put-attribute name="body" value="/WEB-INF/views/pages/accueil.jsp" />  

@@ -25,4 +25,10 @@ public class SaisonService implements ISaisonService {
 		return saisonDao.getSaisonByIdSerie(serie);
 	}
 
+	public Saison getSaisonById(Integer idSaison) {		
+		return saisonDao.getSaisonById(idSaison);
+	}
+	
+	
+
 }

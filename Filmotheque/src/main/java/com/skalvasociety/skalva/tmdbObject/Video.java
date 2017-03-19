@@ -23,11 +23,7 @@ public class Video {
 
 	
 	public void toMedia(MediaTMDB media){
-		if (this.getResults() != null && !this.getResults().isEmpty()){
-			ResultsVideos result = this.getResults().get(0);
-			media.setCleVideo(result.getKey());
-			media.setSiteVideo(result.getSite());
-		}
+
 	}
 	
 	

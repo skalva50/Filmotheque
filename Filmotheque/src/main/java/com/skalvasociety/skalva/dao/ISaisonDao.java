@@ -10,4 +10,5 @@ public interface ISaisonDao {
 	public List<Saison> getSaisonByIdSerie(Serie serie);
 	public Saison getSaisonByIdSerieNumSaison(Serie serie, Integer numSaison);
 	public boolean isUnique(Saison saison);
+	public Saison getSaisonById(Integer id);
 }

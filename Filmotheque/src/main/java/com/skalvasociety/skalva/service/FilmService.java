@@ -7,7 +7,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.skalvasociety.skalva.bean.Film;
-import com.skalvasociety.skalva.bean.Genre;
 import com.skalvasociety.skalva.dao.IFilmDao;
 
 @Service("filmService")
@@ -22,16 +21,7 @@ public class FilmService implements IFilmService {
 	}
 
 	public List<Film> findAllFilms() {		
-		List<Film> films = dao.findAllFilms();
-		for (Film film : films) {
-			List<Genre> genres = film.getGenres();
-			for (Genre genre : genres) {
-				System.out.println("Film titre: " + film.getTitre());
-				System.out.println("Genres: " + genre.getLibelle());
-			}
-
-		}
-		
+		List<Film> films = dao.findAllFilms();		
 		return films;
 	}
 
