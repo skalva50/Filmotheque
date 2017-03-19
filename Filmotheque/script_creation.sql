@@ -31,6 +31,7 @@ CREATE TABLE FILM
 	popularite float,
 	note float,
 	resumeCourt varchar(500),
+	dateSortie varchar(255),
 	CONSTRAINT prk_constraint_film PRIMARY KEY (id),	
 	CONSTRAINT fk_film_idFichier FOREIGN KEY (idFichier)
 		REFERENCES fichier(id) 
@@ -60,6 +61,7 @@ CREATE TABLE SERIE
 	cleVideo varchar(255),
 	siteVideo varchar(255),
 	resumeCourt varchar(500),
+	dateSortie varchar(255),
 	CONSTRAINT prk_constraint_serie PRIMARY KEY (id),
 	CONSTRAINT unique_constraint_serie UNIQUE (idTMDB)	
  
@@ -110,12 +112,11 @@ CREATE TABLE EPISODE
 	siteVideo varchar(255),
 	numero integer,
 	resumeCourt varchar(500),
+	dateSortie varchar(255),
 	CONSTRAINT prk_constraint_episode PRIMARY KEY (id),	
 	CONSTRAINT fk_episode_idFichier FOREIGN KEY (idFichier)
 		REFERENCES fichier(id),
 	CONSTRAINT fk_episode_idSaison FOREIGN KEY (idSaison)
 		REFERENCES saison(id)  
 );
-
-select * from saison
 

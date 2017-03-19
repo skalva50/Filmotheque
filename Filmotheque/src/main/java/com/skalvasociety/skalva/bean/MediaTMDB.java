@@ -13,6 +13,7 @@ public abstract class MediaTMDB extends EntiteTmdb {
 	private String cleVideo;
 	private String siteVideo;
 	private String resumeCourt;
+	private String dateSortie;
 
 	public String getTitre() {
 		return titre;
@@ -55,5 +56,11 @@ public abstract class MediaTMDB extends EntiteTmdb {
 	}
 	public void setResumeCourt(String resumeCourt) {
 		this.resumeCourt = resumeCourt;
+	}
+	public String getDateSortie() {
+		return dateSortie;
+	}
+	public void setDateSortie(String dateSortie) {
+		this.dateSortie = dateSortie;
 	}	
 }

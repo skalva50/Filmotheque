@@ -108,6 +108,7 @@ public class FichierService implements IFichierService {
 		film.setPopularite(movieDetail.getPopularity());
 		film.setNote(movieDetail.getVote_average());
 		film.setResumeCourt(movieDetail.getTagline());
+		film.setDateSortie(movieDetail.getRelease_date());
 		List<GenreTmdb> listGenreTmdb = movieDetail.getGenres();
 		List<Genre> listGenre = film.getGenres();
 		for (GenreTmdb genreTmdb : listGenreTmdb) {

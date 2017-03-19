@@ -13,6 +13,9 @@
 		<h4 class ="text-center">Titre Original: </h4>
 			<p>${film.titreOriginal}</p>	 
 		<hr/>
+		<h4 class ="text-center">Date de sortie: </h4>
+			<p>${film.dateSortie}</p>	 
+		<hr/>
 		<h4 class ="text-center">Résumé: </h4>
 			<p> ${film.resume}</p>			
 		<hr/>

@@ -14,6 +14,9 @@
 		<h4 class ="text-center">Titre épisode: </h4>
 		<p> ${episode.titre}</p>		
 		<hr/>
+		<h4 class ="text-center">Date de sortie: </h4>
+			<p>${episode.dateSortie}</p>	 
+		<hr/>
 		<h4 class ="text-center">Résumé: </h4>
 		<p> ${episode.resume}</p>		
 		<hr/>		

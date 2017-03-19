@@ -14,8 +14,7 @@ import javax.persistence.Table;
 @Entity
 @Table(name="SAISON")
 public class Saison extends MediaTMDB {	
-	private int numero;
-	private String dateSortie;
+	private int numero;	
 	private Serie serie;
 	private List<Episode> episodes = new LinkedList<Episode>();
 	
@@ -34,14 +33,8 @@ public class Saison extends MediaTMDB {
 	}
 	public void setSerie(Serie serie) {
 		this.serie = serie;
-	}
-	
-	public String getDateSortie() {
-		return dateSortie;
-	}
-	public void setDateSortie(String dateSortie) {
-		this.dateSortie = dateSortie;
-	}
+	}	
+
 	
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "saison")
 	public List<Episode> getEpisodes() {

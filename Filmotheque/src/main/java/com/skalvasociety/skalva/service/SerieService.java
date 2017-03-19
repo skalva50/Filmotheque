@@ -146,6 +146,7 @@ public class SerieService implements ISerieService{
 		serie.setPopularite(serieDetails.getPopularity());
 		serie.setNote(serieDetails.getVote_average());
 		serie.setResumeCourt(serie.getResume());
+		serie.setDateSortie(serieDetails.getFirst_air_date());
 		List<GenreTmdb> listGenreTmdb = serieDetails.getGenres();
 		List<Genre> listGenre = serie.getGenres();
 		for (GenreTmdb genreTmdb : listGenreTmdb) {
@@ -163,7 +164,7 @@ public class SerieService implements ISerieService{
 		saison.setAffiche(serieSaisonDetails.getPoster_path());
 		saison.setResume(serieSaisonDetails.getOverview());
 		saison.setNumero(serieSaisonDetails.getSeason_number());	
-		saison.setDateSortie(serieSaisonDetails.getAir_date());
+		saison.setDateSortie(serieSaisonDetails.getAir_date());		
 	}
 	
 	private void episodeTmdbToEpisode(EpisodeTMDB episodeTMDB, Episode episode){
@@ -172,5 +173,6 @@ public class SerieService implements ISerieService{
 		episode.setIdTMDB(episodeTMDB.getId());
 		episode.setNumero(episodeTMDB.getEpisode_number());
 		episode.setResume(episodeTMDB.getOverview());
+		episode.setDateSortie(episodeTMDB.getAir_date());
 	}
 }
