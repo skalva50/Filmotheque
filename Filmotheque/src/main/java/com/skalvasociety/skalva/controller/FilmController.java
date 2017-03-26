@@ -2,6 +2,8 @@ package com.skalvasociety.skalva.controller;
 
 import java.util.List;
 
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -10,9 +12,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.skalvasociety.skalva.bean.Film;
+import com.skalvasociety.skalva.bean.FilmPersonnage;
+import com.skalvasociety.skalva.bean.Realisateur;
 import com.skalvasociety.skalva.service.IFilmService;
 
 @Controller
+@Transactional
 public class FilmController {
 	
 	@Autowired
@@ -33,6 +38,22 @@ public class FilmController {
 		Film film = service.getFilmById(idFilm);
 		if(film != null){
 			model.addAttribute("film", film);
+			
+			List<FilmPersonnage> listPersonnage = film.getPersonnages();
+			for (FilmPersonnage filmPersonnage : listPersonnage) {
+				filmPersonnage.getActeur().getNom();
+				filmPersonnage.getActeur().getPhoto();
+				filmPersonnage.getActeur().getIdTMDB();
+			}			
+			model.addAttribute("personnages", listPersonnage);
+			
+			List<Realisateur> listRealisateurs = film.getRealisateurs();
+			for (Realisateur realisateur : listRealisateurs) {
+				realisateur.getId();
+				realisateur.getNom();
+				realisateur.getPhoto();
+			}		
+			model.addAttribute("realisateurs",listRealisateurs );
 			return "filmDetails";
 		}else{
 			return "redirect:/films";

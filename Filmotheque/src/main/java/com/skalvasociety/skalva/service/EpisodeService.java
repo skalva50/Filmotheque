@@ -7,9 +7,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.skalvasociety.skalva.bean.Episode;
+import com.skalvasociety.skalva.bean.Saison;
 import com.skalvasociety.skalva.dao.IEpisodeDao;
-
-
+import com.skalvasociety.skalva.tmdbObject.EpisodeTMDB;
 
 @Service("episodeService")
 @Transactional
@@ -30,4 +30,16 @@ public class EpisodeService implements IEpisodeService {
 		return episodeDao.getEpisodeById(idEpisode);
 	}
 
+	public void episodeTmdbToEpisode(EpisodeTMDB episodeTMDB, Episode episode) {
+		episode.setTitre(episodeTMDB.getName());
+		episode.setAffiche(episodeTMDB.getStill_path());
+		episode.setIdTMDB(episodeTMDB.getId());
+		episode.setNumero(episodeTMDB.getEpisode_number());
+		episode.setResume(episodeTMDB.getOverview());
+		episode.setDateSortie(episodeTMDB.getAir_date());		
+	}
+
+	public Episode getEpisodeBySaisonNumEpisode(Saison saison, Integer numEpisode) {		
+		return episodeDao.getEpisodeBySaisonNumEpisode(saison, numEpisode);
+	}
 }

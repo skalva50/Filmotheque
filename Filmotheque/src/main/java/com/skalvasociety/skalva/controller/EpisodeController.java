@@ -2,6 +2,7 @@ package com.skalvasociety.skalva.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -11,6 +12,7 @@ import com.skalvasociety.skalva.bean.Episode;
 import com.skalvasociety.skalva.service.IEpisodeService;
 
 @Controller
+@Transactional
 public class EpisodeController {
 	
 	@Autowired
@@ -21,8 +23,11 @@ public class EpisodeController {
 		if (idEpisode == null)
 			return "redirect:/series";
 		Episode episode = episodeService.getEpisodeById(idEpisode);
+		
 		if(episode != null){
 			model.addAttribute("episode", episode);
+			model.addAttribute("titre", episode.getSaison().getSerie().getTitre());
+			model.addAttribute("numSaison", episode.getSaison().getNumero());
 			return "episode";
 		}else{
 			return "redirect:/series";

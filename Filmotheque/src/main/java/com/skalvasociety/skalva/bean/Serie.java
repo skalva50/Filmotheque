@@ -21,6 +21,8 @@ public class Serie extends MediaTMDB {
 	private Double note;	
 	private List<Saison> saison = new LinkedList<Saison>();
 	private List<Genre> genres = new LinkedList<Genre>();
+	private List<SeriePersonnage> personnages = new LinkedList<SeriePersonnage>();
+	private List<Realisateur> realisateurs = new LinkedList<Realisateur>();
 	private static final int RESUME_COURT_LONG = 50;
 	
 
@@ -67,5 +69,26 @@ public class Serie extends MediaTMDB {
 	public void setGenres(List<Genre> genres) {
 		this.genres = genres;
 	}
+	
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "serie")
+	public List<SeriePersonnage> getPersonnages() {
+		return personnages;
+	}
+	public void setPersonnages(List<SeriePersonnage> personnages) {
+		this.personnages = personnages;
+	}
+	
+	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@JoinTable(name = "serie_realisateur", 
+			joinColumns = {@JoinColumn(name = "idserie", nullable = false, updatable = false) },
+			inverseJoinColumns = { @JoinColumn(name = "idrealisateur",	nullable = false, updatable = false) })
+	public List<Realisateur> getRealisateurs() {
+		return realisateurs;
+	}
+
+	public void setRealisateurs(List<Realisateur> realisateurs) {
+		this.realisateurs = realisateurs;
+	}
+	
 }
 

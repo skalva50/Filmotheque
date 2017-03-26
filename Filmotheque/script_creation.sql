@@ -1,4 +1,4 @@
-﻿create database filmotheque;
+﻿--create database filmotheque;
 
 CREATE TABLE fichier
 (
@@ -15,6 +15,26 @@ CREATE TABLE GENRE
 	libelle varchar(255),
 	CONSTRAINT prk_constraint_genre PRIMARY KEY (id),
 	CONSTRAINT unique_constraint_genre UNIQUE (idTMDB)
+);
+
+CREATE TABLE ACTEUR
+(
+	id serial NOT NULL,
+	idTMDB Integer,
+	nom varchar(255),
+	photo varchar(255),
+	CONSTRAINT prk_constraint_personnage PRIMARY KEY (id),
+	CONSTRAINT unique_constraint_personnage UNIQUE (idTMDB)
+);
+
+CREATE TABLE REALISATEUR
+(
+	id serial NOT NULL,
+	idTMDB Integer,
+	nom varchar(255),
+	photo varchar(255),
+	CONSTRAINT prk_constraint_REALISATEUR PRIMARY KEY (id),
+	CONSTRAINT unique_constraint_REALISATEUR UNIQUE (idTMDB)
 );
 
 CREATE TABLE FILM
@@ -47,6 +67,29 @@ CREATE TABLE FILM_GENRE
 		REFERENCES GENRE(id)
 );
 
+CREATE TABLE FILM_PERSONNAGE
+(
+	id serial NOT NULL,
+	idFilm Integer,
+	idActeur Integer,
+	nom varchar(255),
+	CONSTRAINT prk_constraint_FILM_PERSONNAGE PRIMARY KEY (id),
+	CONSTRAINT fk_FILM_personnage_idFilm FOREIGN KEY (idFilm)
+		REFERENCES FILM(id),
+	CONSTRAINT fk_FILM_personnage_idActeur FOREIGN KEY (idActeur)
+		REFERENCES Acteur(id)
+);
+
+CREATE TABLE FILM_REALISATEUR
+(
+	idFilm Integer,
+	idREALISATEUR Integer,
+	CONSTRAINT fk_FILM_REALISATEUR_idFilm FOREIGN KEY (idFilm)
+		REFERENCES FILM(id),
+	CONSTRAINT fk_FILM_REALISATEUR_idREALISATEUR FOREIGN KEY (idREALISATEUR)
+		REFERENCES REALISATEUR(id)
+);
+
 
 CREATE TABLE SERIE
 (
@@ -75,6 +118,30 @@ CREATE TABLE SERIE_GENRE
 		REFERENCES SERIE(id),
 	CONSTRAINT fk_SERIE_GENRE_idGenre FOREIGN KEY (idGenre)
 		REFERENCES GENRE(id)
+);
+
+CREATE TABLE SERIE_PERSONNAGE
+(
+	id serial NOT NULL,
+	idSerie Integer,
+	idActeur Integer,
+	nom varchar(255),
+	CONSTRAINT prk_constraint_SERIE_PERSONNAGE PRIMARY KEY (id),
+	CONSTRAINT fk_SERIE_personnage_idSerie FOREIGN KEY (idSerie)
+		REFERENCES SERIE(id),
+	CONSTRAINT fk_SERIE_personnage_idActeur FOREIGN KEY (idActeur)
+		REFERENCES Acteur(id)
+);
+
+
+CREATE TABLE SERIE_REALISATEUR
+(
+	idSERIE Integer,
+	idREALISATEUR Integer,
+	CONSTRAINT fk_SERIE_REALISATEUR_idSERIE FOREIGN KEY (idSERIE)
+		REFERENCES SERIE(id),
+	CONSTRAINT fk_FILM_REALISATEUR_idREALISATEUR FOREIGN KEY (idREALISATEUR)
+		REFERENCES REALISATEUR(id)
 );
 
 CREATE TABLE SAISON
@@ -119,4 +186,6 @@ CREATE TABLE EPISODE
 	CONSTRAINT fk_episode_idSaison FOREIGN KEY (idSaison)
 		REFERENCES saison(id)  
 );
+
+
 

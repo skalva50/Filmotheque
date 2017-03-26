@@ -26,11 +26,14 @@ public class GenreService implements IGenreService {
 
 	public void saveGenre(Genre genre) {
 		dao.saveGenre(genre);
-
 	}
 
 	public List<Genre> getGenres() {		
 		return dao.getGenres();
+	}
+	
+	public Genre getGenreByIdTmdb(Integer idTmdb) {		
+		return dao.getGenreByIdTmdb(idTmdb);
 	}
 
 	public void majGenre() {
@@ -67,5 +70,7 @@ public class GenreService implements IGenreService {
 		}
 		return result;
 	}
+
+
 
 }

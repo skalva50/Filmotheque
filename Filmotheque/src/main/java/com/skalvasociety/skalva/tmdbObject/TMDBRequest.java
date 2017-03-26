@@ -5,7 +5,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
-
+import java.util.List;
 
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
@@ -581,6 +581,150 @@ public class TMDBRequest {
 		}else{
 			return null;
 		}							
+	}
+	
+	public List<Cast> getCastbyMedia (MediaTMDB media) throws IOException{
+		//https://api.themoviedb.org/3/tv/44217/credits?api_key=806c2dcfdd6cab66be30e3353293fee2&language=fr-FR
+		
+		String url = "";
+		if (media.getClass() == Film.class){
+			url = "https://api.themoviedb.org/3/movie/"+  ((Film)media).getIdTMDB()+ "/credits";
+		}else if (media.getClass() == Serie.class){
+			url = "https://api.themoviedb.org/3/tv/"+  ((Serie)media).getIdTMDB()+ "/credits";		
+		}else{
+			return null;
+		}
+		
+		
+		// Api_key
+		url += "?api_key="+getApi_key();
+		// Language
+		url += "&language=en-US";
+		
+		URL obj = new URL(url);
+		HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+		
+		// optional default is GET
+		con.setRequestMethod("GET");
+		
+		//add request header
+		con.setRequestProperty("User-Agent", USER_AGENT);
+
+		int responseCode = con.getResponseCode();
+		
+		if (responseCode == 429){
+			try {
+				Thread.sleep(5000);
+				obj = new URL(url);
+				con = (HttpURLConnection) obj.openConnection();
+				
+				// optional default is GET
+				con.setRequestMethod("GET");
+				
+				//add request header
+				con.setRequestProperty("User-Agent", USER_AGENT);
+				responseCode = con.getResponseCode();
+				
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		
+		if (responseCode == 200){
+			BufferedReader in = new BufferedReader(
+			        new InputStreamReader(con.getInputStream()));
+			String inputLine;
+			StringBuffer response = new StringBuffer();
+
+			while ((inputLine = in.readLine()) != null) {
+				response.append(inputLine);
+			}
+			in.close();
+			
+			ObjectMapper objectMapper = new ObjectMapper(); 
+			Credit credit = objectMapper.readValue(response.toString(),Credit.class );
+			
+			if (credit != null) {
+				return credit.getCast();
+			}else{
+				return null;
+			}
+		}else{
+			return null;
+		}
+	}
+	
+	public List<Crew> getCrewbyMedia (MediaTMDB media) throws IOException{
+		//https://api.themoviedb.org/3/tv/44217/credits?api_key=806c2dcfdd6cab66be30e3353293fee2&language=fr-FR
+		
+		String url = "";
+		if (media.getClass() == Film.class){
+			url = "https://api.themoviedb.org/3/movie/"+  ((Film)media).getIdTMDB()+ "/credits";
+		}else if (media.getClass() == Serie.class){
+			url = "https://api.themoviedb.org/3/tv/"+  ((Serie)media).getIdTMDB()+ "/credits";		
+		}else{
+			return null;
+		}
+		
+		
+		// Api_key
+		url += "?api_key="+getApi_key();
+		// Language
+		url += "&language=en-US";
+		
+		URL obj = new URL(url);
+		HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+		
+		// optional default is GET
+		con.setRequestMethod("GET");
+		
+		//add request header
+		con.setRequestProperty("User-Agent", USER_AGENT);
+
+		int responseCode = con.getResponseCode();
+		
+		if (responseCode == 429){
+			try {
+				Thread.sleep(5000);
+				obj = new URL(url);
+				con = (HttpURLConnection) obj.openConnection();
+				
+				// optional default is GET
+				con.setRequestMethod("GET");
+				
+				//add request header
+				con.setRequestProperty("User-Agent", USER_AGENT);
+				responseCode = con.getResponseCode();
+				
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		
+		if (responseCode == 200){
+			BufferedReader in = new BufferedReader(
+			        new InputStreamReader(con.getInputStream()));
+			String inputLine;
+			StringBuffer response = new StringBuffer();
+
+			while ((inputLine = in.readLine()) != null) {
+				response.append(inputLine);
+			}
+			in.close();
+			
+			ObjectMapper objectMapper = new ObjectMapper(); 
+			Credit credit = objectMapper.readValue(response.toString(),Credit.class );
+			
+			if (credit != null) {
+				return credit.getCrew();
+			}else{
+				return null;
+			}
+		}else{
+			return null;
+		}
 	}
 
 	public Genres getGenresSeries() throws IOException {

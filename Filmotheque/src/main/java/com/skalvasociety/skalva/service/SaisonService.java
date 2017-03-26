@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.skalvasociety.skalva.bean.Saison;
 import com.skalvasociety.skalva.bean.Serie;
 import com.skalvasociety.skalva.dao.ISaisonDao;
+import com.skalvasociety.skalva.tmdbObject.SerieSaisonDetails;
 
 @Service("saisonService")
 @Transactional
@@ -30,5 +31,16 @@ public class SaisonService implements ISaisonService {
 	}
 	
 	
+
+	public void serieSaisonDetailstoSaison(SerieSaisonDetails serieSaisonDetails, Saison saison) {
+		saison.setAffiche(serieSaisonDetails.getPoster_path());
+		saison.setResume(serieSaisonDetails.getOverview());
+		saison.setNumero(serieSaisonDetails.getSeason_number());	
+		saison.setDateSortie(serieSaisonDetails.getAir_date());				
+	}
+
+	public Saison getSaisonByIdSerieNumSaison(Serie serie, Integer numSaison) {		
+		return saisonDao.getSaisonByIdSerieNumSaison(serie, numSaison);
+	}
 
 }

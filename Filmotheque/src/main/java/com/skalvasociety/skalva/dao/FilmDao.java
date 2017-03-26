@@ -6,11 +6,14 @@ import java.util.List;
 import org.hibernate.Criteria;
 import org.hibernate.FetchMode;
 import org.hibernate.criterion.Order;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.skalvasociety.skalva.bean.Film;
 
 @Repository("filmDao")
+@Transactional
 public class FilmDao extends AbstractDao<Integer, Film> implements IFilmDao {
 
 	public void saveFilm(Film film) {
@@ -32,8 +35,11 @@ public class FilmDao extends AbstractDao<Integer, Film> implements IFilmDao {
         return filmsReduce;
 	}
 
-	public Film getFilmById(Integer idFilm) {		
-		return getByKey(idFilm);
+	public Film getFilmById(Integer idFilm) {	
+		Criteria criteria = createEntityCriteria();
+		criteria.setFetchMode("personnages", FetchMode.JOIN);
+		criteria.add(Restrictions.eq("id", idFilm));
+		return (Film)criteria.uniqueResult();
 	}
 
 }

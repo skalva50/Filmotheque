@@ -2,8 +2,8 @@
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
 <div class ="row">		
-	<h1 class="text-center">${episode.saison.serie.titre}</h1>
-	<h1 class="text-center">Saison ${episode.saison.numero} Episode ${episode.numero}</h1>	
+	<h1 class="text-center">${titre}</h1>
+	<h1 class="text-center">Saison ${numSaison} Episode ${episode.numero}</h1>	
 </div>
 <hr/>
 <div class ="row">
