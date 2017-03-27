@@ -19,6 +19,8 @@
 		<h4 class ="text-center">Résumé: </h4>
 			<p> ${film.resume}</p>			
 		<hr/>
+		Durée: ${dureeFormatee} minutes<br/>
+		<hr/>
 		Chemin: ${film.fichier.chemin}<br/>	
 		<hr/>
 		<h4 class ="text-center">Bande annonce: </h4>	

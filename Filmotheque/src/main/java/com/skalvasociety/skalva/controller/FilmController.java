@@ -38,6 +38,7 @@ public class FilmController {
 		Film film = service.getFilmById(idFilm);
 		if(film != null){
 			model.addAttribute("film", film);
+			model.addAttribute("dureeFormatee", service.getDureeFormatee(film));
 			
 			List<FilmPersonnage> listPersonnage = film.getPersonnages();
 			for (FilmPersonnage filmPersonnage : listPersonnage) {
@@ -57,7 +58,6 @@ public class FilmController {
 			return "filmDetails";
 		}else{
 			return "redirect:/films";
-		}
-		
+		}		
 	}
 }

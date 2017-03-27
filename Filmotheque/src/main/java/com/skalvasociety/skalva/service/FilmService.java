@@ -28,5 +28,12 @@ public class FilmService implements IFilmService {
 	public Film getFilmById(Integer idFilm) {		
 		return dao.getFilmById(idFilm);
 	}
+	
+	public String getDureeFormatee(Film film){
+		int duree = film.getDuree();
+		int heure = duree /60;
+		int minutes = duree%60;
+		return heure + " h " + minutes;		
+	}
 
 }

@@ -8,4 +8,5 @@ public interface IFilmService {
 	void saveFilm (Film film);
 	List<Film> findAllFilms();
 	Film getFilmById(Integer idFilm);
+	public String getDureeFormatee(Film film);
 }

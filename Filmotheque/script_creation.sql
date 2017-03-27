@@ -60,6 +60,7 @@ CREATE TABLE FILM
 	note float,
 	resumeCourt varchar(500),
 	dateSortie varchar(255),
+	duree Integer,
 	CONSTRAINT prk_constraint_film PRIMARY KEY (id),	
 	CONSTRAINT fk_film_idFichier FOREIGN KEY (idFichier)
 		REFERENCES fichier(id) 

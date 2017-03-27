@@ -19,6 +19,7 @@ public class Film extends MediaTMDB {
 	private Fichier fichier;
 	private Double popularite;
 	private Double note;	
+	private Integer duree;
 	private List<Genre> genres = new LinkedList<Genre>();
 	private List<FilmPersonnage> personnages = new LinkedList<FilmPersonnage>();
 	private List<Realisateur> realisateurs = new LinkedList<Realisateur>();
@@ -81,6 +82,12 @@ public class Film extends MediaTMDB {
 	public void setRealisateurs(List<Realisateur> realisateurs) {
 		this.realisateurs = realisateurs;
 	}
-	
 
+	public Integer getDuree() {
+		return duree;
+	}
+
+	public void setDuree(Integer duree) {
+		this.duree = duree;
+	}	
 }
