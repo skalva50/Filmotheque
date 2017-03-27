@@ -48,7 +48,17 @@
    <definition name="episode" extends="base-definition">  
        <put-attribute name="title" value="Episodes" />  
        <put-attribute name="body" value="/WEB-INF/views/pages/episode.jsp" />  
-   </definition> 
+   </definition>
+   
+   <definition name="acteur" extends="base-definition">  
+       <put-attribute name="title" value="Acteur" />  
+       <put-attribute name="body" value="/WEB-INF/views/pages/acteur.jsp" />  
+   </definition>  
+   
+   <definition name="realisateur" extends="base-definition">  
+       <put-attribute name="title" value="Realisateur" />  
+       <put-attribute name="body" value="/WEB-INF/views/pages/realisateur.jsp" />  
+   </definition>  
    
    
    <definition name="accueil" extends="base-definition">  

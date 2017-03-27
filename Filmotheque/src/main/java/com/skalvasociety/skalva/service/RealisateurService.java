@@ -14,6 +14,9 @@ public class RealisateurService implements IRealisateurService {
 	
 	@Autowired
     private IRealisateurDao realisateurDao;	
+	
+	@Autowired
+	IPersonneService personneService;
 
 	public Realisateur crewToRealisateur(Crew crew) {
 		if (crew == null || !crew.getJob().equals("Director"))
@@ -24,9 +27,14 @@ public class RealisateurService implements IRealisateurService {
 			realisateur.setIdTMDB(crew.getId());
 			realisateur.setNom(crew.getName());
 			realisateur.setPhoto(crew.getProfile_path());
+			personneService.completeProfile(realisateur);
 			realisateurDao.saveRealisateur(realisateur);
 		}	
 		return realisateur;
+	}
+
+	public Realisateur getRealisateurById(Integer id) {		
+		return realisateurDao.getRealisateurById(id);
 	}
 
 }

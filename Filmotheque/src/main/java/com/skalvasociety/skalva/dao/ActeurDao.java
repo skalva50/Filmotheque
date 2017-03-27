@@ -20,4 +20,8 @@ public class ActeurDao extends AbstractDao<Integer, Acteur> implements IActeurDa
 		return (Acteur)criteria.uniqueResult();
 	}
 
+	public Acteur getActeurById(Integer id) {		
+		return getByKey(id);
+	}
+
 }

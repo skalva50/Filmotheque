@@ -35,11 +35,7 @@ public class FilmPersonnageService implements IFilmPersonnageService {
 		}
 		Acteur acteur = acteurService.getActeurIdTMDB(cast.getId());
 		if (acteur == null){
-			acteur = new Acteur();
-			acteur.setIdTMDB(cast.getId());
-			acteur.setNom(cast.getName());
-			acteur.setPhoto(cast.getProfile_path());
-			acteurService.saveActeur(acteur);
+			acteur = acteurService.castToActeur(cast);
 		}
 		FilmPersonnage personnage = getFilmPersonnagebyFilmActeur(film, acteur);
 		if (personnage == null){

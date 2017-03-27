@@ -86,7 +86,7 @@
 			<div class="col-sm-4 col-md-2">
 				<c:set var="k" scope="session" value="${(i*6)+j}"/>		
 				<c:url value="/acteur" var="url">
-					<c:param name="idActeur" value="${personnages[k].id}"/>
+					<c:param name="idActeur" value="${personnages[k].acteur.id}"/>
 				</c:url>
 				<c:if test="${k<personnages.size()}">								
 					<div class="thumbnail">

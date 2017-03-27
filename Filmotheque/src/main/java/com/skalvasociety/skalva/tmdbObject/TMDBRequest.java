@@ -850,6 +850,70 @@ public class TMDBRequest {
 			return null;
 		}
 	}
+	
+	public People getPeopleDetail(Integer idTMDB) throws IOException {
+		// https://api.themoviedb.org/3/person/72129?api_key=806c2dcfdd6cab66be30e3353293fee2&language=en-US
+		
+		
+		String url = "https://api.themoviedb.org/3/person/";
+		// id
+		url += idTMDB;
+		// Api_key
+		url += "?api_key="+getApi_key();
+		// Language
+		url += "&language=en-US";
+		
+		
+		URL obj = new URL(url);
+		HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+		
+		// optional default is GET
+		con.setRequestMethod("GET");
+		
+		//add request header
+		con.setRequestProperty("User-Agent", USER_AGENT);
+
+		int responseCode = con.getResponseCode();
+		
+		if (responseCode == 429){
+			try {
+				Thread.sleep(5000);
+				obj = new URL(url);
+				con = (HttpURLConnection) obj.openConnection();
+				
+				// optional default is GET
+				con.setRequestMethod("GET");
+				
+				//add request header
+				con.setRequestProperty("User-Agent", USER_AGENT);
+
+				responseCode = con.getResponseCode();
+				
+				
+			} catch (InterruptedException e) {				
+				e.printStackTrace();
+			}
+		}
+		
+		
+		if (responseCode == 200){
+			BufferedReader in = new BufferedReader(
+			        new InputStreamReader(con.getInputStream()));
+			String inputLine;
+			StringBuffer response = new StringBuffer();
+
+			while ((inputLine = in.readLine()) != null) {
+				response.append(inputLine);
+			}
+			in.close();
+			
+			ObjectMapper objectMapper = new ObjectMapper(); 
+			People people = objectMapper.readValue(response.toString(),People.class );
+			return people;
+		}else{
+			return null;
+		}
+	}
 
 
 }
