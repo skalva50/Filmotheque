@@ -590,7 +590,10 @@ public class TMDBRequest {
 		if (media.getClass() == Film.class){
 			url = "https://api.themoviedb.org/3/movie/"+  ((Film)media).getIdTMDB()+ "/credits";
 		}else if (media.getClass() == Serie.class){
-			url = "https://api.themoviedb.org/3/tv/"+  ((Serie)media).getIdTMDB()+ "/credits";		
+			url = "https://api.themoviedb.org/3/tv/"+  ((Serie)media).getIdTMDB()+ "/credits";	
+		}else if (media.getClass() == Saison.class){			
+			url = "https://api.themoviedb.org/3/tv/"+  ((Saison)media).getSerie().getIdTMDB()+ "/season/"+((Saison)media).getNumero()+"/credits";
+			System.out.println(url);
 		}else{
 			return null;
 		}

@@ -45,6 +45,22 @@ CREATE TABLE REALISATEUR
 	CONSTRAINT unique_constraint_REALISATEUR UNIQUE (idTMDB)
 );
 
+CREATE TABLE MEDIA
+(
+	id serial NOT NULL,
+	idTMDB Integer,
+	titre varchar(255),
+	titreOriginal varchar(255),
+	resume varchar(5000),
+	affiche varchar(255),
+	cleVideo varchar(255),
+	siteVideo varchar(255),
+	resumeCourt varchar(500),
+	dateSortie varchar(255),
+	CONSTRAINT prk_constraint_MEDIA PRIMARY KEY (id),
+)
+
+
 CREATE TABLE FILM
 (
 	id serial NOT NULL,

@@ -34,11 +34,7 @@ public class SeriePersonnageService implements ISeriePersonnageService {
 		}
 		Acteur acteur = acteurService.getActeurIdTMDB(cast.getId());
 		if (acteur == null){
-			acteur = new Acteur();
-			acteur.setIdTMDB(cast.getId());
-			acteur.setNom(cast.getName());
-			acteur.setPhoto(cast.getProfile_path());
-			acteurService.saveActeur(acteur);
+			acteur = acteurService.castToActeur(cast);
 		}
 		SeriePersonnage personnage = getSeriePersonnagebySerieActeur(serie, acteur);
 		if (personnage == null){

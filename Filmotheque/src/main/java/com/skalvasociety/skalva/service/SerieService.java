@@ -132,6 +132,17 @@ public class SerieService implements ISerieService{
 									saison.setSerie(serie);
 									tmdbRequest.getVideoByID(saison);
 									saisonService.saveSaison(saison);
+									List<Cast> listeCasting = tmdbRequest.getCastbyMedia(saison);
+									if (listeCasting != null){
+										List<SeriePersonnage> listePersonnage = serie.getPersonnages();
+										for (Cast cast : listeCasting) {
+											SeriePersonnage personnage = personnageService.castToSeriePersonnage(cast, serie);
+											personnage.setSerie(serie);
+											listePersonnage.add(personnage);
+											System.out.println(personnage.getActeur().getNom());
+										}
+										serie.setPersonnages(listePersonnage);
+									}								
 								}																
 								List<String> listEpisodes = new Acces().listFichierVideo(path+"/"+nameSerie+"/Saison "+saison.getNumero());
 								for (String nomFichier : listEpisodes) {
