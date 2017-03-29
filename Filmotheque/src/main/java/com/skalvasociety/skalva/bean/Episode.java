@@ -5,10 +5,12 @@ import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
+import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 
 @Entity
 @Table(name="EPISODE")
+@PrimaryKeyJoinColumn(name = "id")
 public class Episode extends MediaTMDB {	
 	private Fichier fichier;
 	private Integer numero;

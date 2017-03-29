@@ -11,10 +11,12 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
+import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 
 @Entity
 @Table(name="SERIE")
+@PrimaryKeyJoinColumn(name = "id")
 public class Serie extends MediaTMDB {
 		
 	private Double popularite;

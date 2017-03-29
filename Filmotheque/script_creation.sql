@@ -45,7 +45,7 @@ CREATE TABLE REALISATEUR
 	CONSTRAINT unique_constraint_REALISATEUR UNIQUE (idTMDB)
 );
 
-CREATE TABLE MEDIA
+CREATE TABLE MediaTMDB
 (
 	id serial NOT NULL,
 	idTMDB Integer,
@@ -57,29 +57,22 @@ CREATE TABLE MEDIA
 	siteVideo varchar(255),
 	resumeCourt varchar(500),
 	dateSortie varchar(255),
-	CONSTRAINT prk_constraint_MEDIA PRIMARY KEY (id),
-)
+	CONSTRAINT prk_constraint_MEDIA PRIMARY KEY (id)
+);
 
 
 CREATE TABLE FILM
 (
-	id serial NOT NULL,
-	idTMDB Integer,
+	id serial NOT NULL,	
 	idFichier Integer,
-	titre varchar(255),
-	titreOriginal varchar(255),
-	resume varchar(5000),
-	affiche varchar(255),
-	cleVideo varchar(255),
-	siteVideo varchar(255),
 	popularite float,
 	note float,
-	resumeCourt varchar(500),
-	dateSortie varchar(255),
 	duree Integer,
 	CONSTRAINT prk_constraint_film PRIMARY KEY (id),	
 	CONSTRAINT fk_film_idFichier FOREIGN KEY (idFichier)
-		REFERENCES fichier(id) 
+		REFERENCES fichier(id) ,
+	CONSTRAINT fk_film_id FOREIGN KEY (id)
+		REFERENCES MediaTMDB(id) 
 );
 
 CREATE TABLE FILM_GENRE
@@ -118,20 +111,12 @@ CREATE TABLE FILM_REALISATEUR
 
 CREATE TABLE SERIE
 (
-	id serial NOT NULL,
-	idTMDB Integer,	
-	titre varchar(255),
-	titreOriginal varchar(255),
-	resume varchar(5000),
-	affiche varchar(255),
+	id serial NOT NULL,	
 	popularite float,
 	note float,
-	cleVideo varchar(255),
-	siteVideo varchar(255),
-	resumeCourt varchar(500),
-	dateSortie varchar(255),
-	CONSTRAINT prk_constraint_serie PRIMARY KEY (id),
-	CONSTRAINT unique_constraint_serie UNIQUE (idTMDB)	
+	CONSTRAINT prk_constraint_serie PRIMARY KEY (id),	
+	CONSTRAINT fk_SERIE_id FOREIGN KEY (id)
+		REFERENCES MediaTMDB(id) 
  
 );
 
@@ -171,46 +156,31 @@ CREATE TABLE SERIE_REALISATEUR
 
 CREATE TABLE SAISON
 (
-	id serial NOT NULL,
-	idTMDB Integer,
-	idSerie integer,
-	titre varchar(255),
-	titreOriginal varchar(255),		
-	resume varchar(5000),
-	affiche varchar(255),
-	dateSortie varchar(255),
-	numero Integer,
-	cleVideo varchar(255),
-	siteVideo varchar(255),
-	resumeCourt varchar(500),
+	id serial NOT NULL,	
+	idSerie integer,	
+	numero Integer,	
 	CONSTRAINT prk_constraint_SAISON PRIMARY KEY (id),
 	CONSTRAINT unique_constraint_saison UNIQUE (idSerie,numero),
 	CONSTRAINT fk_film_idSerie FOREIGN KEY (idSerie)
-		REFERENCES SERIE(id) 
+		REFERENCES SERIE(id),
+	CONSTRAINT fk_Saison_id FOREIGN KEY (id)
+		REFERENCES MediaTMDB(id) 
+	
  
 );
 
 CREATE TABLE EPISODE
 (
-	id serial NOT NULL,
-	idTMDB Integer,
+	id serial NOT NULL,	
 	idFichier Integer,
-	idSaison Integer,
-	titre varchar(255),
-	titreOriginal varchar(255),
-	resume varchar(5000),
-	affiche varchar(255),
-	cleVideo varchar(255),
-	siteVideo varchar(255),
+	idSaison Integer,	
 	numero integer,
-	resumeCourt varchar(500),
-	dateSortie varchar(255),
 	CONSTRAINT prk_constraint_episode PRIMARY KEY (id),	
 	CONSTRAINT fk_episode_idFichier FOREIGN KEY (idFichier)
 		REFERENCES fichier(id),
 	CONSTRAINT fk_episode_idSaison FOREIGN KEY (idSaison)
-		REFERENCES saison(id)  
+		REFERENCES saison(id) ,
+	CONSTRAINT fk_SERIE_id FOREIGN KEY (id)
+		REFERENCES MediaTMDB(id) 
 );
-
-
 

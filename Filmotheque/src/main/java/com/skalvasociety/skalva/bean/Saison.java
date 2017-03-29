@@ -9,10 +9,12 @@ import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 
 @Entity
 @Table(name="SAISON")
+@PrimaryKeyJoinColumn(name = "id")
 public class Saison extends MediaTMDB {	
 	private int numero;	
 	private Serie serie;

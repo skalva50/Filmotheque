@@ -1,9 +1,11 @@
 package com.skalvasociety.skalva.bean;
 
-import javax.persistence.MappedSuperclass;
+import javax.persistence.Entity;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
 
-
-@MappedSuperclass
+@Entity
+@Inheritance(strategy = InheritanceType.JOINED)
 public abstract class MediaTMDB extends EntiteTmdb {
 	
 	private String titre;
