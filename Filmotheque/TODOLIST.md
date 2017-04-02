@@ -2,8 +2,6 @@
 --------------------
 ## Mineures
 ------------------------
-#### Champs supplementaires
-+ Nationalite des films et serie
 
 #### fiche
 + Ajouter la note dans les fiches film et serie

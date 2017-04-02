@@ -21,8 +21,15 @@
 		<hr/>
 		Durée: ${dureeFormatee} minutes<br/>
 		<hr/>
-		Chemin: ${film.fichier.chemin}<br/>	
+		<h4 class ="text-center">Nationalité: </h4>
+			<ul>
+				<c:forEach items="${pays}" var="pays">
+					<li>${pays.nom}</li>
+				</c:forEach>
+			</ul>
 		<hr/>
+		${film.fichier.chemin}<br/>	
+		<hr/>		
 	</div>	
 </div>
 <hr/>

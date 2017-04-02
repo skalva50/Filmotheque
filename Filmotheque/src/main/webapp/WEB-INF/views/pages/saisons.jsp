@@ -18,6 +18,13 @@
 		<hr/>
 		<h4 class ="text-center">Résumé: </h4>
 			<p> ${serie.resume}</p>			
+		<hr/>
+		<h4 class ="text-center">Nationalité: </h4>
+			<ul>
+				<c:forEach items="${pays}" var="pays">
+					<li>${pays.nom}</li>
+				</c:forEach>
+			</ul>
 		<hr/>		
 	</div>
 </div>

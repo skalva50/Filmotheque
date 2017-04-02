@@ -15,10 +15,12 @@ import com.skalvasociety.skalva.bean.Fichier;
 import com.skalvasociety.skalva.bean.Film;
 import com.skalvasociety.skalva.bean.FilmPersonnage;
 import com.skalvasociety.skalva.bean.Genre;
+import com.skalvasociety.skalva.bean.Pays;
 import com.skalvasociety.skalva.bean.Realisateur;
 import com.skalvasociety.skalva.bean.Video;
 import com.skalvasociety.skalva.dao.IFichierDao;
 import com.skalvasociety.skalva.tmdbObject.Cast;
+import com.skalvasociety.skalva.tmdbObject.Country;
 import com.skalvasociety.skalva.tmdbObject.Crew;
 import com.skalvasociety.skalva.tmdbObject.GenreTmdb;
 import com.skalvasociety.skalva.tmdbObject.MovieDetails;
@@ -47,6 +49,9 @@ public class FichierService implements IFichierService {
 	
 	@Autowired
 	private IVideoService videoService;
+	
+	@Autowired
+	private IPaysService paysService;
 	
 	@Autowired
     private Environment environment;
@@ -99,7 +104,7 @@ public class FichierService implements IFichierService {
 							MovieDetails movieDetails = tmdbRequest.getMovieByID(film.getIdTMDB());
 							if(movieDetails !=  null){
 								movieDetailsToFilm(movieDetails, film);
-							}
+							}					
 							
 							List<Video> listVideos = tmdbRequest.getVideoByID(film);
 							if(listVideos != null){
@@ -107,7 +112,7 @@ public class FichierService implements IFichierService {
 									videoService.save(video);
 								}
 							}							
-							
+														
 							List<Cast> listeCasting = tmdbRequest.getCastbyMedia(film);
 							if(listeCasting != null){
 								List<FilmPersonnage> listePersonnage = new LinkedList<FilmPersonnage>();							
@@ -153,15 +158,33 @@ public class FichierService implements IFichierService {
 		film.setDuree(movieDetail.getRuntime());
 		List<GenreTmdb> listGenreTmdb = movieDetail.getGenres();
 		List<Genre> listGenre = film.getGenres();
-		for (GenreTmdb genreTmdb : listGenreTmdb) {
-			Genre genre  = genreService.getGenreByIdTmdb(genreTmdb.getId());
-			if(genre == null){
-				genre = genreTmdb.toGenre();
-				genreService.saveGenre(genre);
+		if(listGenreTmdb != null){
+			for (GenreTmdb genreTmdb : listGenreTmdb) {
+				Genre genre  = genreService.getGenreByIdTmdb(genreTmdb.getId());
+				if(genre == null){
+					genre = genreTmdb.toGenre();
+					genreService.saveGenre(genre);
+				}					
+				listGenre.add(genre);
 			}
-				
-			listGenre.add(genre);
+			film.setGenres(listGenre);
+		}	
+		
+		List<Country> listCountry = movieDetail.getProduction_countries();
+		List<Pays> listPays = film.getPays();
+		if(listCountry != null){
+			for (Country country : listCountry) {
+				Pays pays = paysService.getPaysbyIdIso(country.getIso_3166_1());
+				if (pays == null){
+					pays = paysService.countryToPays(country);
+					paysService.savePays(pays);
+				// Permet de mettre à jour le nom des pays qui ont été créé uniquement avec l'idIso ( cas des series)	
+				}else if(pays.getNom() == null){
+					paysService.majCountrytoPays(country, pays);					
+				}
+				listPays.add(pays);
+			}
+			film.setPays(listPays);
 		}
-		film.setGenres(listGenre);
 	}
 }

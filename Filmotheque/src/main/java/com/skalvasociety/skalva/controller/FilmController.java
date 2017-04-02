@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.skalvasociety.skalva.bean.Film;
 import com.skalvasociety.skalva.bean.FilmPersonnage;
+import com.skalvasociety.skalva.bean.Pays;
 import com.skalvasociety.skalva.bean.Realisateur;
 import com.skalvasociety.skalva.bean.Video;
 import com.skalvasociety.skalva.service.IFilmService;
@@ -39,7 +40,13 @@ public class FilmController {
 		Film film = service.getFilmById(idFilm);
 		if(film != null){
 			model.addAttribute("film", film);
-			model.addAttribute("dureeFormatee", service.getDureeFormatee(film));			
+			model.addAttribute("dureeFormatee", service.getDureeFormatee(film));	
+			
+			List<Pays> listPays = film.getPays();
+			for (Pays pays : listPays) {
+				pays.getNom();
+			}
+			model.addAttribute("pays" , listPays);
 			
 			List<Video> listVideos = film.getVideos();
 			for (Video video : listVideos) {
