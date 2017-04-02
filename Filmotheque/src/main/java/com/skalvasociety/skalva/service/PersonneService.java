@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.skalvasociety.skalva.bean.Personne;
 import com.skalvasociety.skalva.tmdbObject.People;
 import com.skalvasociety.skalva.tmdbObject.TMDBRequest;
+import com.skalvasociety.skalva.tools.Convert;
 
 @Service("personneService")
 @Transactional
@@ -24,8 +25,8 @@ public class PersonneService implements IPersonneService {
 			People people = tmdbRequest.getPeopleDetail(personne.getIdTMDB());
 			if(people != null){
 				personne.setBiographie(people.getBiography());
-				personne.setDateDeces(people.getDeathday());
-				personne.setDateNaissance(people.getBirthday());
+				personne.setDateDeces(new Convert().stringToDate(people.getDeathday()));
+				personne.setDateNaissance(new Convert().stringToDate(people.getBirthday()));
 				personne.setLieuNaissance(people.getPlace_of_birth());				
 			}
 		} catch (IOException e) {			

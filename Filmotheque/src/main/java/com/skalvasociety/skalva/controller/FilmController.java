@@ -18,16 +18,17 @@ import com.skalvasociety.skalva.bean.Realisateur;
 import com.skalvasociety.skalva.bean.Video;
 import com.skalvasociety.skalva.service.IFilmService;
 
+
 @Controller
 @Transactional
 public class FilmController {
 	
 	@Autowired
-	IFilmService service;
+	IFilmService filmService;
 	
     @RequestMapping(value = {"/films" }, method = RequestMethod.GET)
     public String listFilm(ModelMap model) {
-        List<Film> films = service.findAllFilms();
+        List<Film> films = filmService.findAllFilms();
         model.addAttribute("films", films);
         model.addAttribute("nbFilms", films.size());
         return "films";
@@ -37,10 +38,10 @@ public class FilmController {
 	public String filmById(@RequestParam(value="idFilm") Integer idFilm, ModelMap model){	
 		if (idFilm == null)
 			return "redirect:/films";
-		Film film = service.getFilmById(idFilm);
+		Film film = filmService.getFilmById(idFilm);
 		if(film != null){
 			model.addAttribute("film", film);
-			model.addAttribute("dureeFormatee", service.getDureeFormatee(film));	
+			model.addAttribute("dureeFormatee", filmService.getDureeFormatee(film));			
 			
 			List<Pays> listPays = film.getPays();
 			for (Pays pays : listPays) {

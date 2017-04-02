@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1" isELIgnored="false" pageEncoding="ISO-8859-1"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <div class ="row">	
 	<h1 class="text-center">${film.titre}</h1>
@@ -14,8 +15,8 @@
 			<p>${film.titreOriginal}</p>	 
 		<hr/>
 		<h4 class ="text-center">Date de sortie: </h4>
-			<p>${film.dateSortie}</p>	 
-		<hr/>
+		<fmt:formatDate type="date" value="${film.dateSortie}" />
+        <hr/>
 		<h4 class ="text-center">Résumé: </h4>
 			<p> ${film.resume}</p>			
 		<hr/>

@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1" isELIgnored="false" pageEncoding="ISO-8859-1"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <div class ="row">		
 	<h1 class="text-center">${acteur.nom}</h1>
@@ -10,7 +11,7 @@
 		<img src ="https://image.tmdb.org/t/p/w500${acteur.photo}" class="img-thumbnail img-responsive"/>
 	</div>
 	<div class ="col-md-6">
-		<h4 class ="text-center">Né le: ${acteur.dateNaissance} à ${acteur.lieuNaissance} </h4>		
+		<h4 class ="text-center">Né le: <fmt:formatDate type="date" value="${acteur.dateNaissance}" /> à ${acteur.lieuNaissance} </h4>		
 		<hr/>		
 		<h4 class ="text-center">Biographie: </h4>
 		<p> ${acteur.biographie}</p>		

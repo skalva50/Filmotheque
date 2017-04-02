@@ -25,6 +25,7 @@ public class SerieController {
 	
 	@Autowired
 	ISerieService service;
+
 	
     @RequestMapping(value = { "/series" }, method = RequestMethod.GET)
     public String listSerie(ModelMap model) { 

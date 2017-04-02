@@ -10,6 +10,7 @@ import com.skalvasociety.skalva.bean.Episode;
 import com.skalvasociety.skalva.bean.Saison;
 import com.skalvasociety.skalva.dao.IEpisodeDao;
 import com.skalvasociety.skalva.tmdbObject.EpisodeTMDB;
+import com.skalvasociety.skalva.tools.Convert;
 
 @Service("episodeService")
 @Transactional
@@ -36,7 +37,7 @@ public class EpisodeService implements IEpisodeService {
 		episode.setIdTMDB(episodeTMDB.getId());
 		episode.setNumero(episodeTMDB.getEpisode_number());
 		episode.setResume(episodeTMDB.getOverview());
-		episode.setDateSortie(episodeTMDB.getAir_date());		
+		episode.setDateSortie(new Convert().stringToDate(episodeTMDB.getAir_date()));	
 	}
 
 	public Episode getEpisodeBySaisonNumEpisode(Saison saison, Integer numEpisode) {		

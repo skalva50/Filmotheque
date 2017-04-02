@@ -27,6 +27,7 @@ import com.skalvasociety.skalva.tmdbObject.SerieDetails;
 import com.skalvasociety.skalva.tmdbObject.SerieSaisonDetails;
 import com.skalvasociety.skalva.tmdbObject.TMDBRequest;
 import com.skalvasociety.skalva.tools.Acces;
+import com.skalvasociety.skalva.tools.Convert;
 
 
 @Service("serieService")
@@ -220,7 +221,7 @@ public class SerieService implements ISerieService{
 		serie.setPopularite(serieDetails.getPopularity());
 		serie.setNote(serieDetails.getVote_average());
 		serie.setResumeCourt(serie.getResume());
-		serie.setDateSortie(serieDetails.getFirst_air_date());
+		serie.setDateSortie(new Convert().stringToDate(serieDetails.getFirst_air_date()));
 		List<GenreTmdb> listGenreTmdb = serieDetails.getGenres();
 		List<Genre> listGenre = serie.getGenres();
 		for (GenreTmdb genreTmdb : listGenreTmdb) {
