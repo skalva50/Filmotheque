@@ -16,6 +16,7 @@ import com.skalvasociety.skalva.bean.Film;
 import com.skalvasociety.skalva.bean.FilmPersonnage;
 import com.skalvasociety.skalva.bean.Genre;
 import com.skalvasociety.skalva.bean.Realisateur;
+import com.skalvasociety.skalva.bean.Video;
 import com.skalvasociety.skalva.dao.IFichierDao;
 import com.skalvasociety.skalva.tmdbObject.Cast;
 import com.skalvasociety.skalva.tmdbObject.Crew;
@@ -43,6 +44,9 @@ public class FichierService implements IFichierService {
 
 	@Autowired
 	private IFilmService filmService;
+	
+	@Autowired
+	private IVideoService videoService;
 	
 	@Autowired
     private Environment environment;
@@ -95,8 +99,15 @@ public class FichierService implements IFichierService {
 							MovieDetails movieDetails = tmdbRequest.getMovieByID(film.getIdTMDB());
 							if(movieDetails !=  null){
 								movieDetailsToFilm(movieDetails, film);
-							}														
-							tmdbRequest.getVideoByID(film);	
+							}
+							
+							List<Video> listVideos = tmdbRequest.getVideoByID(film);
+							if(listVideos != null){
+								for (Video video : listVideos) {
+									videoService.save(video);
+								}
+							}							
+							
 							List<Cast> listeCasting = tmdbRequest.getCastbyMedia(film);
 							if(listeCasting != null){
 								List<FilmPersonnage> listePersonnage = new LinkedList<FilmPersonnage>();							

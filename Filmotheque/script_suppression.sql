@@ -1,4 +1,5 @@
-﻿delete from episode;
+﻿
+delete from episode;
 delete from saison;
 delete from SERIE_REALISATEUR;
 delete from SERIE_PERSONNAGE;
@@ -8,6 +9,7 @@ delete from FILM_REALISATEUR;
 delete from film_personnage;
 delete from FILM_GENRE;
 delete from film;
+delete from video;
 delete from MediaTMDB;
 delete from REALISATEUR;
 delete from ACTEUR;
@@ -24,6 +26,7 @@ drop table FILM_REALISATEUR;
 drop table film_personnage;
 drop table FILM_GENRE;
 drop table film;
+drop table video;
 drop table MediaTMDB;
 drop table REALISATEUR;
 drop table ACTEUR;

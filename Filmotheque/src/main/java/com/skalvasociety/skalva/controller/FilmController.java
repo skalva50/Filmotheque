@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.skalvasociety.skalva.bean.Film;
 import com.skalvasociety.skalva.bean.FilmPersonnage;
 import com.skalvasociety.skalva.bean.Realisateur;
+import com.skalvasociety.skalva.bean.Video;
 import com.skalvasociety.skalva.service.IFilmService;
 
 @Controller
@@ -24,13 +25,13 @@ public class FilmController {
 	IFilmService service;
 	
     @RequestMapping(value = {"/films" }, method = RequestMethod.GET)
-    public String listFilm(ModelMap model) { 
+    public String listFilm(ModelMap model) {
         List<Film> films = service.findAllFilms();
         model.addAttribute("films", films);
         model.addAttribute("nbFilms", films.size());
         return "films";
-    }
-    
+    }   
+
 	@RequestMapping(value="/filmDetails" ,method = RequestMethod.GET)
 	public String filmById(@RequestParam(value="idFilm") Integer idFilm, ModelMap model){	
 		if (idFilm == null)
@@ -38,7 +39,15 @@ public class FilmController {
 		Film film = service.getFilmById(idFilm);
 		if(film != null){
 			model.addAttribute("film", film);
-			model.addAttribute("dureeFormatee", service.getDureeFormatee(film));
+			model.addAttribute("dureeFormatee", service.getDureeFormatee(film));			
+			
+			List<Video> listVideos = film.getVideos();
+			for (Video video : listVideos) {
+				video.getNom();
+				video.getSiteVideo();
+				video.getCleVideo();
+			}
+			model.addAttribute("videos", listVideos);
 			
 			List<FilmPersonnage> listPersonnage = film.getPersonnages();
 			for (FilmPersonnage filmPersonnage : listPersonnage) {

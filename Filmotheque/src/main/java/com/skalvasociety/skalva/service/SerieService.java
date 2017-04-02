@@ -15,6 +15,7 @@ import com.skalvasociety.skalva.bean.Realisateur;
 import com.skalvasociety.skalva.bean.Saison;
 import com.skalvasociety.skalva.bean.Serie;
 import com.skalvasociety.skalva.bean.SeriePersonnage;
+import com.skalvasociety.skalva.bean.Video;
 import com.skalvasociety.skalva.dao.ISerieDao;
 import com.skalvasociety.skalva.tmdbObject.Cast;
 import com.skalvasociety.skalva.tmdbObject.Crew;
@@ -51,6 +52,9 @@ public class SerieService implements ISerieService{
 	
 	@Autowired
 	private IEpisodeService episodeService;
+	
+	@Autowired
+	private IVideoService videoService;
 	
 	@Autowired
     private Environment environment;
@@ -91,10 +95,15 @@ public class SerieService implements ISerieService{
 							SerieDetails serieDetail = tmdbRequest.getSerieByID(serie.getIdTMDB());
 							if (serieDetail != null){
 								serieDetailsToSerie(serieDetail, serie);
-							}								
-							tmdbRequest.getVideoByID(serie);
+							}							
 							saveSerie(serie);
-							tmdbRequest.getVideoByID(serie);	
+							List<Video> listVideos = tmdbRequest.getVideoByID(serie);
+							if(listVideos != null){
+								for (Video video : listVideos) {
+									videoService.save(video);
+								}
+							}
+								
 							List<Cast> listeCasting = tmdbRequest.getCastbyMedia(serie);
 							if (listeCasting != null){
 								List<SeriePersonnage> listePersonnage = new LinkedList<SeriePersonnage>();
@@ -129,9 +138,15 @@ public class SerieService implements ISerieService{
 								if (saison == null){
 									saison = new Saison();
 									saisonService.serieSaisonDetailstoSaison(serieSaisonDetails, saison);
-									saison.setSerie(serie);
-									tmdbRequest.getVideoByID(saison);
+									saison.setSerie(serie);									
 									saisonService.saveSaison(saison);
+									List<Video> listVideos = tmdbRequest.getVideoByID(saison);
+									if(listVideos != null){
+										for (Video video : listVideos) {
+											videoService.save(video);
+										}
+									}									
+									
 									List<Cast> listeCasting = tmdbRequest.getCastbyMedia(saison);
 									if (listeCasting != null){
 										List<SeriePersonnage> listePersonnage = serie.getPersonnages();
@@ -159,9 +174,14 @@ public class SerieService implements ISerieService{
 												fichierService.saveFichier(fichier);
 												episodeService.episodeTmdbToEpisode(episodeTMDB, episode);											
 												episode.setFichier(fichier);
-												episode.setSaison(saison);
-												tmdbRequest.getVideoByID(episode);
+												episode.setSaison(saison);												
 												episodeService.saveEpisode(episode);
+												List<Video> listVideos = tmdbRequest.getVideoByID(episode);
+												if(listVideos != null){
+													for (Video video : listVideos) {
+														videoService.save(video);
+													}
+												}												
 												System.out.println("Episode: " + episode.getTitre());
 											}											
 										}										
