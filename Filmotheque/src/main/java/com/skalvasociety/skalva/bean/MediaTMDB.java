@@ -1,8 +1,12 @@
 package com.skalvasociety.skalva.bean;
 
+import java.util.List;
+
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
+import javax.persistence.OneToMany;
 
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
@@ -16,6 +20,8 @@ public abstract class MediaTMDB extends EntiteTmdb {
 	private String siteVideo;
 	private String resumeCourt;
 	private String dateSortie;
+	
+	private List<Video> videos;
 
 	public String getTitre() {
 		return titre;
@@ -64,5 +70,13 @@ public abstract class MediaTMDB extends EntiteTmdb {
 	}
 	public void setDateSortie(String dateSortie) {
 		this.dateSortie = dateSortie;
+	}
+	
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "media")
+	public List<Video> getVideos() {
+		return videos;
+	}
+	public void setVideos(List<Video> videos) {
+		this.videos = videos;
 	}	
 }
