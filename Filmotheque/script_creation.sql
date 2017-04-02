@@ -17,6 +17,15 @@ CREATE TABLE GENRE
 	CONSTRAINT unique_constraint_genre UNIQUE (idTMDB)
 );
 
+CREATE TABLE PAYS
+(
+	id serial NOT NULL,
+	idIso varchar(10),
+	Nom varchar(255),
+	CONSTRAINT prk_constraint_pays PRIMARY KEY (id),
+	CONSTRAINT unique_constraint_pays UNIQUE (idIso)
+);
+
 CREATE TABLE ACTEUR
 (
 	id serial NOT NULL,
@@ -165,6 +174,17 @@ CREATE TABLE SERIE_REALISATEUR
 	CONSTRAINT fk_FILM_REALISATEUR_idREALISATEUR FOREIGN KEY (idREALISATEUR)
 		REFERENCES REALISATEUR(id)
 );
+
+CREATE TABLE MEDIA_PAYS
+(
+	idMedia Integer,
+	idPays Integer,
+	CONSTRAINT fk_MEDIA_PAYS_idMedia FOREIGN KEY (idMedia)
+		REFERENCES MediaTMDB(id),
+	CONSTRAINT fk_MEDIA_PAYS_idPays FOREIGN KEY (idPays)
+		REFERENCES PAYS(id)
+);
+
 
 CREATE TABLE SAISON
 (

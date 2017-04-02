@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.skalvasociety.skalva.bean.Pays;
 import com.skalvasociety.skalva.bean.Realisateur;
 import com.skalvasociety.skalva.bean.Serie;
 import com.skalvasociety.skalva.bean.SeriePersonnage;
@@ -40,6 +41,12 @@ public class SerieController {
 		Serie serie = service.getSerieById(idSerie);
 		if(serie != null){
 			model.addAttribute("serie", serie);
+			
+			List<Pays> listPays = serie.getPays();
+			for (Pays pays : listPays) {
+				pays.getNom();
+			}
+			model.addAttribute("pays" , listPays);
 			
 			List<Video> listVideos = serie.getVideos();
 			for (Video video : listVideos) {

@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.skalvasociety.skalva.bean.Episode;
 import com.skalvasociety.skalva.bean.Fichier;
 import com.skalvasociety.skalva.bean.Genre;
+import com.skalvasociety.skalva.bean.Pays;
 import com.skalvasociety.skalva.bean.Realisateur;
 import com.skalvasociety.skalva.bean.Saison;
 import com.skalvasociety.skalva.bean.Serie;
@@ -55,6 +56,9 @@ public class SerieService implements ISerieService{
 	
 	@Autowired
 	private IVideoService videoService;
+	
+	@Autowired
+	private IPaysService paysService;
 	
 	@Autowired
     private Environment environment;
@@ -228,6 +232,20 @@ public class SerieService implements ISerieService{
 			listGenre.add(genre);
 		}
 		serie.setGenres(listGenre);
+		
+		List<String> listCountry = serieDetails.getOrigin_country();
+		List<Pays> listPays = serie.getPays();
+		if(listCountry != null){
+			for (String country : listCountry) {
+				Pays pays = paysService.getPaysbyIdIso(country);
+				if (pays == null){
+					pays = paysService.countrySerieToPays(country);
+					paysService.savePays(pays);
+				}
+				listPays.add(pays);
+			}
+			serie.setPays(listPays);
+		}
 	}
 
 }

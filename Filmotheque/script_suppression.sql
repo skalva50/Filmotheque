@@ -1,6 +1,7 @@
 ﻿
 delete from episode;
 delete from saison;
+delete from MEDIA_PAYS;
 delete from SERIE_REALISATEUR;
 delete from SERIE_PERSONNAGE;
 delete from SERIE_GENRE;
@@ -13,11 +14,13 @@ delete from video;
 delete from MediaTMDB;
 delete from REALISATEUR;
 delete from ACTEUR;
+delete from PAYS;
 delete from genre;
 delete from fichier;
 
 drop table episode;
 drop table saison;
+drop table MEDIA_PAYS;
 drop table SERIE_REALISATEUR;
 drop table SERIE_PERSONNAGE;
 drop table SERIE_GENRE;
@@ -30,6 +33,7 @@ drop table video;
 drop table MediaTMDB;
 drop table REALISATEUR;
 drop table ACTEUR;
+drop table PAYS;
 drop table genre;
 drop table fichier;
 

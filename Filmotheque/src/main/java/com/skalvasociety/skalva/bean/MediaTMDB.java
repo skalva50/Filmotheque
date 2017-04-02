@@ -1,11 +1,16 @@
 package com.skalvasociety.skalva.bean;
 
+import java.util.LinkedList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 
 @Entity
@@ -20,6 +25,7 @@ public abstract class MediaTMDB extends EntiteTmdb {
 	private String siteVideo;
 	private String resumeCourt;
 	private String dateSortie;
+	private List<Pays> pays = new LinkedList<Pays>();
 	
 	private List<Video> videos;
 
@@ -78,5 +84,16 @@ public abstract class MediaTMDB extends EntiteTmdb {
 	}
 	public void setVideos(List<Video> videos) {
 		this.videos = videos;
+	}
+	
+	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@JoinTable(name = "media_pays", 
+			joinColumns = {@JoinColumn(name = "idMedia", nullable = false, updatable = false) },
+			inverseJoinColumns = { @JoinColumn(name = "idPays",	nullable = false, updatable = false) })
+	public List<Pays> getPays() {
+		return pays;
+	}
+	public void setPays(List<Pays> pays) {
+		this.pays = pays;
 	}	
 }
