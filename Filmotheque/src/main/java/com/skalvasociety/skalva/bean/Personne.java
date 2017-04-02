@@ -1,5 +1,7 @@
 package com.skalvasociety.skalva.bean;
 
+import java.util.Date;
+
 import javax.persistence.MappedSuperclass;
 
 @MappedSuperclass
@@ -7,8 +9,8 @@ public abstract class Personne extends EntiteTmdb {
 	private String nom;
 	private String photo;
 	private String biographie;
-	private String dateNaissance;
-	private String DateDeces;
+	private Date dateNaissance;
+	private Date DateDeces;
 	private String lieuNaissance;
 	
 	public String getPhoto() {
@@ -29,16 +31,16 @@ public abstract class Personne extends EntiteTmdb {
 	public void setBiographie(String biographie) {
 		this.biographie = biographie;
 	}
-	public String getDateNaissance() {
+	public Date getDateNaissance() {
 		return dateNaissance;
 	}
-	public void setDateNaissance(String dateNaissance) {
+	public void setDateNaissance(Date dateNaissance) {
 		this.dateNaissance = dateNaissance;
 	}
-	public String getDateDeces() {
+	public Date getDateDeces() {
 		return DateDeces;
 	}
-	public void setDateDeces(String dateDeces) {
+	public void setDateDeces(Date dateDeces) {
 		DateDeces = dateDeces;
 	}
 	public String getLieuNaissance() {

@@ -1,5 +1,6 @@
 package com.skalvasociety.skalva.bean;
 
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -24,7 +25,8 @@ public abstract class MediaTMDB extends EntiteTmdb {
 	private String cleVideo;
 	private String siteVideo;
 	private String resumeCourt;
-	private String dateSortie;
+	private Date dateSortie;
+	
 	private List<Pays> pays = new LinkedList<Pays>();
 	
 	private List<Video> videos;
@@ -71,10 +73,10 @@ public abstract class MediaTMDB extends EntiteTmdb {
 	public void setResumeCourt(String resumeCourt) {
 		this.resumeCourt = resumeCourt;
 	}
-	public String getDateSortie() {
+	public Date getDateSortie() {
 		return dateSortie;
 	}
-	public void setDateSortie(String dateSortie) {
+	public void setDateSortie(Date dateSortie) {
 		this.dateSortie = dateSortie;
 	}
 	

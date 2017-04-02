@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1" isELIgnored="false" pageEncoding="ISO-8859-1"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <div class ="row">	
 	<h1 class="text-center">${serie.titre}</h1>
@@ -14,7 +15,7 @@
 			<p>${serie.titreOriginal}</p>	 
 		<hr/>
 		<h4 class ="text-center">Date de sortie: </h4>
-			<p>${serie.dateSortie}</p>	 
+		<fmt:formatDate type="date" value="${serie.dateSortie}" />        	 
 		<hr/>
 		<h4 class ="text-center">Résumé: </h4>
 			<p> ${serie.resume}</p>			
@@ -67,7 +68,7 @@
 		        		<a href="${url}"><img src ="https://image.tmdb.org/t/p/w500${saison.affiche}" class="img-thumbnail img-responsive"/></a>    		        		
 		        	</td>
 		        	<td width="10%">Saison ${saison.numero}</td>
-		        	<td width="10%">${saison.dateSortie}</td>
+		        	<td width="10%"><fmt:formatDate type="date" value="${saison.dateSortie}" /></td>   
 		        	<td>${saison.resume}</td>     	
 		        </tr>		       	     	
 		    </c:forEach>
@@ -82,8 +83,8 @@
 			<c:forEach begin="0" end ="5" var="j">
 				<div class="col-sm-4 col-md-2">
 					<c:set var="k" scope="session" value="${(i*6)+j}"/>		
-					<c:url value="/acteur" var="url">
-						<c:param name="idActeur" value="${realisateurs[k].id}"/>
+					<c:url value="/realisateur" var="url">
+						<c:param name="idRealisateur" value="${realisateurs[k].id}"/>
 					</c:url>
 					<c:if test="${k<realisateurs.size()}">								
 						<div class="thumbnail">

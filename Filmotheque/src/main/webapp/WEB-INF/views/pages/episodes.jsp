@@ -1,5 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1" isELIgnored="false" pageEncoding="ISO-8859-1"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+
+
 <div class ="row">	
 	<h1 class="text-center">${saison.serie.titre}, Saison ${saison.numero}</h1>
 </div>
@@ -10,7 +13,7 @@
 	</div>
 	<div class ="col-md-6">
 		<h4 class ="text-center">Date de sortie: </h4>
-			<p>${saison.dateSortie}</p>	 
+			<p><fmt:formatDate type="date" value="${saison.dateSortie}" /></p>			
 		<hr/>
 		<h4 class ="text-center">Résumé: </h4>
 			<p> ${saison.resume}</p>

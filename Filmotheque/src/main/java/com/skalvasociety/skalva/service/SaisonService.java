@@ -10,6 +10,7 @@ import com.skalvasociety.skalva.bean.Saison;
 import com.skalvasociety.skalva.bean.Serie;
 import com.skalvasociety.skalva.dao.ISaisonDao;
 import com.skalvasociety.skalva.tmdbObject.SerieSaisonDetails;
+import com.skalvasociety.skalva.tools.Convert;
 
 @Service("saisonService")
 @Transactional
@@ -35,8 +36,8 @@ public class SaisonService implements ISaisonService {
 	public void serieSaisonDetailstoSaison(SerieSaisonDetails serieSaisonDetails, Saison saison) {
 		saison.setAffiche(serieSaisonDetails.getPoster_path());
 		saison.setResume(serieSaisonDetails.getOverview());
-		saison.setNumero(serieSaisonDetails.getSeason_number());	
-		saison.setDateSortie(serieSaisonDetails.getAir_date());				
+		saison.setNumero(serieSaisonDetails.getSeason_number());
+		saison.setDateSortie(new Convert().stringToDate(serieSaisonDetails.getAir_date()));		
 	}
 
 	public Saison getSaisonByIdSerieNumSaison(Serie serie, Integer numSaison) {		

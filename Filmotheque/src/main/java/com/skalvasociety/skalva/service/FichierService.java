@@ -27,6 +27,7 @@ import com.skalvasociety.skalva.tmdbObject.MovieDetails;
 import com.skalvasociety.skalva.tmdbObject.SearchMovie;
 import com.skalvasociety.skalva.tmdbObject.TMDBRequest;
 import com.skalvasociety.skalva.tools.Acces;
+import com.skalvasociety.skalva.tools.Convert;
 
 @Service("fichierService")
 @Transactional
@@ -154,7 +155,7 @@ public class FichierService implements IFichierService {
 		film.setPopularite(movieDetail.getPopularity());
 		film.setNote(movieDetail.getVote_average());
 		film.setResumeCourt(movieDetail.getTagline());
-		film.setDateSortie(movieDetail.getRelease_date());
+		film.setDateSortie(new Convert().stringToDate(movieDetail.getRelease_date()));
 		film.setDuree(movieDetail.getRuntime());
 		List<GenreTmdb> listGenreTmdb = movieDetail.getGenres();
 		List<Genre> listGenre = film.getGenres();
