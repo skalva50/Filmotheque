@@ -1,5 +1,9 @@
 package com.skalvasociety.skalva.controller;
 
+import java.util.List;
+
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -8,9 +12,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.skalvasociety.skalva.bean.Saison;
+import com.skalvasociety.skalva.bean.Video;
 import com.skalvasociety.skalva.service.ISaisonService;
 
 @Controller
+@Transactional
 public class SaisonController {
 	
 	@Autowired
@@ -23,6 +29,15 @@ public class SaisonController {
 		Saison saison = service.getSaisonById(idSaison);
 		if(saison != null){
 			model.addAttribute("saison", saison);
+			List<Video> listVideos = saison.getVideos();
+			for (Video video : listVideos) {
+				video.getNom();
+				video.getSiteVideo();
+				video.getCleVideo();
+			}
+			model.addAttribute("videos", listVideos);
+			
+			
 			return "episodes";
 		}else{
 			return "redirect:/series";

@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.skalvasociety.skalva.bean.Realisateur;
 import com.skalvasociety.skalva.bean.Serie;
 import com.skalvasociety.skalva.bean.SeriePersonnage;
+import com.skalvasociety.skalva.bean.Video;
 import com.skalvasociety.skalva.service.ISerieService;
 
 @Controller
@@ -39,6 +40,14 @@ public class SerieController {
 		Serie serie = service.getSerieById(idSerie);
 		if(serie != null){
 			model.addAttribute("serie", serie);
+			
+			List<Video> listVideos = serie.getVideos();
+			for (Video video : listVideos) {
+				video.getNom();
+				video.getSiteVideo();
+				video.getCleVideo();
+			}
+			model.addAttribute("videos", listVideos);
 			
 			List<SeriePersonnage> personnages = serie.getPersonnages();
 			for (SeriePersonnage seriePersonnage : personnages) {

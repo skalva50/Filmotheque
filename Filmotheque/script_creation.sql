@@ -60,6 +60,18 @@ CREATE TABLE MediaTMDB
 	CONSTRAINT prk_constraint_MEDIA PRIMARY KEY (id)
 );
 
+CREATE TABLE VIDEO
+(
+	id serial NOT NULL,
+	nom varchar(255),
+	cleVideo varchar(255),
+	siteVideo varchar(255),
+	idMedia Integer,
+	CONSTRAINT prk_constraint_VIDEO PRIMARY KEY (id),
+	CONSTRAINT fk_VIDEO_MEDIA FOREIGN KEY (idMedia)
+		REFERENCES MediaTMDB(id)
+);
+
 
 CREATE TABLE FILM
 (

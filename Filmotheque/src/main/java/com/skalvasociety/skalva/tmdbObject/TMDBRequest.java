@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.LinkedList;
 import java.util.List;
 
 import com.fasterxml.jackson.core.JsonParseException;
@@ -194,7 +195,7 @@ public class TMDBRequest {
 		}
 	}
 	
-	public void getVideoByID (MediaTMDB media) throws IOException{
+	public List<com.skalvasociety.skalva.bean.Video> getVideoByID (MediaTMDB media) throws IOException{
 		//https://api.themoviedb.org/3/movie/75/videos?api_key=806c2dcfdd6cab66be30e3353293fee2&language=en-US
 		
 		String url = "";
@@ -211,7 +212,7 @@ public class TMDBRequest {
 						"/episode/" + ((Episode)media).getNumero() +
 						"/videos";
 		}else{
-			return;
+			return null;
 		}
 		
 		
@@ -268,19 +269,25 @@ public class TMDBRequest {
 				response.append(inputLine);
 			}
 			in.close();
-
-			//print result
-			//System.out.println(response.toString());
 			
 			ObjectMapper objectMapper = new ObjectMapper(); 
-			Video video = objectMapper.readValue(response.toString(),Video.class );
+			Video videoTMDB = objectMapper.readValue(response.toString(),Video.class );
 			
-			if (video.getResults() != null && !video.getResults().isEmpty()){
-				ResultsVideos result = video.getResults().get(0);
-				media.setCleVideo(result.getKey());
-				media.setSiteVideo(result.getSite());
+			if (videoTMDB.getResults() != null && !videoTMDB.getResults().isEmpty()){
+				List<ResultsVideos> listResultsVideos = videoTMDB.getResults();
+				List<com.skalvasociety.skalva.bean.Video> listVideos = new LinkedList<com.skalvasociety.skalva.bean.Video>();
+				for (ResultsVideos resultsVideos : listResultsVideos){
+					com.skalvasociety.skalva.bean.Video video = new com.skalvasociety.skalva.bean.Video();
+					video.setCleVideo(resultsVideos.getKey());
+					video.setSiteVideo(resultsVideos.getSite());
+					video.setNom(resultsVideos.getName());
+					video.setMedia(media);				
+					listVideos.add(video);
+				}				
+				return listVideos;
 			}
 		}
+		return null;
 	}
 	
 	public SearchSerie searchSerie (String name) throws JsonParseException, JsonMappingException, IOException{

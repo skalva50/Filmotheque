@@ -30,10 +30,14 @@ public class FilmService implements IFilmService {
 	}
 	
 	public String getDureeFormatee(Film film){
-		int duree = film.getDuree();
-		int heure = duree /60;
-		int minutes = duree%60;
-		return heure + " h " + minutes;		
+		String dureeFormatee = null;
+		if(film != null && film.getDuree() != null){
+			int duree = film.getDuree();
+			int heure = duree /60;
+			int minutes = duree%60;
+			dureeFormatee =  heure + " h " + minutes;
+		}
+		return dureeFormatee;	
 	}
 
 }

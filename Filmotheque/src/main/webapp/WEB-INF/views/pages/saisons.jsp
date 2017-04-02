@@ -19,15 +19,28 @@
 		<h4 class ="text-center">Résumé: </h4>
 			<p> ${serie.resume}</p>			
 		<hr/>		
-		<h4 class ="text-center">Bande annonce: </h4>
-		<c:if test="${serie.cleVideo != String.Empty}">		
-			<iframe  width="100%" height="60%" src="https://www.youtube.com/embed/${serie.cleVideo}" frameborder="0" allowfullscreen></iframe>
-		</c:if>	
-		<c:if test="${serie.cleVideo == String.Empty}">		
-			<p>Aucune bande annonce disponible pour cette serie</p>
-		</c:if>	
 	</div>
 </div>
+<hr/>
+<h1 class="text-center">Bande Annonce</h1>
+	<c:if test="${videos.size() > 0}">
+		<c:forEach begin="0" end ="${videos.size()/4}" var="i">
+			<div class="row">
+				<c:forEach begin="0" end ="3" var="j">
+					<div class="col-sm-6 col-md-3">
+						<c:set var="k" scope="session" value="${(i*4)+j}"/>
+						<c:if test="${k<videos.size()}">
+							<h4>${videos[k].nom}</h4>
+							<iframe  width="80%" height="20%" src="https://www.youtube.com/embed/${videos[k].cleVideo}" frameborder="0" allowfullscreen></iframe>
+						</c:if>
+					</div>
+				</c:forEach>			
+			</div>			
+		</c:forEach>
+	</c:if>	
+	<c:if test="${videos.size() == 0}">		
+		<p>Aucune bande annonce disponible pour cette serie</p>
+	</c:if>	
 <hr/>
 <h1 class="text-center">Saisons</h1>
 <div class = "row">
