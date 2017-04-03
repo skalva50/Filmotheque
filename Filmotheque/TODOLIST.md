@@ -14,6 +14,8 @@
 #### Mise en forme resultats
 + Pagination
 + Systeme de filtre et de tri
+     + Revoir nbPage parRaport à liste affiché
+     + Ajouter les nationalites dans le filtre
 
 #### Onlet Acteur et réalisateur
 + a faire avec solution de pagonation, fitre, tri trouvé precedamment. 

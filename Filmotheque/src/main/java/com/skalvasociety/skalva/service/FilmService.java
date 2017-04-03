@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.skalvasociety.skalva.bean.Film;
 import com.skalvasociety.skalva.dao.IFilmDao;
+import com.skalvasociety.skalva.daoTools.PageRequest;
 
 @Service("filmService")
 @Transactional
@@ -20,8 +21,8 @@ public class FilmService implements IFilmService {
 		dao.saveFilm(film);
 	}
 
-	public List<Film> findAllFilms() {		
-		List<Film> films = dao.findAllFilms();		
+	public List<Film> getFilmsPage(PageRequest pageRequest) {		
+		List<Film> films = dao.getFilmPage(pageRequest);	
 		return films;
 	}
 
@@ -38,5 +39,14 @@ public class FilmService implements IFilmService {
 			dureeFormatee =  heure + " h " + minutes;
 		}
 		return dureeFormatee;	
+	}
+
+	public int getTotalPage(PageRequest pageRequest) {
+		return dao.getTotalPage(pageRequest);
+	}
+
+	public List<Film> getFilmByRealisateur(PageRequest pageRequest, Integer idRealisateur) {
+		List<Film> films = dao.getFilmByRealisateur(pageRequest, idRealisateur);	
+		return films;
 	}
 }
