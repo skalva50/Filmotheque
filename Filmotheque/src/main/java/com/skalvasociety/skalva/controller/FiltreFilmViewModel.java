@@ -5,7 +5,7 @@ import java.util.List;
 import com.skalvasociety.skalva.bean.Realisateur;
 import com.skalvasociety.skalva.enumeration.SortBy;
 
-public class FiltreFilmModel {
+public class FiltreFilmViewModel {
 	private SortBy sortBy;
 	private int currentPage;
 	private List<Realisateur> realisateurs;

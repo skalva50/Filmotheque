@@ -4,7 +4,7 @@
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
 
 <div class="form-container">    
- 	<form:form method="POST" action="filtreFilm" modelAttribute="filtreFilmModel" class="form-horizontal"> 
+ 	<form:form method="GET" action="filtreFilm" modelAttribute="filtreFilmModel" class="form-horizontal"> 
 		<div class="row">
 	    	<div class="form-group col-md-6">
 		        <label class="col-md-2 control-lable" for="sortBy">Trier par:</label>

@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.skalvasociety.skalva.bean.Film;
+import com.skalvasociety.skalva.bean.FiltreFilm;
 import com.skalvasociety.skalva.dao.IFilmDao;
 import com.skalvasociety.skalva.daoTools.PageRequest;
 
@@ -21,8 +22,8 @@ public class FilmService implements IFilmService {
 		dao.saveFilm(film);
 	}
 
-	public List<Film> getFilmsPage(PageRequest pageRequest) {		
-		List<Film> films = dao.getFilmPage(pageRequest);	
+	public List<Film> getFilmsPage(PageRequest<Film> pageRequest) {		
+		List<Film> films = dao.getFilmsPage(pageRequest);	
 		return films;
 	}
 
@@ -41,12 +42,17 @@ public class FilmService implements IFilmService {
 		return dureeFormatee;	
 	}
 
-	public int getTotalPage(PageRequest pageRequest) {
-		return dao.getTotalPage(pageRequest);
+	public List<Film> getFilmByRealisateur(PageRequest<Film> pageRequest, Integer idRealisateur) {
+		//List<Film> films = dao.getFilmsByRealisateurPage(pageRequest, idRealisateur);	
+		FiltreFilm filtre = new FiltreFilm();
+		filtre.setByGenre(true);
+		filtre.setIdRealisateur(12);
+		List<Film> films = dao.getFilmsByGenrePage(pageRequest, filtre);	
+		return films;
 	}
-
-	public List<Film> getFilmByRealisateur(PageRequest pageRequest, Integer idRealisateur) {
-		List<Film> films = dao.getFilmByRealisateur(pageRequest, idRealisateur);	
+	
+	public List<Film> getFilmByFiltrePage(PageRequest<Film> pageRequest, FiltreFilm filtre) {	
+		List<Film> films = dao.getFilmsByGenrePage(pageRequest, filtre);	
 		return films;
 	}
 }

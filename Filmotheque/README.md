@@ -25,14 +25,14 @@ Cette application Web est destinée à créer et à présenter une bibliotheque 
  
 * Java
      * Spring 4
-     * Hibernate 4
+     * Hibernate 4 (Criteria)
      * Maven
      
 * Base de données
-      * Postgresql 9
+     * Postgresql 9
       
 * Versionnage 
-      * git
+     * git
       
 ## Installation
 1. Creer la base de données en jouant le script [script_creation.sql](script_creation.sql)

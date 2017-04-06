@@ -9,8 +9,6 @@ import org.hibernate.Criteria;
 import org.hibernate.FetchMode;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.annotations.LazyCollection;
-import org.hibernate.annotations.LazyCollectionOption;
 import org.hibernate.criterion.Order;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -47,34 +45,30 @@ public abstract class AbstractDao<PK extends Serializable, T> {
         getSession().delete(entity);
     }
     
-    public List<T> getPage(List<T> listToPage, PageRequest pageRequest) {
+    public List<T> getPage(List<T> listToPage, PageRequest<T> pageRequest) {
     	List<T> page = new LinkedList<T>();    	
         int firstIndex = (pageRequest.getPageNumber()-1)*pageRequest.getPageSize();
-        int lastIndex = pageRequest.getPageNumber() * pageRequest.getPageSize();
-        page = listToPage.subList(Math.min(Math.max(firstIndex,0),listToPage.size()) , Math.min(Math.max(lastIndex,0), listToPage.size()));     	
+        int lastIndex = pageRequest.getPageNumber() * pageRequest.getPageSize();        
+        if(listToPage.size() == 0 || firstIndex < 0){
+        	firstIndex = 0;
+        }
+        page = listToPage.subList(Math.min(firstIndex,Math.max(listToPage.size()-1,0)) , Math.min(Math.max(lastIndex,0), listToPage.size()));
+        pageRequest.setTotalPage(listToPage);
 		return page;
-    }
-    
-    public int getTotalPage(List<T> listToPage, PageRequest pageRequest){
-    	int totalPage = 0;
-    	if (pageRequest.getPageSize() > 0){
-    		totalPage= listToPage.size() / pageRequest.getPageSize()+1;
-    	}    		
-    	return totalPage;
-    }
+    }    
+
      
     protected Criteria createEntityCriteria(){
         return getSession().createCriteria(persistentClass);
     }
     
-    //Ajouter le critère de tri
 	@SuppressWarnings("unchecked")
 	public List<T> getAll(Sort sort, SortBy sortBy) {
 		Criteria criteria = createEntityCriteria();		
 		if(sort.equals(Sort.DESC)){
-			//criteria.addOrder(Order.desc("note"));
+			criteria.addOrder(Order.desc(sortBy.toString()));
 		}else{
-			//criteria.addOrder(Order.asc("note"));
+			criteria.addOrder(Order.asc(sortBy.toString()));
 		}			
         return (List<T>) criteria.list();
         

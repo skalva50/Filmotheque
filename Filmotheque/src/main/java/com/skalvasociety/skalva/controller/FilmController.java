@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.skalvasociety.skalva.bean.Film;
 import com.skalvasociety.skalva.bean.FilmPersonnage;
+import com.skalvasociety.skalva.bean.FiltreFilm;
 import com.skalvasociety.skalva.bean.Pays;
 import com.skalvasociety.skalva.bean.Realisateur;
 import com.skalvasociety.skalva.bean.Video;
@@ -29,7 +30,8 @@ import com.skalvasociety.skalva.service.IRealisateurService;
 
 @Controller
 @Transactional
-@SessionAttributes( value="filtreFilmModel", types={FiltreFilmModel.class} )
+//Permet de garder les choix de filtre et de titre de l'utilisateur durant toute sa session
+@SessionAttributes( value="filtreFilmModel", types={FiltreFilmViewModel.class} )
 public class FilmController {
 	
 	@Autowired
@@ -41,11 +43,11 @@ public class FilmController {
 	@Autowired
 	IRealisateurService realisateurService;
 	
-	private static final int PAGE_SIZE = 18;
+	private static final int PAGE_SIZE = 6;
 	
-    @ModelAttribute("filtreFilmModel")
-    public FiltreFilmModel addfiltreFilmModelToSessionScope() {
-    	FiltreFilmModel filtreFilmModel = new FiltreFilmModel();
+    @ModelAttribute("filtreFilmModel")   
+    public FiltreFilmViewModel addfiltreFilmModelToSessionScope() {
+    	FiltreFilmViewModel filtreFilmModel = new FiltreFilmViewModel();
     	filtreFilmModel.setCurrentPage(1);
     	filtreFilmModel.setSortBy(SortBy.note);    	
     	filtreFilmModel.setRealisateurs(realisateurService.getAll());
@@ -55,7 +57,7 @@ public class FilmController {
     @RequestMapping(value = {"/films" }, method = RequestMethod.GET)
     public String listFilm(
     		@RequestParam(value="numPage",required = false ) Integer numPage ,
-    		@ModelAttribute("filtreFilmModel") FiltreFilmModel filtreFilmModel,   		
+    		@ModelAttribute("filtreFilmModel") FiltreFilmViewModel filtreFilmModel,   		
     		ModelMap model) {  
     	
     	if (numPage != null && numPage != 0){
@@ -65,18 +67,25 @@ public class FilmController {
         return "films";
     }      
     
-    @RequestMapping(value = {"/filtreFilm" }, method = RequestMethod.POST)
-    public String filmsOrder(@ModelAttribute("filtreFilmModel") FiltreFilmModel filtreFilmModel,
+    @RequestMapping(value = {"/filtreFilm" }, method = RequestMethod.GET)
+    public String filmsOrder(@ModelAttribute("filtreFilmModel") FiltreFilmViewModel filtreFilmModel,
     		ModelMap model){   	
     	return "redirect:/films";
     }
     
-	private void updateModel(FiltreFilmModel filtreFilmModel, ModelMap model) {
-		PageRequest pageRequest = new PageRequest(filtreFilmModel.getCurrentPage(), PAGE_SIZE, Sort.ASC, filtreFilmModel.getSortBy());
+	private void updateModel(FiltreFilmViewModel filtreFilmModel, ModelMap model) {
+		PageRequest<Film> pageRequest = new PageRequest<Film>(filtreFilmModel.getCurrentPage(), PAGE_SIZE, Sort.ASC, filtreFilmModel.getSortBy());
 		
 		List<Film> films = new LinkedList<Film>();
 		if(filtreFilmModel.getIdRealisateur() !=  null && filtreFilmModel.getIdRealisateur() !=  0){
-			films = filmService.getFilmByRealisateur(pageRequest, filtreFilmModel.getIdRealisateur());
+			FiltreFilm filtreFilm = new FiltreFilm();
+			filtreFilm.setByRealisateur(true);
+			filtreFilm.setIdRealisateur(filtreFilmModel.getIdRealisateur());
+			filtreFilm.setByGenre(true);
+			filtreFilm.setIdGenre(12);
+					
+			films = filmService.getFilmByFiltrePage(pageRequest, filtreFilm);
+			//films = filmService.getFilmByRealisateur(pageRequest, filtreFilmModel.getIdRealisateur());
 		}else{
 			films = filmService.getFilmsPage(pageRequest);	
 		}
@@ -84,8 +93,10 @@ public class FilmController {
         model.addAttribute("films", films);
         
         model.addAttribute("nbFilms", films.size());
-        
-        int totalPage = filmService.getTotalPage(pageRequest);
+        int totalPage = pageRequest.getTotalPage(); 
+        if(totalPage < filtreFilmModel.getCurrentPage()){
+        	filtreFilmModel.setCurrentPage(totalPage);
+        }
         model.addAttribute("totalPage", totalPage);
         
         int begin = Math.max(1, filtreFilmModel.getCurrentPage() - 5);
