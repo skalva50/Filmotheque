@@ -33,8 +33,8 @@ CREATE TABLE ACTEUR
 	nom varchar(255),
 	photo varchar(255),
 	biographie varchar(5000),
-	dateNaissance varchar(255),
-	dateDeces varchar(255),
+	dateNaissance date,
+	dateDeces date,
 	lieuNaissance varchar(255),
 	CONSTRAINT prk_constraint_personnage PRIMARY KEY (id),
 	CONSTRAINT unique_constraint_personnage UNIQUE (idTMDB)
@@ -47,8 +47,8 @@ CREATE TABLE REALISATEUR
 	nom varchar(255),
 	photo varchar(255),
 	biographie varchar(5000),
-	dateNaissance varchar(255),
-	dateDeces varchar(255),
+	dateNaissance date,
+	dateDeces date,
 	lieuNaissance varchar(255),
 	CONSTRAINT prk_constraint_REALISATEUR PRIMARY KEY (id),
 	CONSTRAINT unique_constraint_REALISATEUR UNIQUE (idTMDB)
@@ -65,7 +65,7 @@ CREATE TABLE MediaTMDB
 	cleVideo varchar(255),
 	siteVideo varchar(255),
 	resumeCourt varchar(500),
-	dateSortie varchar(255),
+	dateSortie Date,
 	CONSTRAINT prk_constraint_MEDIA PRIMARY KEY (id)
 );
 

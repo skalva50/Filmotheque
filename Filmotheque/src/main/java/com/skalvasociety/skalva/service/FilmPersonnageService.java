@@ -1,5 +1,7 @@
 package com.skalvasociety.skalva.service;
 
+import java.io.Serializable;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -12,18 +14,13 @@ import com.skalvasociety.skalva.tmdbObject.Cast;
 
 @Service("filmPersonnageService")
 @Transactional
-public class FilmPersonnageService implements IFilmPersonnageService {
+public class FilmPersonnageService extends AbstractService<Serializable, FilmPersonnage> implements IFilmPersonnageService {
 	
 	@Autowired
 	private IFilmPersonnageDao filmPersonnageDao; 
 	
 	@Autowired
-    private IActeurService acteurService;	
-
-
-	public void saveFilmPersonnage(FilmPersonnage filmPersonnage) {
-		filmPersonnageDao.saveFilmPersonnage(filmPersonnage);
-	}
+    private IActeurService acteurService;
 
 	public FilmPersonnage getFilmPersonnagebyFilmActeur(Film film, Acteur acteur) {		
 		return filmPersonnageDao.getFilmPersonnagebyFilmActeur(film, acteur);
@@ -43,7 +40,7 @@ public class FilmPersonnageService implements IFilmPersonnageService {
 			personnage.setActeur(acteur);
 			personnage.setFilm(film);
 			personnage.setNom(cast.getCharacter());
-			saveFilmPersonnage(personnage);
+			save(personnage);
 		}				
 		return personnage;
 	}

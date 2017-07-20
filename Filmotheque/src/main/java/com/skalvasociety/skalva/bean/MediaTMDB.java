@@ -25,11 +25,9 @@ public abstract class MediaTMDB extends EntiteTmdb {
 	private String cleVideo;
 	private String siteVideo;
 	private String resumeCourt;
-	private Date dateSortie;
-	
+	private Date dateSortie;	
 	private List<Pays> pays = new LinkedList<Pays>();
-	
-	private List<Video> videos;
+	private List<Video> videos = new LinkedList<Video>();
 
 	public String getTitre() {
 		return titre;

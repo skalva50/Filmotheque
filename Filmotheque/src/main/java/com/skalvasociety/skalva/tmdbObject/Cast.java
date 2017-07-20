@@ -8,8 +8,15 @@ public class Cast {
 	private String name;
 	private String profile_path;
 	private Integer order;
+	private Integer gender;
 	
 	
+	public Integer getGender() {
+		return gender;
+	}
+	public void setGender(Integer gender) {
+		this.gender = gender;
+	}
 	public String getCast_id() {
 		return cast_id;
 	}

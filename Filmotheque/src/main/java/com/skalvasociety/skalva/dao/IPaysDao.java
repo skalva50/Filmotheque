@@ -1,10 +1,9 @@
 package com.skalvasociety.skalva.dao;
 
+import java.io.Serializable;
+
 import com.skalvasociety.skalva.bean.Pays;
 
-public interface IPaysDao {
-	void savePays(Pays pays);
+public interface IPaysDao extends IDao<Serializable, Pays> {	
 	Pays getPaysbyIdIso (String idIso);
-	Pays getPaysbyId (Integer id);
-
 }

@@ -1,6 +1,7 @@
 package com.skalvasociety.skalva.service;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,21 +17,13 @@ import com.skalvasociety.skalva.tmdbObject.TMDBRequest;
 
 @Service("genreService")
 @Transactional
-public class GenreService implements IGenreService {
+public class GenreService extends AbstractService<Serializable, Genre> implements IGenreService {
 	
 	@Autowired
 	private IGenreDao dao;
 	
 	@Autowired
     private Environment environment;
-
-	public void saveGenre(Genre genre) {
-		dao.saveGenre(genre);
-	}
-
-	public List<Genre> getGenres() {		
-		return dao.getGenres();
-	}
 	
 	public Genre getGenreByIdTmdb(Integer idTmdb) {		
 		return dao.getGenreByIdTmdb(idTmdb);
@@ -45,7 +38,7 @@ public class GenreService implements IGenreService {
 			for (GenreTmdb genreTmdb : genresTmdb) {
 				Genre genre = genreTmdb.toGenre();
 				if(isUnique(genre.getIdTMDB())){
-					saveGenre(genre);
+					save(genre);
 				}					
 			}	
 			genres = tmdbRequest.getGenresFilms();
@@ -53,7 +46,7 @@ public class GenreService implements IGenreService {
 			for (GenreTmdb genreTmdb : genresTmdb) {
 				Genre genre = genreTmdb.toGenre();
 				if(isUnique(genre.getIdTMDB())){
-					saveGenre(genre);
+					save(genre);
 				}					
 			}
 		} catch (IOException e) {
@@ -70,7 +63,4 @@ public class GenreService implements IGenreService {
 		}
 		return result;
 	}
-
-
-
 }

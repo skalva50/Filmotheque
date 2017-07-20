@@ -1,7 +1,8 @@
 package com.skalvasociety.skalva.service;
 
+import java.io.Serializable;
+
 import com.skalvasociety.skalva.bean.Video;
 
-public interface IVideoService {
-	public void save(Video video);
+public interface IVideoService extends IService<Serializable, Video>{	
 }

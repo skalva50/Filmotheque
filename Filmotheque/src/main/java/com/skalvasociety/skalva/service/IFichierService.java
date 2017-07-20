@@ -1,14 +1,9 @@
 package com.skalvasociety.skalva.service;
 
-import java.util.List;
-
+import java.io.Serializable;
 import com.skalvasociety.skalva.bean.Fichier;
 
-public interface IFichierService {
-	Fichier findByID(int id);
-	List<Fichier> findAllFichiers();
-	void saveFichier (Fichier fichier);
-	boolean isFichierCheminUnique(String chemin);
-	
+public interface IFichierService extends IService<Serializable, Fichier> {	
+	boolean isFichierCheminUnique(String chemin);	
 	void majFichier();
 }

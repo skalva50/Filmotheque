@@ -2,9 +2,9 @@ package com.skalvasociety.skalva.service;
 
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.List;
-
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
@@ -31,7 +31,7 @@ import com.skalvasociety.skalva.tools.Convert;
 
 @Service("fichierService")
 @Transactional
-public class FichierService implements IFichierService {
+public class FichierService extends AbstractService<Serializable, Fichier> implements IFichierService {
 	
 	@Autowired
     private IFichierDao dao;
@@ -55,19 +55,7 @@ public class FichierService implements IFichierService {
 	private IPaysService paysService;
 	
 	@Autowired
-    private Environment environment;
-
-	public Fichier findByID(int id) {		
-		return dao.findById(id);
-	}
-
-	public List<Fichier> findAllFichiers() {
-		return dao.findAllFichiers();
-	}
-	
-	public void saveFichier(Fichier fichier) {
-			dao.saveFichier(fichier);		
-	}
+    private Environment environment;	
 	
 	public Fichier findFichierByChemin (String chemin){
 		return dao.findFichierByChemin(chemin);
@@ -94,12 +82,12 @@ public class FichierService implements IFichierService {
 					// Recherche de l'idTMDB sur la bas TMDB
 					SearchMovie movie = tmdbRequest.searchMovie(fichier.getChemin());
 					if (movie != null){
-						saveFichier(fichier);
+						save(fichier);
 						Film film = movie.toFilm();	
 						if (film != null){
 							// Creation de l'entree Film avec son idTMDB 
 							film.setFichier(fichier);
-							filmService.saveFilm(film);
+							filmService.save(film);
 							
 							// Mise à jour du detail du film avec son idTMDB
 							MovieDetails movieDetails = tmdbRequest.getMovieByID(film.getIdTMDB());
@@ -164,7 +152,7 @@ public class FichierService implements IFichierService {
 				Genre genre  = genreService.getGenreByIdTmdb(genreTmdb.getId());
 				if(genre == null){
 					genre = genreTmdb.toGenre();
-					genreService.saveGenre(genre);
+					genreService.save(genre);
 				}					
 				listGenre.add(genre);
 			}
@@ -178,7 +166,7 @@ public class FichierService implements IFichierService {
 				Pays pays = paysService.getPaysbyIdIso(country.getIso_3166_1());
 				if (pays == null){
 					pays = paysService.countryToPays(country);
-					paysService.savePays(pays);
+					paysService.save(pays);
 				// Permet de mettre à jour le nom des pays qui ont été créé uniquement avec l'idIso ( cas des series)	
 				}else if(pays.getNom() == null){
 					paysService.majCountrytoPays(country, pays);					

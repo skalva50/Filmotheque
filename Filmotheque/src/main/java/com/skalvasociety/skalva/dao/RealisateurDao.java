@@ -1,17 +1,17 @@
 package com.skalvasociety.skalva.dao;
 
+import java.util.Collections;
+import java.util.List;
+
 import org.hibernate.Criteria;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 
 import com.skalvasociety.skalva.bean.Realisateur;
+import com.skalvasociety.skalva.bean.comparateur.RealisateurComparateurNbFilms;
 
 @Repository("realisateurDao")
 public class RealisateurDao extends AbstractDao<Integer, Realisateur> implements IRealisateurDao {
-
-	public void saveRealisateur(Realisateur realisateur) {
-		persist(realisateur);
-	}
 
 	public Realisateur getRealisateurByIdTMDB(Integer idTMDB) {
 		Criteria criteria = createEntityCriteria();
@@ -19,8 +19,9 @@ public class RealisateurDao extends AbstractDao<Integer, Realisateur> implements
 		return (Realisateur)criteria.uniqueResult();
 	}
 
-	public Realisateur getRealisateurById(Integer id) {		
-		return getByKey(id);
+	public List<Realisateur> getAllOrderByNbFilms(){
+		List<Realisateur> all = getAll();
+		Collections.sort(all, new RealisateurComparateurNbFilms());		
+		return all;		
 	}
-
 }

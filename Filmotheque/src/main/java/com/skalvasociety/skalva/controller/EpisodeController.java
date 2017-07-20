@@ -25,7 +25,7 @@ public class EpisodeController {
 	public String episodeById(@RequestParam(value="idEpisode") Integer idEpisode, ModelMap model){	
 		if (idEpisode == null)
 			return "redirect:/series";
-		Episode episode = episodeService.getEpisodeById(idEpisode);
+		Episode episode = episodeService.getByKey(idEpisode);
 		
 		if(episode != null){
 			model.addAttribute("episode", episode);

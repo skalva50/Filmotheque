@@ -1,30 +1,26 @@
 package com.skalvasociety.skalva.dao;
 
-import java.util.Collections;
 import java.util.List;
 
 import org.hibernate.Criteria;
-import org.hibernate.FetchMode;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 
-import com.skalvasociety.skalva.bean.Episode;
 import com.skalvasociety.skalva.bean.Saison;
 import com.skalvasociety.skalva.bean.Serie;
-import com.skalvasociety.skalva.bean.comparateur.EpisodeComparateur;
 
 
 @Repository("saisonDao")
 public class SaisonDao extends AbstractDao<Integer, Saison> implements ISaisonDao {
 
-	public void saveSaison(Saison saison) {
+	
+	@Override
+	public void save(Saison saison) {
 		if(isUnique(saison)){
-			persist(saison);
+			super.save(saison);
 		}else if (saison != null){
 			saison = getSaisonByIdSerieNumSaison(saison.getSerie(), saison.getNumero());
-		}
-			
-			
+		}		
 	}
 	
 	public boolean isUnique(Saison saison){
@@ -50,7 +46,7 @@ public class SaisonDao extends AbstractDao<Integer, Saison> implements ISaisonDa
 		criteria.add(Restrictions.eq("serie", serie));
 		return (List<Saison>) criteria.list();
 	}	
-	
+	/*
 	public Saison getSaisonById(Integer idSaison){
 		Criteria criteria = createEntityCriteria();
 		criteria.setFetchMode("episodes", FetchMode.JOIN);
@@ -63,6 +59,6 @@ public class SaisonDao extends AbstractDao<Integer, Saison> implements ISaisonDa
         	saison.setEpisodes(episodes);       	
         }
 		return saison;
-	}
+	}*/
 
 }

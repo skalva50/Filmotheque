@@ -1,12 +1,9 @@
 package com.skalvasociety.skalva.dao;
 
-import java.util.List;
+import java.io.Serializable;
 
 import com.skalvasociety.skalva.bean.Genre;
 
-public interface IGenreDao {
-	void saveGenre(Genre genre);
-	List<Genre> getGenres();
-	Genre getGenreById(int id);
+public interface IGenreDao extends IDao<Serializable, Genre> {	
 	Genre getGenreByIdTmdb(Integer idTmdb);
 }

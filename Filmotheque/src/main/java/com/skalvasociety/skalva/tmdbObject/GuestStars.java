@@ -7,6 +7,8 @@ public class GuestStars {
 	private String character;
 	private Integer order;
 	private String profile_path;
+	private Integer gender;
+	
 	public Integer getId() {
 		return id;
 	}
@@ -42,6 +44,12 @@ public class GuestStars {
 	}
 	public void setProfile_path(String profile_path) {
 		this.profile_path = profile_path;
+	}
+	public Integer getGender() {
+		return gender;
+	}
+	public void setGender(Integer gender) {
+		this.gender = gender;
 	}
 	
 	

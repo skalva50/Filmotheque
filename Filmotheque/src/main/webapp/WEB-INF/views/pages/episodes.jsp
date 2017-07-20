@@ -4,7 +4,7 @@
 
 
 <div class ="row">	
-	<h1 class="text-center">${saison.serie.titre}, Saison ${saison.numero}</h1>
+	<h1 class="text-center">${serie.titre}, Saison ${saison.numero}</h1>
 </div>
 <hr/>
 <div class = "row">
@@ -49,7 +49,7 @@
 		    </tr>
 		</thead>
 		<tbody>    
-		    <c:forEach items="${saison.episodes}" var="episode">
+		    <c:forEach items="${episodes}" var="episode">
 		    	<c:url value="/episode" var="url">
 					<c:param name="idEpisode" value="${episode.id}"/>
 				</c:url> 	   	

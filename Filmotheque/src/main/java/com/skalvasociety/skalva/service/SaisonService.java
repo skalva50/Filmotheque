@@ -14,24 +14,14 @@ import com.skalvasociety.skalva.tools.Convert;
 
 @Service("saisonService")
 @Transactional
-public class SaisonService implements ISaisonService {
+public class SaisonService extends AbstractService<Integer, Saison> implements ISaisonService {
 
 	@Autowired
-	ISaisonDao saisonDao;
-	
-	public void saveSaison(Saison saison) {
-		saisonDao.saveSaison(saison);
-	}
+	ISaisonDao saisonDao;	
 
 	public List<Saison> getSaisonByIdSerie(Serie serie) {
 		return saisonDao.getSaisonByIdSerie(serie);
-	}
-
-	public Saison getSaisonById(Integer idSaison) {		
-		return saisonDao.getSaisonById(idSaison);
-	}
-	
-	
+	}	
 
 	public void serieSaisonDetailstoSaison(SerieSaisonDetails serieSaisonDetails, Saison saison) {
 		saison.setAffiche(serieSaisonDetails.getPoster_path());

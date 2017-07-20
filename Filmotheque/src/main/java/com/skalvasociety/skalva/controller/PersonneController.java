@@ -32,7 +32,7 @@ public class PersonneController {
 	public String acteurById(@RequestParam(value="idActeur") Integer idActeur, ModelMap model){	
 		if (idActeur == null)
 			return "redirect:/films";
-		Acteur acteur = acteurService.getActeurById(idActeur);
+		Acteur acteur = acteurService.getByKey(idActeur);
 		
 		if(acteur != null){
 			model.addAttribute("acteur", acteur);
@@ -63,7 +63,7 @@ public class PersonneController {
 	public String realisateurById(@RequestParam(value="idRealisateur") Integer idRealisateur, ModelMap model){	
 		if (idRealisateur == null)
 			return "redirect:/films";
-		Realisateur realisateur = realisateurService.getRealisateurById(idRealisateur);
+		Realisateur realisateur = realisateurService.getByKey(idRealisateur);
 		
 		if(realisateur != null){
 			model.addAttribute("realisateur", realisateur);
