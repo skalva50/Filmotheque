@@ -11,7 +11,7 @@ Cette application Web est destinée à créer et à présenter une bibliotheque 
 
 ## Fonctionnalités principales
 * Scane les repertoires de film et de serie paramétré et en extrait les informations necessaires à la mise à jour de la bibliothèque.
-* Complète les fiches films et séries crées avec les données disponibles sur la base de données "The Movie Database".
+* Complète les fiches films et séries crées avec les données mise à disposition par l'API "The Movie Database".
 
 ---
 #### /!\ En cours de developpement
@@ -35,9 +35,12 @@ Cette application Web est destinée à créer et à présenter une bibliotheque 
      * git
       
 ## Installation
-1. Creer la base de données en jouant le script [script_creation.sql](script_creation.sql)
-2. Déployer le WAR sur un serveur de votre choix ( tester sur Tomcat 7)
-3. Modifier le fichier application.properties dispo dans /webapps/Filmotheque/WEB-INF/classes
-avec vos paramétrages ( user et mot de passe BDD, repertoire des films et series à scanner) 
+* Creer la base de données en jouant le script [script_creation.sql](script_creation.sql)
+* Déployer le WAR sur un serveur de votre choix ( tester sur Tomcat 7)
+* Modifier le fichier application.properties dispo dans /webapps/Filmotheque/WEB-INF/classes avec vos paramétrages
+    * user et mot de passe BDD
+    * API_KEY de the movie database
+        * Gratuite, disponible dans les parametres de votre compte apres enregistrement gratuit sur https://www.themoviedb.org 
+    * repertoire des films et series à scanner 
 
       

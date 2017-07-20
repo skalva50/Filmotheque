@@ -1,7 +1,5 @@
 package com.skalvasociety.skalva.dao;
 
-import java.util.List;
-
 import org.hibernate.Criteria;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
@@ -11,21 +9,6 @@ import com.skalvasociety.skalva.bean.Saison;
 
 @Repository("episodeDao")
 public class EpisodeDao extends AbstractDao<Integer, Episode> implements IEpisodeDao {
-
-	public void saveEpisode(Episode episode) {
-		persist(episode);
-
-	}
-
-	@SuppressWarnings("unchecked")
-	public List<Episode> getEpisodes() {
-		Criteria criteria = createEntityCriteria();
-		return (List<Episode>) criteria.list();
-	}
-	
-	public Episode getEpisodeById(Integer idEpisode){
-		return getByKey(idEpisode);		
-	}
 
 	public Episode getEpisodeBySaisonNumEpisode(Saison saison, Integer numEpisode) {
 		Criteria criteria = createEntityCriteria();

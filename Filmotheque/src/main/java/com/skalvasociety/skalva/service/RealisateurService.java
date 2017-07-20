@@ -1,6 +1,6 @@
 package com.skalvasociety.skalva.service;
 
-import java.util.List;
+import java.io.Serializable;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,7 +12,7 @@ import com.skalvasociety.skalva.tmdbObject.Crew;
 
 @Service("realisateurService")
 @Transactional
-public class RealisateurService implements IRealisateurService {
+public class RealisateurService extends AbstractService<Serializable, Realisateur> implements IRealisateurService {
 	
 	@Autowired
     private IRealisateurDao realisateurDao;	
@@ -30,17 +30,8 @@ public class RealisateurService implements IRealisateurService {
 			realisateur.setNom(crew.getName());
 			realisateur.setPhoto(crew.getProfile_path());
 			personneService.completeProfile(realisateur);
-			realisateurDao.saveRealisateur(realisateur);
+			realisateurDao.save(realisateur);
 		}	
 		return realisateur;
 	}
-
-	public Realisateur getRealisateurById(Integer id) {		
-		return realisateurDao.getRealisateurById(id);
-	}
-	
-	public List<Realisateur> getAll(){
-		return realisateurDao.getAll();
-	}
-
 }

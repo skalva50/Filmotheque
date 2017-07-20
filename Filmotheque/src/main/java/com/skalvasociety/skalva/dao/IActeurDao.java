@@ -1,9 +1,9 @@
 package com.skalvasociety.skalva.dao;
 
+import java.io.Serializable;
+
 import com.skalvasociety.skalva.bean.Acteur;
 
-public interface IActeurDao {
-	void saveActeur(Acteur acteur);
-	Acteur getActeurIdTMDB(Integer idTmdb);
-	Acteur getActeurById(Integer id);
+public interface IActeurDao extends IDao<Serializable,Acteur>{	
+	Acteur getActeurIdTMDB(Integer idTmdb);	
 }

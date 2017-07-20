@@ -164,6 +164,13 @@
 			<scope>test</scope>
 		</dependency>
 		
+		<!-- Hydrate  -->
+		<dependency>
+		    <groupId>com.javaetmoi.core</groupId>
+		    <artifactId>javaetmoi-hibernate4-hydrate</artifactId>
+		    <version>2.2</version>
+		</dependency>
+		
 	</dependencies>
   <build>
  	<pluginManagement>

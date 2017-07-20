@@ -17,6 +17,9 @@
 		<h4 class ="text-center">Date de sortie: </h4>
 		<fmt:formatDate type="date" value="${film.dateSortie}" />
         <hr/>
+        <h4 class ="text-center">Note: </h4>
+			<p>${film.note}/10</p>	 
+		<hr/>
 		<h4 class ="text-center">Résumé: </h4>
 			<p> ${film.resume}</p>			
 		<hr/>

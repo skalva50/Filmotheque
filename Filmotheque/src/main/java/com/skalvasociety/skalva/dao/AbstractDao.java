@@ -10,13 +10,16 @@ import org.hibernate.FetchMode;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Order;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.javaetmoi.core.persistence.hibernate.LazyLoadingUtil;
+import com.skalvasociety.skalva.bean.IFiltre;
 import com.skalvasociety.skalva.daoTools.PageRequest;
-import com.skalvasociety.skalva.enumeration.Sort;
-import com.skalvasociety.skalva.enumeration.SortBy;
+import com.skalvasociety.skalva.enumeration.SortDirection;
+import com.skalvasociety.skalva.enumeration.OrderBy;
 
-public abstract class AbstractDao<PK extends Serializable, T> {
+public abstract class AbstractDao<PK extends Serializable, T> implements IDao<Serializable,T>{
 
 	private final Class<T> persistentClass;
 	
@@ -31,19 +34,38 @@ public abstract class AbstractDao<PK extends Serializable, T> {
     protected Session getSession(){
         return sessionFactory.getCurrentSession();
     }
- 
-    @SuppressWarnings("unchecked")
-    public T getByKey(PK key) {
+
+    
+	@SuppressWarnings("unchecked")
+	public T getByKey(Serializable key) {
         return (T) getSession().get(persistentClass, key);
     }
  
-    public void persist(T entity) {
+    public void save(T entity) {
         getSession().persist(entity);
     }
+
  
     public void delete(T entity) {
         getSession().delete(entity);
     }
+    
+	public T getByKeyWithGraph(Serializable key) {
+		T entite = getByKey(key);
+		LazyLoadingUtil.deepHydrate(getSession(), entite);       
+        return entite;
+	}
+	
+	@SuppressWarnings("unchecked")
+	public T getByKeyWithGraph(Serializable key, List<String> entites) {
+		Criteria criteria = createEntityCriteria();
+		for (String entite : entites) {
+			criteria.setFetchMode(entite, FetchMode.JOIN);
+		}			
+		criteria.add(Restrictions.eq("id", key));
+		return (T) criteria.uniqueResult();
+	}
+	
     
     public List<T> getPage(List<T> listToPage, PageRequest<T> pageRequest) {
     	List<T> page = new LinkedList<T>();    	
@@ -62,10 +84,23 @@ public abstract class AbstractDao<PK extends Serializable, T> {
         return getSession().createCriteria(persistentClass);
     }
     
+	public List<T> getAllByPage(PageRequest<T> pageRequest) {
+		List<T> listeAll = getAll();
+        List<T> listePage = getPage(listeAll, pageRequest);      
+        return listePage;
+	}
+	
+	public List<T> getAllByFiltrePage(PageRequest<T> pageRequest, IFiltre<T> filtre){	
+		List<T> filmsAll = getAll(pageRequest.getSortBy(), pageRequest.getSort());
+		List<T> filmsFiltre  = filtre.filtrerListe(filmsAll);		
+		List<T> pageFilms = getPage(filmsFiltre, pageRequest);
+		return pageFilms;
+	}
+    
 	@SuppressWarnings("unchecked")
-	public List<T> getAll(Sort sort, SortBy sortBy) {
+	public List<T> getAll(OrderBy sortBy, SortDirection sort) {
 		Criteria criteria = createEntityCriteria();		
-		if(sort.equals(Sort.DESC)){
+		if(sort.equals(SortDirection.DESC)){
 			criteria.addOrder(Order.desc(sortBy.toString()));
 		}else{
 			criteria.addOrder(Order.asc(sortBy.toString()));
@@ -75,13 +110,19 @@ public abstract class AbstractDao<PK extends Serializable, T> {
 	}
 	
 	@SuppressWarnings("unchecked")
-	public List<T> getAllWithGraph(Sort sort, SortBy sortBy, String entiteAddGraph) {		
+	public List<T> getAll() {
+		Criteria criteria = createEntityCriteria();					
+        return (List<T>) criteria.list();        
+	}
+	
+	@SuppressWarnings("unchecked")
+	public List<T> getAllWithGraph(SortDirection sort, OrderBy sortBy, String entiteAddGraph) {		
 		Criteria criteria = createEntityCriteria();
 		if(entiteAddGraph !=  null && !entiteAddGraph.equals("")){
 			criteria.setFetchMode(entiteAddGraph, FetchMode.JOIN);
 		}			
 	
-		if(sort.equals(Sort.DESC)){
+		if(sort.equals(SortDirection.DESC)){
 			criteria.addOrder(Order.desc(sortBy.toString()));
 		}else{
 			criteria.addOrder(Order.asc(sortBy.toString()));
@@ -94,6 +135,10 @@ public abstract class AbstractDao<PK extends Serializable, T> {
 			}
 		}        
         return listReduce;
+	}
+	
+	public List<T> getByFiltre (IFiltre<T> filtre){
+		return filtre.filtrerListe(getAll());
 	}
 	
 }

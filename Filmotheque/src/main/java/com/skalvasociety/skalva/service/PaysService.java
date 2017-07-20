@@ -1,5 +1,7 @@
 package com.skalvasociety.skalva.service;
 
+import java.io.Serializable;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -10,23 +12,15 @@ import com.skalvasociety.skalva.tmdbObject.Country;
 
 @Service("paysService")
 @Transactional
-public class PaysService implements IPaysService {
+public class PaysService extends AbstractService<Serializable, Pays> implements IPaysService {
 	
 	@Autowired
 	IPaysDao paysDao;
-
-	public void savePays(Pays pays) {
-		paysDao.savePays(pays);
-
-	}
 
 	public Pays getPaysbyIdIso(String idIso) {		
 		return paysDao.getPaysbyIdIso(idIso);
 	}
 
-	public Pays getPaysbyId(Integer id) {		
-		return paysDao.getPaysbyId(id);
-	}
 
 	public Pays countryToPays(Country country) {
 		Pays pays = new Pays();
@@ -45,5 +39,4 @@ public class PaysService implements IPaysService {
 		pays.setNom(country.getName());
 		
 	}
-
 }

@@ -19,7 +19,7 @@ public class FichierController {
     
     @RequestMapping(value = { "/listFichiers" }, method = RequestMethod.GET)
     public String listFichiers(ModelMap model) { 
-        List<Fichier> fichiers = service.findAllFichiers();
+        List<Fichier> fichiers = service.getAll();
         model.addAttribute("fichiers", fichiers);
         return "allfichiers";
     }

@@ -1,5 +1,7 @@
 package com.skalvasociety.skalva.service;
 
+import java.io.Serializable;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -12,7 +14,7 @@ import com.skalvasociety.skalva.tmdbObject.Cast;
 
 @Service("seriePersonnageService")
 @Transactional
-public class SeriePersonnageService implements ISeriePersonnageService {
+public class SeriePersonnageService extends AbstractService<Serializable, SeriePersonnage> implements ISeriePersonnageService {
 
 	@Autowired
 	private ISeriePersonnageDao seriePersonnageDao;
@@ -20,10 +22,6 @@ public class SeriePersonnageService implements ISeriePersonnageService {
 	@Autowired
     private IActeurService acteurService;
 	
-	public void saveSeriePersonnage(SeriePersonnage seriePersonnage) {
-		seriePersonnageDao.saveSeriePersonnage(seriePersonnage);
-	}
-
 	public SeriePersonnage getSeriePersonnagebySerieActeur(Serie serie, Acteur acteur) {
 		return seriePersonnageDao.getSeriePersonnagebySerieActeur(serie, acteur);
 	}
@@ -42,7 +40,7 @@ public class SeriePersonnageService implements ISeriePersonnageService {
 			personnage.setActeur(acteur);
 			personnage.setSerie(serie);
 			personnage.setNom(cast.getCharacter());
-			saveSeriePersonnage(personnage);
+			save(personnage);
 		}				
 		return personnage;
 	}

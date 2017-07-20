@@ -4,7 +4,8 @@
 ------------------------
 
 #### fiche
-+ Ajouter la note dans les fiches film et serie
++ OK Ajouter la note dans les fiches film et serie
++ Ajouter nombre de vote
 + Voir si bio en fançais plus pertinente
 + OK format affichage date
 
@@ -20,22 +21,30 @@
 #### Mise en forme resultats
 + OK Pagination 
 + Systeme de filtre et de tri
-     + RESTE A FAIRE :
-      + Supprimer le choix des pages si une seule page (vue.jsp)
-      + Factoriser les differents filtre de film (tenter une factorisation generique)
-      + Factoriser get et getPage
-      + Modifier tri (par comparateur dans list au lieu de par requete : permet de trier si issue de differntes liste)
-      + Ajouter les nationalites dans le filtre
-      + Ajouter un sens de tri par defaut ( ex dateSortie--> desc, titre --> asc ...)
-      + Bouton supprimer filtre
+     + RESTE A FAIRE :     
+      + OK Factoriser les differents filtre de film (tenter une factorisation generique)
+      + OK Factoriser get et getPage
+      + OK Modifier tri (par comparateur dans list au lieu de par requete : permet de trier si issue de differntes liste)
+      + OK Ajouter les nationalites dans le filtre
+      + OK Ajouter un sens de tri par defaut ( ex dateSortie--> desc, titre --> asc ...)
+      + OK Bouton supprimer filtre
+      + OK Trier les items des filtres
+      + OK Afficher les items filtres uniquement disponible pour l'affichage en cours
+      + OK Creer une abstract et interface generique pour les services
+      + OK Creer une interface generique pour la DAO      
 
-#### Onlet Acteur et réalisateur
+
+#### Onglet Acteur et réalisateur
 + a faire avec solution de pagination, fitre, tri trouvé precedamment. 
 
 #### Admin du site
 + MAJ de la BDD par rapport aux des données supprimées des repertoires
 + Maj des fiches films si erreur de correpondance
++ Rapport ajout et suppression en fin de manip
++ Date d'ajout du media
 
 #### Securité accès
 + Gestion des droits d'accès (spring security)
 + Gestion des droits BDD
+
+

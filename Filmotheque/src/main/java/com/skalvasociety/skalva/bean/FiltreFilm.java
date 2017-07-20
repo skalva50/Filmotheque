@@ -5,76 +5,72 @@ import java.util.List;
 
 import org.springframework.transaction.annotation.Transactional;
 
+import com.skalvasociety.skalva.enumeration.FilmFilterBy;
+
 @Transactional
-public class FiltreFilm {
-	private boolean byGenre =  false;
-	private boolean byRealisateur = false;
-	private Integer idGenre;
-	private Integer idRealisateur;
+public class FiltreFilm extends AbstractFiltre<FilmFilterBy> implements IFiltre<Film>{	
 
-	public boolean isByGenre() {
-		return byGenre;
-	}
 
-	public void setByGenre(boolean byGenre) {
-		this.byGenre = byGenre;
-	}
-	
-	public boolean isByRealisateur() {
-		return byRealisateur;
-	}
-
-	public void setByRealisateur(boolean byRealisateur) {
-		this.byRealisateur = byRealisateur;
-	}
-
-	
-	public Integer getIdGenre() {
-		return idGenre;
-	}
-
-	public void setIdGenre(Integer idGenre) {
-		this.idGenre = idGenre;
-	}
-
-	
-	public Integer getIdRealisateur() {
-		return idRealisateur;
-	}
-
-	public void setIdRealisateur(Integer idRealisateur) {
-		this.idRealisateur = idRealisateur;
-	}
-
-	public List<Film> filmFilter (List<Film> filmAll){
-		List<Film> filmFilter = new LinkedList<Film>();
-		if(isByGenre()){
-			for (Film film : filmAll) {
-				List<Genre> genres = film.getGenres();
-				for (Genre genre : genres) {
-					if(genre.getId() == getIdGenre()){
-						if(!filmFilter.contains(film))
-							filmFilter.add(film);
-						break;
+	public List<Film> filtrerListe(List<Film> listeAFiltrer) {
+		List<Film> listToRemove = new LinkedList<Film>();	
+		
+		for (FilmFilterBy filtre : listeFiltre.keySet()) {
+			switch (filtre) {
+			case realisateur:
+				for (Film film : listeAFiltrer) {				
+					List<Realisateur> realisateurs = film.getRealisateurs();
+					boolean find = false;
+					for (Realisateur realisateur : realisateurs) {
+						if(realisateur.getId() == listeFiltre.get(filtre)){							
+							find = true;
+							break;
+						}
+					}
+					if(!find){
+						listToRemove.add(film);
 					}
 				}
-			}			
-		}
-		if(isByRealisateur()){
-			for (Film film : filmAll) {
-				List<Realisateur> realisateurs = film.getRealisateurs();
-				for (Realisateur realisateur : realisateurs) {
-					if(realisateur.getId() == getIdRealisateur()){
-						if(!filmFilter.contains(film))
-							filmFilter.add(film);
-						break;
+				listeAFiltrer.removeAll(listToRemove);
+				listToRemove.clear();
+				break;
+			case genre:
+				for (Film film : listeAFiltrer) {
+					List<Genre> genres = film.getGenres();
+					boolean find = false;
+					for (Genre genre : genres) {
+						if(genre.getId() == listeFiltre.get(filtre)){
+							find = true;
+							break;
+						}
 					}
-				}
-			}			
+					if(!find){
+						listToRemove.add(film);
+					}
+				}	
+				listeAFiltrer.removeAll(listToRemove);
+				listToRemove.clear();
+				break;
+			case pays:
+				for (Film film : listeAFiltrer) {
+					List<Pays> paysS = film.getPays();
+					boolean find = false;
+					for (Pays pays : paysS) {
+						if(pays.getId() == listeFiltre.get(filtre)){
+							find = true;
+							break;
+						}
+					}
+					if(!find){
+						listToRemove.add(film);
+					}
+				}	
+				listeAFiltrer.removeAll(listToRemove);
+				listToRemove.clear();
+				break;
+			default:
+				break;
+			}
 		}
-		
-		
-		return filmFilter;		
+		return listeAFiltrer;
 	}
-
 }

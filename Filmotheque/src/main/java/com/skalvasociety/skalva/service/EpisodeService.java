@@ -1,7 +1,5 @@
 package com.skalvasociety.skalva.service;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,22 +12,10 @@ import com.skalvasociety.skalva.tools.Convert;
 
 @Service("episodeService")
 @Transactional
-public class EpisodeService implements IEpisodeService {
+public class EpisodeService extends AbstractService<Integer, Episode> implements IEpisodeService {
 	
 	@Autowired
 	IEpisodeDao episodeDao;
-	public void saveEpisode(Episode episode) {
-		episodeDao.saveEpisode(episode);
-
-	}
-
-	public List<Episode> getEpisodes() {		
-		return episodeDao.getEpisodes();
-	}
-
-	public Episode getEpisodeById(Integer idEpisode) { 
-		return episodeDao.getEpisodeById(idEpisode);
-	}
 
 	public void episodeTmdbToEpisode(EpisodeTMDB episodeTMDB, Episode episode) {
 		episode.setTitre(episodeTMDB.getName());

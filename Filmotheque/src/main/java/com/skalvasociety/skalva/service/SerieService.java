@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.skalvasociety.skalva.bean.Episode;
 import com.skalvasociety.skalva.bean.Fichier;
+
 import com.skalvasociety.skalva.bean.Genre;
 import com.skalvasociety.skalva.bean.Pays;
 import com.skalvasociety.skalva.bean.Realisateur;
@@ -32,7 +33,7 @@ import com.skalvasociety.skalva.tools.Convert;
 
 @Service("serieService")
 @Transactional
-public class SerieService implements ISerieService{
+public class SerieService extends AbstractService<Integer, Serie> implements ISerieService{
 	
 	@Autowired
 	ISerieDao serieDao;
@@ -63,15 +64,6 @@ public class SerieService implements ISerieService{
 	
 	@Autowired
     private Environment environment;
-	
-		
-	public void saveSerie(Serie serie) {
-		serieDao.saveSerie(serie);		
-	}
-
-	public List<Serie> getAllSeries() {	
-		return serieDao.findAllSeries();
-	}	
 
 	public boolean idTMDBExists(Serie serie) {		
 		return serieDao.idTMDBExists(serie);
@@ -81,10 +73,6 @@ public class SerieService implements ISerieService{
 		return serieDao.getSerieByIdTMDB(idTMDB);
 	}
 	
-	public Serie getSerieById(Integer idSerie) {	
-		return serieDao.getSerieById(idSerie);
-	}	
-
 	public void majSerie() {	
 		String path = environment.getProperty("serie.path");
 		String API_KEY = environment.getProperty("tmdb.API_KEY");
@@ -101,7 +89,7 @@ public class SerieService implements ISerieService{
 							if (serieDetail != null){
 								serieDetailsToSerie(serieDetail, serie);
 							}							
-							saveSerie(serie);
+							save(serie);
 							List<Video> listVideos = tmdbRequest.getVideoByID(serie);
 							if(listVideos != null){
 								for (Video video : listVideos) {
@@ -144,7 +132,7 @@ public class SerieService implements ISerieService{
 									saison = new Saison();
 									saisonService.serieSaisonDetailstoSaison(serieSaisonDetails, saison);
 									saison.setSerie(serie);									
-									saisonService.saveSaison(saison);
+									saisonService.save(saison);
 									List<Video> listVideos = tmdbRequest.getVideoByID(saison);
 									if(listVideos != null){
 										for (Video video : listVideos) {
@@ -176,11 +164,11 @@ public class SerieService implements ISerieService{
 											Episode episode = episodeService.getEpisodeBySaisonNumEpisode(saison, episodeTMDB.getEpisode_number());
 											if (episode == null){
 												episode = new Episode();
-												fichierService.saveFichier(fichier);
+												fichierService.save(fichier);
 												episodeService.episodeTmdbToEpisode(episodeTMDB, episode);											
 												episode.setFichier(fichier);
 												episode.setSaison(saison);												
-												episodeService.saveEpisode(episode);
+												episodeService.save(episode);
 												List<Video> listVideos = tmdbRequest.getVideoByID(episode);
 												if(listVideos != null){
 													for (Video video : listVideos) {
@@ -228,7 +216,7 @@ public class SerieService implements ISerieService{
 			Genre genre  = genreService.getGenreByIdTmdb(genreTmdb.getId());
 			if(genre == null){
 				genre = genreTmdb.toGenre();
-				genreService.saveGenre(genre);
+				genreService.save(genre);
 			}				
 			listGenre.add(genre);
 		}
@@ -241,7 +229,7 @@ public class SerieService implements ISerieService{
 				Pays pays = paysService.getPaysbyIdIso(country);
 				if (pays == null){
 					pays = paysService.countrySerieToPays(country);
-					paysService.savePays(pays);
+					paysService.save(pays);
 				}
 				listPays.add(pays);
 			}
@@ -249,4 +237,27 @@ public class SerieService implements ISerieService{
 		}
 	}
 
+	public List<Genre> getGenreByListeSerie(List<Serie> listeSerie) {
+		List<Genre> listeGenre = new LinkedList<Genre>();
+		for (Serie serie : listeSerie) {
+			for (Genre genre : serie.getGenres()) {
+				if(!listeGenre.contains(genre)){
+					listeGenre.add(genre);
+				}
+			}
+		}
+		return listeGenre;
+	}
+
+	public List<Pays> getPaysByListeSerie(List<Serie> listeSerie) {
+		List<Pays> listePays = new LinkedList<Pays>();
+		for (Serie serie : listeSerie) {
+			for (Pays pays : serie.getPays()) {
+				if(!listePays.contains(pays)){
+					listePays.add(pays);
+				}
+			}
+		}
+		return listePays;
+	}
 }

@@ -2,18 +2,18 @@ package com.skalvasociety.skalva.daoTools;
 
 import java.util.List;
 
-import com.skalvasociety.skalva.enumeration.Sort;
-import com.skalvasociety.skalva.enumeration.SortBy;
+import com.skalvasociety.skalva.enumeration.SortDirection;
+import com.skalvasociety.skalva.enumeration.OrderBy;
 
 public class PageRequest<T> {
 	private int pageNumber;
 	private int pageSize;
-	private Sort sort;
-	private SortBy sortBy;
+	private SortDirection sort;
+	private OrderBy sortBy;
 	private int totalPage;
 
 	
-	public PageRequest(int pageNumber, int pageSize, Sort sort, SortBy sortBy) {
+	public PageRequest(int pageNumber, int pageSize, SortDirection sort, OrderBy sortBy) {
 		super();
 		this.pageNumber = pageNumber;
 		this.pageSize = pageSize;
@@ -33,18 +33,18 @@ public class PageRequest<T> {
 	public void setPageSize(int pageSize) {
 		this.pageSize = pageSize;
 	}
-	public Sort getSort() {
+	public SortDirection getSort() {
 		return sort;
 	}
-	public void setSort(Sort sort) {
+	public void setSort(SortDirection sort) {
 		this.sort = sort;
 	}
 
-	public SortBy getSortBy() {
+	public OrderBy getSortBy() {
 		return sortBy;
 	}
 
-	public void setSortBy(SortBy sortBy) {
+	public void setSortBy(OrderBy sortBy) {
 		this.sortBy = sortBy;
 	}
 

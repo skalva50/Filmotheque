@@ -11,11 +11,6 @@ import com.skalvasociety.skalva.bean.SeriePersonnage;
 @Repository("SeriePersonnageDao")
 public class SeriePersonnageDao extends AbstractDao<Integer, SeriePersonnage> implements ISeriePersonnageDao {
 
-	public void saveSeriePersonnage(SeriePersonnage seriePersonnage) {
-		persist(seriePersonnage);
-
-	}
-
 	public SeriePersonnage getSeriePersonnagebySerieActeur(Serie serie, Acteur acteur) {
 		Criteria criteria = createEntityCriteria();
         criteria.add(Restrictions.eq("serie", serie));   

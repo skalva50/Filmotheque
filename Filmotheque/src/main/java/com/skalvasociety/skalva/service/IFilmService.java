@@ -1,16 +1,16 @@
 package com.skalvasociety.skalva.service;
 
+import java.io.Serializable;
 import java.util.List;
 
 import com.skalvasociety.skalva.bean.Film;
-import com.skalvasociety.skalva.bean.FiltreFilm;
-import com.skalvasociety.skalva.daoTools.PageRequest;
+import com.skalvasociety.skalva.bean.Genre;
+import com.skalvasociety.skalva.bean.Pays;
+import com.skalvasociety.skalva.bean.Realisateur;
 
-public interface IFilmService {
-	void saveFilm (Film film);
-	List<Film> getFilmsPage(PageRequest<Film> pageRequest);
-	Film getFilmById(Integer idFilm);
+public interface IFilmService extends IService<Serializable, Film> {
 	public String getDureeFormatee(Film film);	
-	public List<Film> getFilmByRealisateur (PageRequest<Film> pageRequest, Integer idRealisateur);
-	public List<Film> getFilmByFiltrePage(PageRequest<Film> pageRequest, FiltreFilm filtre);
+	public List<Realisateur> getRealisateurByListeFilm(List<Film> listeFilm);
+	public List<Genre> getGenreByListeFilm(List<Film> listeFilm);
+	public List<Pays> getPaysByListeFilm(List<Film> listeFilm);
 }

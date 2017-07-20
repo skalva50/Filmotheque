@@ -11,11 +11,6 @@ import com.skalvasociety.skalva.bean.FilmPersonnage;
 @Repository("FilmPersonnageDao")
 public class FilmPersonnageDao extends AbstractDao<Integer, FilmPersonnage> implements IFilmPersonnageDao {
 
-	public void saveFilmPersonnage(FilmPersonnage filmPersonnage) {
-		persist(filmPersonnage);
-
-	}
-
 	public FilmPersonnage getFilmPersonnagebyFilmActeur(Film film, Acteur acteur) {
 		Criteria criteria = createEntityCriteria();
         criteria.add(Restrictions.eq("film", film));   

@@ -17,6 +17,9 @@
 		<h4 class ="text-center">Date de sortie: </h4>
 		<fmt:formatDate type="date" value="${serie.dateSortie}" />        	 
 		<hr/>
+		<h4 class ="text-center">Note: </h4>
+			<p>${serie.note}/10</p>	 
+		<hr/>
 		<h4 class ="text-center">Résumé: </h4>
 			<p> ${serie.resume}</p>			
 		<hr/>
@@ -59,7 +62,7 @@
 		    </tr>
 		</thead>
 		<tbody>    
-		    <c:forEach items="${serie.saison}" var="saison">		    		
+		    <c:forEach items="${saisons}" var="saison">		    		
 				<c:url value="/episodes" var="url">
 					<c:param name="idSaison" value="${saison.id}"/>
 				</c:url>   	

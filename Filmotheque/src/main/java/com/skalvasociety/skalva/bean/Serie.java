@@ -41,7 +41,7 @@ public class Serie extends MediaTMDB {
 		this.note = note;
 	}
 	
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "serie")
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "serie")	
 	public List<Saison> getSaison() {
 		return saison;
 	}
