@@ -36,6 +36,7 @@
 
 #### Onglet Acteur et réalisateur
 + a faire avec solution de pagination, fitre, tri trouvé precedamment. 
++ ajouter les genres popularite des personne des acteurs, reste filtre et tri
 
 #### Admin du site
 + MAJ de la BDD par rapport aux des données supprimées des repertoires

@@ -85,7 +85,7 @@ public abstract class AbstractDao<PK extends Serializable, T> implements IDao<Se
     }
     
 	public List<T> getAllByPage(PageRequest<T> pageRequest) {
-		List<T> listeAll = getAll();
+		List<T> listeAll = getAll(pageRequest.getSortBy(), pageRequest.getSort());
         List<T> listePage = getPage(listeAll, pageRequest);      
         return listePage;
 	}
