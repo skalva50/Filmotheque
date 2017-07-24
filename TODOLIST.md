@@ -31,12 +31,14 @@
       + OK Trier les items des filtres
       + OK Afficher les items filtres uniquement disponible pour l'affichage en cours
       + OK Creer une abstract et interface generique pour les services
-      + OK Creer une interface generique pour la DAO      
+      + OK Creer une interface generique pour la DAO
+      + creer une abstract ou une interface pour les filtres      
 
 
 #### Onglet Acteur et réalisateur
-+ a faire avec solution de pagination, fitre, tri trouvé precedamment. 
-+ ajouter les genres popularite des personne des acteurs, reste filtre et tri
++ a faire avec solution de pagination, fitre, tri trouvé precedamment.
++ ajouter le sexe(filtre), popularite(tri) des personnes (acteurs+realisateur)
++ Fiche realisateur : ajouter les series
 
 #### Admin du site
 + MAJ de la BDD par rapport aux des données supprimées des repertoires

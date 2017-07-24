@@ -55,6 +55,11 @@
        <put-attribute name="body" value="/WEB-INF/views/pages/acteurs.jsp" />  
    </definition> 
    
+   <definition name="realisateurs" extends="base-definition">  
+       <put-attribute name="title" value="Realisateurs" />  
+       <put-attribute name="body" value="/WEB-INF/views/pages/realisateurs.jsp" />  
+   </definition> 
+   
    <definition name="acteur" extends="base-definition">  
        <put-attribute name="title" value="Acteur" />  
        <put-attribute name="body" value="/WEB-INF/views/pages/acteur.jsp" />  

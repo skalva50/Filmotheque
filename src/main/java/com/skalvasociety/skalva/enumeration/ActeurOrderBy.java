@@ -1,7 +1,8 @@
 package com.skalvasociety.skalva.enumeration;
 
 public enum ActeurOrderBy implements OrderBy {
-	nom("nom");
+	nom("Nom"),
+	dateNaissance("Date de naissance");
 	
 	private String displayName;	
 
@@ -21,6 +22,8 @@ public enum ActeurOrderBy implements OrderBy {
 		switch (this) {
 		case nom:
 			return SortDirection.ASC;
+		case dateNaissance:
+			return SortDirection.DESC;
 		default:
 			return SortDirection.ASC;
 		}

@@ -39,13 +39,13 @@ public class FilmController {
     @RequestMapping(value = {"/films" }, method = RequestMethod.GET)
     public String listFilm(
     		@RequestParam(value="numPage",required = false ) Integer numPage ,
-    		@RequestParam(value="clearFiltre",required = false ) FilmFilterBy clearFiltre ,
+    		@RequestParam(value="clearFiltre",required = false ) FilmFilterBy clearFiltre ,    		
     		@ModelAttribute("filmModel") FilmViewModel filmModel		
     		) {
     	
     	if(numPage != null && numPage !=0){
     		filmModel.setCurrentPage(numPage);
-    	}   
+    	}
     	filmModel.setClearFiltre(clearFiltre);
     	filmModel.refreshModel();   	    	
         return "films";

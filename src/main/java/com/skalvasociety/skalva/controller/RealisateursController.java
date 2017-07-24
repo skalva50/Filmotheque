@@ -10,36 +10,34 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
-import com.skalvasociety.skalva.service.IActeurService;
-
+import com.skalvasociety.skalva.service.IRealisateurService;
 
 @Controller
 @Transactional
 //Permet de garder les choix de filtre et de titre de l'utilisateur durant toute sa session
-@SessionAttributes( value="acteursModel", types={ActeurViewModel.class})
-public class ActeursController {
-	
+@SessionAttributes( value="realisateursModel", types={RealisateurViewModel.class})
+public class RealisateursController {
 	@Autowired
-	IActeurService acteurService;		
+	IRealisateurService realisateurService;		
 	
-    @ModelAttribute("acteursModel")   
-    public ActeurViewModel addActeurModelToSessionScope() {
-    	ActeurViewModel acteurModel = new ActeurViewModel(acteurService);     	
-    	return acteurModel;
+    @ModelAttribute("realisateursModel")   
+    public RealisateurViewModel addRealisateurModelToSessionScope() {
+    	RealisateurViewModel realisateursModel = new RealisateurViewModel(realisateurService);     	
+    	return realisateursModel;
     }
 	
-    @RequestMapping(value = {"/acteurs" }, method = RequestMethod.GET)
+    @RequestMapping(value = {"/realisateurs" }, method = RequestMethod.GET)
     public String listActeurs(
     		@RequestParam(value="numPage",required = false ) Integer numPage ,
     		//@RequestParam(value="clearFiltre",required = false ) FilmFilterBy clearFiltre ,
-    		@ModelAttribute("acteursModel") ActeurViewModel acteurModel		
+    		@ModelAttribute("realisateursModel") RealisateurViewModel realisateursModel		
     		) {
     	
     	if(numPage != null && numPage !=0){
-    		acteurModel.setCurrentPage(numPage);
+    		realisateursModel.setCurrentPage(numPage);
     	} 
-    	acteurModel.refreshModel();   	    	
-        return "acteurs";
+    	realisateursModel.refreshModel();   	    	
+        return "realisateurs";
     }
 
 }

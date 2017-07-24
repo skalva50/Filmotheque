@@ -14,15 +14,11 @@ import com.skalvasociety.skalva.bean.comparateur.PersonneComparateur;
 import com.skalvasociety.skalva.daoTools.PageRequest;
 import com.skalvasociety.skalva.enumeration.FilmFilterBy;
 import com.skalvasociety.skalva.enumeration.FilmOrderBy;
+import com.skalvasociety.skalva.enumeration.OrderBy;
 import com.skalvasociety.skalva.service.IFilmService;
 
 
-public class FilmViewModel {
-
-	private FilmOrderBy filmOrderBy;
-	private int currentPage;
-	private int totalPage;
-	private List<Film> films;
+public class FilmViewModel extends AbstractListModel<Film> {
 	
 	private List<Realisateur> realisateurs;
 	private Integer idRealisateur;
@@ -36,33 +32,22 @@ public class FilmViewModel {
 	private FilmFilterBy clearFiltre;
 
 	private IFilmService filmService;
-	
-	private static final int PAGE_SIZE = 18;
-	private static final int DEFAULT_PAGE = 1;
-	private static final FilmOrderBy DEFAULT_FILM_SORT = FilmOrderBy.note;
 
-	public FilmViewModel(IFilmService filmService){
-		this.filmService = filmService;
-		initialisation();    	 
+	public FilmViewModel(IFilmService service){
+		super(service);	
+		this.filmService = service;
+		setOrderBy(FilmOrderBy.note);
+		initialisation(); 	 
 	}
 	
-	private void initialisation(){
-		setCurrentPage(DEFAULT_PAGE);
-		setFilmOrderBy(DEFAULT_FILM_SORT);
-    	
-    	// Chargement des resultats par defaut pour l'initialisation
-    	PageRequest<Film> pageRequest = new PageRequest<Film>(DEFAULT_PAGE, PAGE_SIZE, DEFAULT_FILM_SORT.getSortDirectionDefaut(), DEFAULT_FILM_SORT);    	
-    	this.setFilms( filmService.getAllByFiltrePage(pageRequest, new FiltreFilm()));
-    	this.setTotalPage(pageRequest.getTotalPage());
-    	
-    	//On alimente les filtres avec l'ensemebles des films
-    	chargerListeDeroulante(filmService.getAll(DEFAULT_FILM_SORT, DEFAULT_FILM_SORT.getSortDirectionDefaut()));
-
-    
+	@Override
+	protected void initialisation() {		
+		super.initialisation();
+		chargerListeDeroulante(service.getAll(getOrderBy(), getOrderBy().getSortDirectionDefaut()));
 	}
 	
 	public void refreshModel() {		
-		PageRequest<Film> pageRequest = new PageRequest<Film>(this.getCurrentPage(), PAGE_SIZE, this.getFilmOrderBy().getSortDirectionDefaut(), this.getFilmOrderBy());			
+		PageRequest<Film> pageRequest = new PageRequest<Film>(this.getCurrentPage(), PAGE_SIZE, this.getOrderBy().getSortDirectionDefaut(), this.getOrderBy());			
 		
 		checkFiltre();
 		
@@ -77,11 +62,11 @@ public class FilmViewModel {
 			filtreFilm.addFiltre(FilmFilterBy.pays,this.getIdPays());
 		}
 			
-		films = filmService.getAllByFiltrePage(pageRequest, filtreFilm);
-		this.setFilms(films);
+		liste = service.getAllByFiltrePage(pageRequest, filtreFilm);
+		this.setListe(liste);
 		this.setTotalPage(pageRequest.getTotalPage());  
 		
-		chargerListeDeroulante(filmService.getByFiltre(filtreFilm));
+		chargerListeDeroulante(service.getByFiltre(filtreFilm));
 		
 	}
 	
@@ -119,51 +104,18 @@ public class FilmViewModel {
 		}
 	}
 
-	public FilmOrderBy getFilmOrderBy() {
-		return filmOrderBy;
+	@Override
+	public FilmOrderBy getOrderBy() {
+		return (FilmOrderBy) orderBy;		
 	}
 
-	public void setFilmOrderBy(FilmOrderBy filmOrderBy) {
-		this.filmOrderBy = filmOrderBy;
+	@Override
+	public void setOrderBy(OrderBy orderBy) {
+		this.orderBy = (FilmOrderBy) orderBy;		
 	}
 
-	public FilmOrderBy [] getListFilmOrderBy() {
+	public FilmOrderBy [] getListOrderBy() {
 		return FilmOrderBy.values();
-	}
-
-	public int getCurrentPage() {
-		if (currentPage > getTotalPage())
-			return getTotalPage();
-		else
-			return currentPage;
-	}
-
-	public void setCurrentPage(int currentPage) {
-		this.currentPage = currentPage;
-	}
-
-	public int getTotalPage() {
-		return totalPage;
-	}
-
-	public void setTotalPage(int totalPage) {
-		this.totalPage = totalPage;
-	}
-
-	public List<Film> getFilms() {
-		return films;
-	}
-
-	public void setFilms(List<Film> films) {
-		this.films = films;
-	}
-
-	public int getBeginPagination() {
-		return Math.max(1, getCurrentPage() - 5);
-	}
-
-	public int getEndPagination() {
-		return Math.min(getBeginPagination() + 10, getTotalPage());
 	}
 
 	public List<Genre> getGenres() {

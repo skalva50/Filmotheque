@@ -73,9 +73,9 @@
 	<div class="col-md-2 col-md-offset-4">
 		<form:form method="GET" action="films" modelAttribute="filmModel">
 		  <div class="form-group">
-		    <label for="filmOrderBy">Trier par: </label>
-		    <form:select path="filmOrderBy" id="filmOrderBy" class="form-control" onchange= "submit()">		                
-		        <form:options items="${filmModel.listFilmOrderBy}" itemLabel="displayName" />
+		    <label for="orderBy">Trier par: </label>
+		    <form:select path="orderBy" id="orderBy" class="form-control" onchange= "submit()">		                
+		        <form:options items="${filmModel.listOrderBy}" itemLabel="displayName" />
 		    </form:select>
 		  </div>
 		</form:form>
@@ -133,24 +133,24 @@
 	  </ul>
 	</nav>
 </div>
-<c:forEach begin="0" end ="${filmModel.films.size()/6}" var="i">	
+<c:forEach begin="0" end ="${filmModel.liste.size()/6}" var="i">	
 	<div class="row">
 		<c:forEach begin="0" end ="5" var="j">
 			<div class="col-sm-2 col-md-4S">
 				<c:set var="k" scope="session" value="${(i*6)+j}"/>		
 				<c:url value="/filmDetails" var="url">
-					<c:param name="idFilm" value="${filmModel.films[k].id}"/>
+					<c:param name="idFilm" value="${filmModel.liste[k].id}"/>
 				</c:url>
-				<c:if test="${k<filmModel.films.size()}">								
+				<c:if test="${k<filmModel.liste.size()}">								
 					<div class="thumbnail">
-						<a href="${url}"><img src ="https://image.tmdb.org/t/p/w500${filmModel.films[k].affiche}" class="img-thumbnail img-responsive"/></a> 
+						<a href="${url}"><img src ="https://image.tmdb.org/t/p/w500${filmModel.liste[k].affiche}" class="img-thumbnail img-responsive"/></a> 
 					</div>
 					<div class="caption">  						
-			    		<h4><a href="${url}" class="titreClickable">${filmModel.films[k].titre}</a></h4>
-			    		<p><a href="${url}" class="titreClickable">${filmModel.films[k].resumeCourt}</a></p>
-			    		<c:forEach begin="0" end ="${filmModel.films[k].genres.size()}" var="l">
-			    			<span>${filmModel.films[k].genres[l].libelle}</span>
-			    			<c:if test="${l<filmModel.films[k].genres.size()-1}">, </c:if>
+			    		<h4><a href="${url}" class="titreClickable">${filmModel.liste[k].titre}</a></h4>
+			    		<p><a href="${url}" class="titreClickable">${filmModel.liste[k].resumeCourt}</a></p>
+			    		<c:forEach begin="0" end ="${filmModel.liste[k].genres.size()}" var="l">
+			    			<span>${filmModel.liste[k].genres[l].libelle}</span>
+			    			<c:if test="${l<filmModel.liste[k].genres.size()-1}">, </c:if>
 			    		</c:forEach>
 		    		</div>
 	    		</c:if>
@@ -185,11 +185,11 @@
             </c:choose>
         </c:forEach>
         <c:choose>
-            <c:when test="${filmModel.currentPage == filmModel.totalPage}">
-                <li class="disabled"><a href="#HautPagination">&gt;</a></li>
-                <li class="disabled"><a href="#HautPagination">Dernier</a></li>
-            </c:when>
-            <c:otherwise>
+				<c:when test="${filmModel.currentPage == filmModel.totalPage}">
+					<li class="disabled"><a href="#HautPagination">&gt;</a></li>
+					<li class="disabled"><a href="#HautPagination">Dernier</a></li>
+				</c:when>
+				<c:otherwise>
                 <li><a href="${nextUrl}#HautPagination">&gt;</a></li>
                 <li><a href="${lastUrl}#HautPagination">Dernier</a></li>                
             </c:otherwise>
