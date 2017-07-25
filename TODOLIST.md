@@ -38,7 +38,7 @@
 #### Onglet Acteur et réalisateur
 + a faire avec solution de pagination, fitre, tri trouvé precedamment.
 + ajouter le sexe(filtre), popularite(tri) des personnes (acteurs+realisateur)
-+ Fiche realisateur : ajouter les series
++ OK Fiche realisateur : ajouter les series
 
 #### Admin du site
 + MAJ de la BDD par rapport aux des données supprimées des repertoires

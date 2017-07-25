@@ -14,6 +14,7 @@ import javax.persistence.Transient;
 public class Realisateur extends Personne {
 	
 	private List<Film> films = new LinkedList<Film>();
+	private List<Serie> series = new LinkedList<Serie>();
 	
 	@Transient
 	private String concatLibelleNbFilms;
@@ -30,10 +31,18 @@ public class Realisateur extends Personne {
 		this.films = films;
 		if (films != null) {
 			this.nbFilms = films.size();
-		}
-		
+		}		
 	}
 	
+	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "realisateurs")
+	public List<Serie> getSerie() {
+		return series;
+	}
+
+	public void setSerie(List<Serie> series) {
+		this.series = series;
+	}
+
 	@Transient
 	public String getConcatLibelleNbFilms(){
 		String concat =  getNom();

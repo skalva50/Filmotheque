@@ -14,6 +14,7 @@ import com.skalvasociety.skalva.bean.Acteur;
 import com.skalvasociety.skalva.bean.Film;
 import com.skalvasociety.skalva.bean.FilmPersonnage;
 import com.skalvasociety.skalva.bean.Realisateur;
+import com.skalvasociety.skalva.bean.Serie;
 import com.skalvasociety.skalva.bean.SeriePersonnage;
 import com.skalvasociety.skalva.service.IActeurService;
 import com.skalvasociety.skalva.service.IRealisateurService;
@@ -75,6 +76,14 @@ public class PersonneController {
 				film.getId();
 			}
 			model.addAttribute("films", listFilms);
+			
+			List<Serie> listSeries = realisateur.getSerie();
+			for (Serie serie : listSeries) {
+				serie.getAffiche();
+				serie.getTitre();
+				serie.getId();
+			}
+			model.addAttribute("series", listSeries);
 			return "realisateur";
 		}else{
 			return "redirect:/films";
