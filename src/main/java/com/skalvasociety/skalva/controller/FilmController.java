@@ -28,7 +28,7 @@ import com.skalvasociety.skalva.service.IFilmService;
 public class FilmController {
 	
 	@Autowired
-	IFilmService filmService;		
+	IFilmService filmService;	
 	
     @ModelAttribute("filmModel")   
     public FilmViewModel addFilmModelToSessionScope() {
@@ -93,6 +93,7 @@ public class FilmController {
 		}else{
 			return "redirect:/films";
 		}		
-	}
+	}	
+	
 }
 		    		

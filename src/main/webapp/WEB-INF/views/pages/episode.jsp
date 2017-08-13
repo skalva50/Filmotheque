@@ -12,6 +12,21 @@
 		<img src ="https://image.tmdb.org/t/p/w500${episode.affiche}" class="img-thumbnail img-responsive"/>
 	</div>
 	<div class ="col-md-6">
+		<c:url value="/download" var="urlEpisode">
+			<c:param name="typeFolder" value="serie"/>
+			<c:param name="pathFile" value="${episode.fichier.chemin}"/>
+		</c:url>
+		<div class="row">
+			<div class ="col-md-2 col-md-offset-2">
+				<a  href="${urlEpisode}"><h3 class="titreClickable">Télécharger:</h3></a>
+			</div>
+			<div class ="col-md-2 col-md-offset-2">
+				<a class="btn text-right " href="${urlEpisode}" role="button">
+					<img src="/Filmotheque/resources/images/icone/download.png" />
+				</a>
+			</div>
+		</div>
+		<hr/>
 		<h4 class ="text-center">Titre épisode: </h4>
 		<p> ${episode.titre}</p>		
 		<hr/>

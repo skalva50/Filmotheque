@@ -11,6 +11,21 @@
 		<img src ="https://image.tmdb.org/t/p/w500${film.affiche}" class="img-thumbnail img-responsive"/>
 	</div>
 	<div class ="col-md-6">
+		<c:url value="/download" var="urlFilm">
+			<c:param name="typeFolder" value="film"/>
+			<c:param name="pathFile" value="${film.fichier.chemin}"/>
+		</c:url>
+		<div class="row">
+			<div class ="col-md-2 col-md-offset-2">
+				<a  href="${urlFilm}"><h3 class="titreClickable">Télécharger:</h3></a>
+			</div>
+			<div class ="col-md-2 col-md-offset-2">
+				<a class="btn text-right " href="${urlFilm}" role="button">
+					<img src="/Filmotheque/resources/images/icone/download.png" />
+				</a>
+			</div>
+		</div>
+		<hr/>
 		<h4 class ="text-center">Titre Original: </h4>
 			<p>${film.titreOriginal}</p>	 
 		<hr/>
@@ -26,14 +41,11 @@
 		Durée: ${dureeFormatee} minutes<br/>
 		<hr/>
 		<h4 class ="text-center">Nationalité: </h4>
-			<ul>
-				<c:forEach items="${pays}" var="pays">
-					<li>${pays.nom}</li>
-				</c:forEach>
-			</ul>
-		<hr/>
-		${film.fichier.chemin}<br/>	
-		<hr/>		
+		<ul>
+			<c:forEach items="${pays}" var="pays">
+				<li>${pays.nom}</li>
+			</c:forEach>
+		</ul>
 	</div>	
 </div>
 <hr/>
