@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE tiles-definitions PUBLIC  "-//Apache Software Foundation//DTD Tiles Configuration 3.0//EN"  "http://tiles.apache.org/dtds/tiles-config_3_0.dtd">  
+ 
+<tiles-definitions>  
+  
+   <!-- Base Definition -->
+   <definition name="base-definition"
+       template="/WEB-INF/views/tiles/layouts/defaultLayout.jsp">  
+       <put-attribute name="title" value="" />  
+       <put-attribute name="header" value="/WEB-INF/views/tiles/template/defaultHeader.jsp" />  
+       <put-attribute name="menu" value="/WEB-INF/views/tiles/template/defaultMenu.jsp" />  
+       <put-attribute name="body" value="" />  
+       <put-attribute name="footer" value="/WEB-INF/views/tiles/template/defaultFooter.jsp" />  
+   </definition>  
+  
+   <!-- Film Page -->
+   <definition name="films" extends="base-definition"> 
+       <put-attribute name="title" value="Films" />  
+       <put-attribute name="body" value="/WEB-INF/views/pages/films.jsp" />   
+   </definition>  
+ 
+   <!--  Fichier Page -->
+   <definition name="allfichiers" extends="base-definition">  
+       <put-attribute name="title" value="Fichiers" />  
+       <put-attribute name="body" value="/WEB-INF/views/pages/allfichiers.jsp" />  
+   </definition> 
+   
+   <definition name="filmDetails" extends="base-definition">  
+       <put-attribute name="title" value="Fiche film" />  
+       <put-attribute name="body" value="/WEB-INF/views/pages/filmDetails.jsp" />  
+   </definition> 
+   
+   <definition name="series" extends="base-definition">  
+       <put-attribute name="title" value="Series" />  
+       <put-attribute name="body" value="/WEB-INF/views/pages/series.jsp" />  
+   </definition> 
+   
+   <definition name="saisons" extends="base-definition">  
+       <put-attribute name="title" value="Saisons" />  
+       <put-attribute name="body" value="/WEB-INF/views/pages/saisons.jsp" />  
+   </definition> 
+   
+   <definition name="episodes" extends="base-definition">  
+       <put-attribute name="title" value="Episodes" />  
+       <put-attribute name="body" value="/WEB-INF/views/pages/episodes.jsp" />  
+   </definition> 
+    
+   <definition name="episode" extends="base-definition">  
+       <put-attribute name="title" value="Episode" />  
+       <put-attribute name="body" value="/WEB-INF/views/pages/episode.jsp" />  
+   </definition>
+   
+   <definition name="acteurs" extends="base-definition">  
+       <put-attribute name="title" value="Acteurs" />  
+       <put-attribute name="body" value="/WEB-INF/views/pages/acteurs.jsp" />  
+   </definition> 
+   
+   <definition name="realisateurs" extends="base-definition">  
+       <put-attribute name="title" value="Realisateurs" />  
+       <put-attribute name="body" value="/WEB-INF/views/pages/realisateurs.jsp" />  
+   </definition> 
+   
+   <definition name="acteur" extends="base-definition">  
+       <put-attribute name="title" value="Acteur" />  
+       <put-attribute name="body" value="/WEB-INF/views/pages/acteur.jsp" />  
+   </definition>  
+   
+   <definition name="realisateur" extends="base-definition">  
+       <put-attribute name="title" value="Realisateur" />  
+       <put-attribute name="body" value="/WEB-INF/views/pages/realisateur.jsp" />  
+   </definition>  
+   
+   
+   <definition name="accueil" extends="base-definition">  
+       <put-attribute name="title" value="Accueil" />  
+       <put-attribute name="body" value="/WEB-INF/views/pages/accueil.jsp" />  
+   </definition> 
+   
+   <definition name="administration" extends="base-definition">  
+       <put-attribute name="title" value="Administration" />  
+       <put-attribute name="body" value="/WEB-INF/views/pages/administration.jsp" />  
+   </definition>
+   
+   <definition name="apropos" extends="base-definition">  
+       <put-attribute name="title" value="A propos" />  
+       <put-attribute name="body" value="/WEB-INF/views/pages/apropos.jsp" />  
+   </definition> 
+       
+</tiles-definitions>
