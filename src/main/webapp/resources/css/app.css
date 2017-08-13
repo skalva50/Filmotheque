@@ -1,0 +1,83 @@
+.header {
+	background-color : #87c4c9 ;
+	padding : 15px;
+}
+
+#menu {
+	padding-left : 10%;
+	padding-right : 10%;
+	background-color : #ECECEC ;
+}
+
+tr{
+	max-height: 50px;
+}
+@font-face { 	font-family: "Ma_Super_Fonte"; 	src: url('../font/SCRIPTIN.ttf'); }
+
+@font-face {
+ font-family: Messenger_Pigeons;
+ src: url("fonts/Messenger_Pigeons_Personal_Use.eot"); /* EOT file for IE */
+}
+@font-face {
+ font-family: Messenger_Pigeons;
+ src: url("fonts/Messenger_Pigeons_Personal_Use.ttf"); /* TTF file for CSS3 browsers */
+}
+@font-face {
+ font-family: MotionFont;
+ src: url("fonts/MotionPicture.ttf"); /* TTF file for CSS3 browsers */
+}
+
+
+.titreSite{
+	font-family: 'MotionFont';
+	font-weight: normal;
+	font-size: 82px;	
+}
+
+
+
+#corps{
+	padding-left : 10%;
+	padding-right : 10%;
+}
+
+a{
+	color : #000000 ;
+}
+
+a:hover{
+	color : #108a93 ;
+}
+
+#footer{
+	background-color : #ECECEC ;
+	padding-left : 10%;
+	padding-right : 10%;
+	padding-top : 20px;
+	margin-bottom : 0px;
+}
+
+body{
+	background-color : #f9f9f9 ;
+}
+
+#navHover:hover{
+	background-color : #D4D4D4 ;
+}
+
+.pagination > li > a{
+	color : #000000 ;
+	background-color : #f5f5f5
+}
+
+.pagination > li > a:hover{
+	color : #108a93
+}
+
+.pagination > li {
+	background-color : #108a93
+}
+
+.transparent{
+	background-color : #f9f9f9
+}
