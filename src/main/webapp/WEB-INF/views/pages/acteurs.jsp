@@ -4,14 +4,33 @@
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
 
 <div class="row">
-		<div class="col-md-2 col-md-offset-10">
+	<div class="col-md-2">
 		<form:form method="GET" action="acteurs" modelAttribute="acteursModel">
 		  <div class="form-group">
-		    <label for="orderBy">Trier par: </label>
-		    <form:select path="orderBy" id="orderBy" class="form-control" onchange= "submit()">		                
-		        <form:options items="${acteursModel.listOrderBy}" itemLabel="displayName" />
-		    </form:select>
+		    <label for="FilterBySexe">Sexe:
+		    	<form:button 
+		    			id="clearFilter"
+		    			name="clearFiltre"
+		    			value="sexe"
+		    			class="btn transparent">
+		    			<img src="/Filmotheque/resources/images/icone/eraser.png"/>
+		    	</form:button>
+		     </label>
+		    <form:select path="idSexe" id="FilterBySexe" class="form-control" onchange= "submit()">		                
+		    	<form:option value="">Tous</form:option>
+	        	<form:options items="${acteursModel.sexes}" itemValue="id" itemLabel="typeSexe"/>	        		
+		    </form:select>		    
 		  </div>
+		</form:form>
+	</div>
+	<div class="col-md-2 col-md-offset-8">
+		<form:form method="GET" action="acteurs" modelAttribute="acteursModel">
+			<div class="form-group">
+				<label for="orderBy">Trier par: </label>
+				<form:select path="orderBy" id="orderBy" class="form-control" onchange= "submit()">		                
+					<form:options items="${acteursModel.listOrderBy}" itemLabel="displayName" />
+				</form:select>
+			</div>
 		</form:form>
 	</div>
 </div>

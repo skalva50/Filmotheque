@@ -6,8 +6,6 @@ import org.springframework.stereotype.Repository;
 
 import com.skalvasociety.skalva.bean.Serie;
 
-
-
 @Repository("serieDao")
 public class SerieDao extends AbstractDao<Integer, Serie>  implements ISerieDao{
 

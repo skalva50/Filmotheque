@@ -79,6 +79,11 @@
    <definition name="administration" extends="base-definition">  
        <put-attribute name="title" value="Administration" />  
        <put-attribute name="body" value="/WEB-INF/views/pages/administration.jsp" />  
+   </definition>
+   
+   <definition name="apropos" extends="base-definition">  
+       <put-attribute name="title" value="A propos" />  
+       <put-attribute name="body" value="/WEB-INF/views/pages/apropos.jsp" />  
    </definition> 
        
 </tiles-definitions>

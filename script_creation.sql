@@ -17,6 +17,17 @@ CREATE TABLE GENRE
 	CONSTRAINT unique_constraint_genre UNIQUE (idTMDB)
 );
 
+CREATE TABLE SEXE
+(
+	id serial NOT NULL,
+	typeSexe varchar(10),
+	CONSTRAINT prk_constraint_sexe PRIMARY KEY (id)
+);
+
+insert into SEXE (typeSexe) values ('Femme');
+insert into SEXE (typeSexe) values ('Homme');
+
+
 CREATE TABLE PAYS
 (
 	id serial NOT NULL,
@@ -36,8 +47,12 @@ CREATE TABLE ACTEUR
 	dateNaissance date,
 	dateDeces date,
 	lieuNaissance varchar(255),
+	idSexe Integer,
+	popularite float,
 	CONSTRAINT prk_constraint_personnage PRIMARY KEY (id),
-	CONSTRAINT unique_constraint_personnage UNIQUE (idTMDB)
+	CONSTRAINT unique_constraint_personnage UNIQUE (idTMDB),
+	CONSTRAINT fk_ACTEUR FOREIGN KEY (idSexe)
+		REFERENCES Sexe(id)
 );
 
 CREATE TABLE REALISATEUR
@@ -50,8 +65,12 @@ CREATE TABLE REALISATEUR
 	dateNaissance date,
 	dateDeces date,
 	lieuNaissance varchar(255),
+	idSexe Integer,
+	popularite float,
 	CONSTRAINT prk_constraint_REALISATEUR PRIMARY KEY (id),
-	CONSTRAINT unique_constraint_REALISATEUR UNIQUE (idTMDB)
+	CONSTRAINT unique_constraint_REALISATEUR UNIQUE (idTMDB),
+	CONSTRAINT fk_REALISATEUR FOREIGN KEY (idSexe)
+		REFERENCES Sexe(id)
 );
 
 CREATE TABLE MediaTMDB

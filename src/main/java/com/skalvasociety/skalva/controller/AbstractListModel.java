@@ -17,13 +17,12 @@ public abstract class AbstractListModel<T> {
 	protected static final int DEFAULT_PAGE = 1;
 	protected OrderBy orderBy ;
 	
-	public OrderBy getOrderBy() {
-		return orderBy;
-	}
+	abstract protected OrderBy getOrderBy();
 
-	public void setOrderBy(OrderBy orderBy) {
-		this.orderBy = orderBy;
-	}
+	abstract protected void setOrderBy(OrderBy orderBy);
+	
+	protected abstract OrderBy [] getListOrderBy();
+	
 
 	public int getCurrentPage() {
 		if (currentPage > getTotalPage())
@@ -71,13 +70,19 @@ public abstract class AbstractListModel<T> {
     	// Chargement des resultats par defaut pour l'initialisation
     	PageRequest<T> pageRequest = new PageRequest<T>(DEFAULT_PAGE, PAGE_SIZE, getOrderBy().getSortDirectionDefaut(), getOrderBy());    	
     	this.setListe(service.getAllByPage(pageRequest));
-    	this.setTotalPage(pageRequest.getTotalPage());  	
+    	this.setTotalPage(pageRequest.getTotalPage());
+    	chargerGraphe();
 	}
 	
 	public void refreshModel() {		
 		PageRequest<T> pageRequest = new PageRequest<T>(this.getCurrentPage(), PAGE_SIZE, getOrderBy().getSortDirectionDefaut(), getOrderBy());
 		this.setListe(service.getAllByPage(pageRequest));
 		this.setTotalPage(pageRequest.getTotalPage());
+		chargerGraphe();
 	}
+	/**
+	 * Implementer les graphes à afficher dans la vue
+	 */
+	abstract protected void chargerGraphe();
 
 }

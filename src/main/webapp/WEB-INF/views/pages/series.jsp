@@ -44,9 +44,9 @@
 	<div class="col-md-2 col-md-offset-6">
 		<form:form method="GET" action="series" modelAttribute="serieModel">
 		  <div class="form-group">
-		    <label for="serieOrderBy">Trier par: </label>
-		    <form:select path="serieOrderBy" id="serieOrderBy" class="form-control" onchange= "submit()">		                
-		        <form:options items="${serieModel.listSerieOrderBy}" itemLabel="displayName" />
+		    <label for="orderBy">Trier par: </label>
+		    <form:select path="orderBy" id="orderBy" class="form-control" onchange= "submit()">		                
+		        <form:options items="${serieModel.listOrderBy}" itemLabel="displayName" />
 		    </form:select>
 		  </div>
 		</form:form>
@@ -106,24 +106,24 @@
 </div>
 
 
-<c:forEach begin="0" end ="${serieModel.series.size()/6}" var="i">	
+<c:forEach begin="0" end ="${serieModel.liste.size()/6}" var="i">	
 	<div class="row">
 		<c:forEach begin="0" end ="5" var="j">
 			<div class="col-sm-4 col-md-2">
 				<c:set var="k" scope="session" value="${(i*6)+j}"/>		
 				<c:url value="/saisons" var="url">
-					<c:param name="idSerie" value="${serieModel.series[k].id}"/>
+					<c:param name="idSerie" value="${serieModel.liste[k].id}"/>
 				</c:url>	
-				<c:if test="${k<serieModel.series.size()}">						
+				<c:if test="${k<serieModel.liste.size()}">						
 					<div class="thumbnail">
-						<a href="${url}"><img src ="https://image.tmdb.org/t/p/w500${serieModel.series[k].affiche}" class="img-thumbnail img-responsive"/></a> 
+						<a href="${url}"><img src ="https://image.tmdb.org/t/p/w500${serieModel.liste[k].affiche}" class="img-thumbnail img-responsive"/></a> 
 					</div>
 					<div class="caption">  						
-			    		<h4><a href="${url}" class="titreClickable">${serieModel.series[k].titre}</a></h4>
-			    		<p><a href="${url}" class="titreClickable">${serieModel.series[k].resumeCourt}</a></p>
-			    		<c:forEach begin="0" end ="${serieModel.series[k].genres.size()}" var="l">
-			    			<span>${serieModel.series[k].genres[l].libelle}</span>
-			    			<c:if test="${l<serieModel.series[k].genres.size()-1}">, </c:if>
+			    		<h4><a href="${url}" class="titreClickable">${serieModel.liste[k].titre}</a></h4>
+			    		<p><a href="${url}" class="titreClickable">${serieModel.liste[k].resumeCourt}</a></p>
+			    		<c:forEach begin="0" end ="${serieModel.liste[k].genres.size()}" var="l">
+			    			<span>${serieModel.liste[k].genres[l].libelle}</span>
+			    			<c:if test="${l<serieModel.liste[k].genres.size()-1}">, </c:if>
 			    		</c:forEach>
 		    		</div>
 	    		</c:if>

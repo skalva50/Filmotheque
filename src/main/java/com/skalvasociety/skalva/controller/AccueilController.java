@@ -22,4 +22,10 @@ public class AccueilController {
         return "administration";
     }
 	
+	@RequestMapping(value = { "/apropos" }, method = RequestMethod.GET)
+    public String apropos(ModelMap model) {       
+
+        return "apropos";
+    }
+	
 }

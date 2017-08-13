@@ -23,7 +23,14 @@ public class RealisateurViewModel extends AbstractListModel<Realisateur> {
 		this.orderBy = (RealisateurOrderBy) orderBy;		
 	}
 	
+	@Override
 	public RealisateurOrderBy [] getListOrderBy() {
 		return RealisateurOrderBy.values();
+	}
+
+	@Override
+	protected void chargerGraphe() {
+		// TODO Auto-generated method stub
+		
 	}
 }

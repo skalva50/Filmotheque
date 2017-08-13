@@ -3,22 +3,24 @@ package com.skalvasociety.skalva.controller;
 import java.util.Collections;
 import java.util.List;
 
+import javax.transaction.Transactional;
+
 import com.skalvasociety.skalva.bean.Film;
 import com.skalvasociety.skalva.bean.FiltreFilm;
 import com.skalvasociety.skalva.bean.Genre;
+import com.skalvasociety.skalva.bean.IFiltre;
 import com.skalvasociety.skalva.bean.Pays;
 import com.skalvasociety.skalva.bean.Realisateur;
 import com.skalvasociety.skalva.bean.comparateur.GenreComparateur;
 import com.skalvasociety.skalva.bean.comparateur.PaysComparateur;
 import com.skalvasociety.skalva.bean.comparateur.PersonneComparateur;
-import com.skalvasociety.skalva.daoTools.PageRequest;
 import com.skalvasociety.skalva.enumeration.FilmFilterBy;
 import com.skalvasociety.skalva.enumeration.FilmOrderBy;
 import com.skalvasociety.skalva.enumeration.OrderBy;
 import com.skalvasociety.skalva.service.IFilmService;
 
-
-public class FilmViewModel extends AbstractListModel<Film> {
+@Transactional
+public class FilmViewModel extends AbstractListFiltreModel<Film, FilmFilterBy> {
 	
 	private List<Realisateur> realisateurs;
 	private Integer idRealisateur;
@@ -29,8 +31,6 @@ public class FilmViewModel extends AbstractListModel<Film> {
 	private List<Pays> pays;
 	private Integer idPays;
 	
-	private FilmFilterBy clearFiltre;
-
 	private IFilmService filmService;
 
 	public FilmViewModel(IFilmService service){
@@ -41,40 +41,37 @@ public class FilmViewModel extends AbstractListModel<Film> {
 	}
 	
 	@Override
-	protected void initialisation() {		
-		super.initialisation();
-		chargerListeDeroulante(service.getAll(getOrderBy(), getOrderBy().getSortDirectionDefaut()));
+	protected void chargerGraphe(){
+		for (Film film : liste) {
+			List<Genre> list = film.getGenres();
+			for (Genre genre : list) {
+				genre.getLibelle();
+			}
+		}
 	}
 	
-	public void refreshModel() {		
-		PageRequest<Film> pageRequest = new PageRequest<Film>(this.getCurrentPage(), PAGE_SIZE, this.getOrderBy().getSortDirectionDefaut(), this.getOrderBy());			
-		
-		checkFiltre();
-		
-		FiltreFilm filtreFilm = new FiltreFilm();
+	@Override
+	IFiltre<Film> chargerCriteresFiltre() {
+		FiltreFilm filtre = new FiltreFilm();
 		if(this.getIdRealisateur() !=  null && this.getIdRealisateur() !=  0){
-			filtreFilm.addFiltre(FilmFilterBy.realisateur,this.getIdRealisateur());						
+			filtre.addFiltre(FilmFilterBy.realisateur,this.getIdRealisateur());						
 		}
 		if(this.getIdGenre() != null && this.getIdGenre() != 0){		
-			filtreFilm.addFiltre(FilmFilterBy.genre,this.getIdGenre());
+			filtre.addFiltre(FilmFilterBy.genre,this.getIdGenre());
 		}
 		if(this.getIdPays() != null && this.getIdPays() != 0){		
-			filtreFilm.addFiltre(FilmFilterBy.pays,this.getIdPays());
+			filtre.addFiltre(FilmFilterBy.pays,this.getIdPays());
 		}
-			
-		liste = service.getAllByFiltrePage(pageRequest, filtreFilm);
-		this.setListe(liste);
-		this.setTotalPage(pageRequest.getTotalPage());  
-		
-		chargerListeDeroulante(service.getByFiltre(filtreFilm));
-		
+		return filtre;
 	}
 	
 	/**
 	 * charge les listes deroulantes des filtres en fonction des films chargés dans la liste
+	 * tri des listes affichés
 	 * @param listeFilms
 	 */
-	private void chargerListeDeroulante(List<Film> listeFilms){
+	@Override
+	protected void chargerListeDeroulante(List<Film> listeFilms){
 		//Chargement des listes
 		realisateurs = filmService.getRealisateurByListeFilm(listeFilms);
 		genres = filmService.getGenreByListeFilm(listeFilms);		
@@ -86,7 +83,8 @@ public class FilmViewModel extends AbstractListModel<Film> {
 		Collections.sort(pays, new PaysComparateur());
 	}
  
-	private void checkFiltre() {
+	@Override
+	protected void checkFiltre() {
 		if(getClearFiltre() != null){
 			switch (getClearFiltre()){
 			case pays:
@@ -103,7 +101,7 @@ public class FilmViewModel extends AbstractListModel<Film> {
 			}
 		}
 	}
-
+	
 	@Override
 	public FilmOrderBy getOrderBy() {
 		return (FilmOrderBy) orderBy;		
@@ -113,8 +111,9 @@ public class FilmViewModel extends AbstractListModel<Film> {
 	public void setOrderBy(OrderBy orderBy) {
 		this.orderBy = (FilmOrderBy) orderBy;		
 	}
-
-	public FilmOrderBy [] getListOrderBy() {
+	
+	@Override
+	public FilmOrderBy[] getListOrderBy() {
 		return FilmOrderBy.values();
 	}
 
@@ -136,7 +135,7 @@ public class FilmViewModel extends AbstractListModel<Film> {
 
 	public void setIdRealisateur(Integer idRealisateur) {
 		if(idRealisateur != null)
-			clearFiltre = null;
+			setClearFiltre(null);
 		this.idRealisateur = idRealisateur;
 	}
 
@@ -150,7 +149,7 @@ public class FilmViewModel extends AbstractListModel<Film> {
 
 	public void setIdGenre(Integer idGenre) {
 		if(idGenre != null)
-			clearFiltre = null;
+			setClearFiltre(null);
 		this.idGenre = idGenre;
 	}
 
@@ -168,15 +167,7 @@ public class FilmViewModel extends AbstractListModel<Film> {
 
 	public void setIdPays(Integer idPays) {
 		if(idPays != null)
-			clearFiltre= null;
+			setClearFiltre(null);
 		this.idPays = idPays;
-	}
-	
-	public FilmFilterBy getClearFiltre() {
-		return clearFiltre;
-	}
-
-	public void setClearFiltre(FilmFilterBy clearFiltre) {
-		this.clearFiltre = clearFiltre;
 	}	
 }

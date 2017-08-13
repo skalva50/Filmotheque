@@ -151,7 +151,7 @@
 			    		<c:forEach begin="0" end ="${filmModel.liste[k].genres.size()}" var="l">
 			    			<span>${filmModel.liste[k].genres[l].libelle}</span>
 			    			<c:if test="${l<filmModel.liste[k].genres.size()-1}">, </c:if>
-			    		</c:forEach>
+			    		</c:forEach>			    		
 		    		</div>
 	    		</c:if>
 	    	</div>	    

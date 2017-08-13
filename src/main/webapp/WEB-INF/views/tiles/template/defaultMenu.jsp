@@ -7,7 +7,8 @@
         <li><a href="/Filmotheque/series" id="navHover">Serie</a></li>
         <li><a href="/Filmotheque/acteurs" id="navHover">Acteur</a></li> 
         <li><a href="/Filmotheque/realisateurs" id="navHover">Réalisateur</a></li>     
-        <li><a href="/Filmotheque/administration" id="navHover">Administration</a></li>     
+        <li><a href="/Filmotheque/administration" id="navHover">Administration</a></li>
+        <li><a href="/Filmotheque/apropos" id="navHover">A propos</a></li>     
       </ul>      
     </div><!-- /.navbar-collapse -->
 

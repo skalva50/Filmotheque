@@ -14,5 +14,8 @@
 + Ajout d'une page liste acteur
 + Ajout d'une page liste realisateur
 
+## V.0.3.0
++ Ajout de fonction dwnload
++ Recherche textuelle sur serie, film, acteur, realisateur
 + MAJ de la BDD par rapport aux des données supprimées des repertoires
 + Maj des fiches films si erreur de correpondance

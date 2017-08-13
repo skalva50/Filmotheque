@@ -20,25 +20,18 @@
 ---------------------------------
 #### Mise en forme resultats
 + OK Pagination 
-+ Systeme de filtre et de tri
-     + RESTE A FAIRE :     
-      + OK Factoriser les differents filtre de film (tenter une factorisation generique)
-      + OK Factoriser get et getPage
-      + OK Modifier tri (par comparateur dans list au lieu de par requete : permet de trier si issue de differntes liste)
-      + OK Ajouter les nationalites dans le filtre
-      + OK Ajouter un sens de tri par defaut ( ex dateSortie--> desc, titre --> asc ...)
-      + OK Bouton supprimer filtre
-      + OK Trier les items des filtres
-      + OK Afficher les items filtres uniquement disponible pour l'affichage en cours
-      + OK Creer une abstract et interface generique pour les services
-      + OK Creer une interface generique pour la DAO
-      + creer une abstract ou une interface pour les filtres      
++ OK Systeme de filtre et de tri
 
-
+#### Fonction Download
+      
 #### Onglet Acteur et réalisateur
-+ a faire avec solution de pagination, fitre, tri trouvé precedamment.
-+ ajouter le sexe(filtre), popularite(tri) des personnes (acteurs+realisateur)
++ OK a faire avec solution de pagination, fitre, tri trouvé precedamment.
++ ajouter le sexe(filtre), popularite(tri) des personnes (acteurs+realisateur); ajouter au cast de tmdb vers entite bdd
 + OK Fiche realisateur : ajouter les series
+
+#### Onglet A propos
++ Version du site
++ credits
 
 #### Admin du site
 + MAJ de la BDD par rapport aux des données supprimées des repertoires

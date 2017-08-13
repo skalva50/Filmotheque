@@ -26,12 +26,10 @@ public class FiltreFilm extends AbstractFiltre<FilmFilterBy> implements IFiltre<
 							break;
 						}
 					}
-					if(!find){
+					if(!find && !listToRemove.contains(film)){
 						listToRemove.add(film);
 					}
 				}
-				listeAFiltrer.removeAll(listToRemove);
-				listToRemove.clear();
 				break;
 			case genre:
 				for (Film film : listeAFiltrer) {
@@ -43,12 +41,10 @@ public class FiltreFilm extends AbstractFiltre<FilmFilterBy> implements IFiltre<
 							break;
 						}
 					}
-					if(!find){
+					if(!find && !listToRemove.contains(film)){
 						listToRemove.add(film);
 					}
 				}	
-				listeAFiltrer.removeAll(listToRemove);
-				listToRemove.clear();
 				break;
 			case pays:
 				for (Film film : listeAFiltrer) {
@@ -60,17 +56,17 @@ public class FiltreFilm extends AbstractFiltre<FilmFilterBy> implements IFiltre<
 							break;
 						}
 					}
-					if(!find){
+					if(!find && !listToRemove.contains(film)){
 						listToRemove.add(film);
 					}
-				}	
-				listeAFiltrer.removeAll(listToRemove);
-				listToRemove.clear();
+				}
 				break;
 			default:
 				break;
 			}
 		}
+		listeAFiltrer.removeAll(listToRemove);
+		listToRemove.clear();
 		return listeAFiltrer;
 	}
 }
