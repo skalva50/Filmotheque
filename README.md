@@ -12,12 +12,13 @@ Cette application Web est destinée à créer et à présenter une bibliotheque 
 ## Fonctionnalités principales
 * Scane les repertoires de film et de serie paramétré et en extrait les informations necessaires à la mise à jour de la bibliothèque.
 * Complète les fiches films et séries crées avec les données mise à disposition par l'API "The Movie Database".
-
----
-#### /!\ En cours de developpement
 * Permet la consultation des films et serie via des outils de recherche intégrés
     * Recheche par genre, nationalité, realisateur, acteur...
     * trier
+
+---
+#### /!\ En cours de developpement
+* Fonction de téléchargement des films et series ( V 0.3.0 )
 
 -------
 
