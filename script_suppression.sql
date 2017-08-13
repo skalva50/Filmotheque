@@ -15,6 +15,7 @@ delete from MediaTMDB;
 delete from REALISATEUR;
 delete from ACTEUR;
 delete from PAYS;
+delete from SEXE;
 delete from genre;
 delete from fichier;
 
@@ -34,6 +35,7 @@ drop table MediaTMDB;
 drop table REALISATEUR;
 drop table ACTEUR;
 drop table PAYS;
+drop table SEXE;
 drop table genre;
 drop table fichier;
 
