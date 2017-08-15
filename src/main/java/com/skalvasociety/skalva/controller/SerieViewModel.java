@@ -29,7 +29,7 @@ public class SerieViewModel extends AbstractListFiltreModel<Serie, SerieFilterBy
 	public SerieViewModel(ISerieService service){	
 		super(service);
 		this.serieService = service;
-		setOrderBy(SerieOrderBy.titre);
+		setOrderBy(SerieOrderBy.note);
 		initialisation();    	 
 	}	
 

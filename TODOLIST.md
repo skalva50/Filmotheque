@@ -27,8 +27,11 @@
       
 #### Onglet Acteur et réalisateur
 + OK a faire avec solution de pagination, fitre, tri trouvé precedamment.
-+ ajouter le sexe(filtre)OK, popularite(tri) des personnes (acteurs+realisateur); ajouter au cast de tmdb vers entite bdd
++ OK ajouter le sexe(filtre)OK, popularite(tri) des personnes (acteurs+realisateur); ajouter au cast de tmdb vers entite bdd
 + OK Fiche realisateur : ajouter les series
+
+#### BugFix
++ Ordre de tri des épisodes
 
 #### Onglet A propos
 + Version du site

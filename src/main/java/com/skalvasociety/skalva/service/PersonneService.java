@@ -27,7 +27,8 @@ public class PersonneService implements IPersonneService {
 				personne.setBiographie(people.getBiography());
 				personne.setDateDeces(new Convert().stringToDate(people.getDeathday()));
 				personne.setDateNaissance(new Convert().stringToDate(people.getBirthday()));
-				personne.setLieuNaissance(people.getPlace_of_birth());				
+				personne.setLieuNaissance(people.getPlace_of_birth());
+				personne.setPopularite(people.getPopularity());
 			}
 		} catch (IOException e) {			
 			e.printStackTrace();
