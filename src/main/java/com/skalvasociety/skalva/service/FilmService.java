@@ -1,17 +1,25 @@
 package com.skalvasociety.skalva.service;
 
+import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.skalvasociety.skalva.bean.Film;
+import com.skalvasociety.skalva.bean.FilmPersonnage;
 import com.skalvasociety.skalva.bean.Genre;
 import com.skalvasociety.skalva.bean.Pays;
 import com.skalvasociety.skalva.bean.Realisateur;
+import com.skalvasociety.skalva.bean.Video;
 import com.skalvasociety.skalva.dao.IFilmDao;
+import com.skalvasociety.skalva.tmdbObject.Cast;
+import com.skalvasociety.skalva.tmdbObject.Crew;
+import com.skalvasociety.skalva.tmdbObject.MovieDetails;
+import com.skalvasociety.skalva.tmdbObject.TMDBRequest;
 
 @Service("filmService")
 @Transactional
@@ -20,6 +28,21 @@ public class FilmService extends AbstractService<Integer, Film> implements IFilm
 	@SuppressWarnings("unused")
 	@Autowired
 	private IFilmDao dao;
+	
+	@Autowired
+    private Environment environment;
+	
+	@Autowired
+    private IFichierService fichierService;
+	
+	@Autowired
+    private IFilmPersonnageService personnageService;
+	
+	@Autowired
+	private IRealisateurService realisateurService;
+	
+	@Autowired
+	private IVideoService videoService;
 
 	public String getDureeFormatee(Film film){
 		String dureeFormatee = null;
@@ -67,4 +90,67 @@ public class FilmService extends AbstractService<Integer, Film> implements IFilm
 		}
 		return listePays;
 	}
+
+	public void majFilmByIdTMDB(Integer idFilm, Integer idTMDB) {
+		Film film = getByKey(idFilm);
+		film.setIdTMDB(idTMDB);
+		
+		String API_KEY = environment.getProperty("tmdb.API_KEY");
+		TMDBRequest tmdbRequest = new TMDBRequest(API_KEY);		
+		MovieDetails movieDetails;
+		try {
+			movieDetails = tmdbRequest.getMovieByID(film.getIdTMDB());
+			if(movieDetails !=  null){
+				// Mise à jour des données du film
+				fichierService.movieDetailsToFilm(movieDetails, film);
+				
+				List<Video> listVideosToDelete = film.getVideos();
+				if(listVideosToDelete != null){
+					for (Video video : listVideosToDelete) {
+						videoService.delete(video);
+					}
+				}			
+				
+				List<Video> listVideos = tmdbRequest.getVideoByID(film);
+				if(listVideos != null){
+					for (Video video : listVideos) {
+						videoService.save(video);
+					}
+				}	
+				
+				List<FilmPersonnage> listePersonnageToDelete = film.getPersonnages();
+				if(listePersonnageToDelete != null){
+					for (FilmPersonnage filmPersonnage : listePersonnageToDelete) {
+						personnageService.delete(filmPersonnage);
+					}
+				}
+				
+				List<Cast> listeCasting = tmdbRequest.getCastbyMedia(film);
+				if(listeCasting != null){
+					List<FilmPersonnage> listePersonnage = new LinkedList<FilmPersonnage>();							
+					for (Cast cast : listeCasting) {
+						FilmPersonnage personnage = personnageService.castToFilmPersonnage(cast, film);
+						listePersonnage.add(personnage);
+					}
+					film.setPersonnages(listePersonnage);
+				}	
+			
+				List<Crew> listeCrew = tmdbRequest.getCrewbyMedia(film);
+				List<Realisateur> listeRealisateur = new LinkedList<Realisateur>();
+				if(listeCrew != null){
+					for (Crew crew : listeCrew) {
+						Realisateur realisateur = realisateurService.crewToRealisateur(crew);
+						if (realisateur != null){
+							listeRealisateur.add(realisateur);										
+						}										
+					}
+					film.setRealisateurs(listeRealisateur);
+				}	
+			}	
+		} catch (IOException e) {			
+			e.printStackTrace();
+		}
+
+	}
+
 }

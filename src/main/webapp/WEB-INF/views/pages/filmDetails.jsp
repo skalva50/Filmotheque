@@ -24,6 +24,14 @@
 					<img src="/Filmotheque/resources/images/icone/download.png" />
 				</a>
 			</div>
+			<c:url value="/filmDetailsMaj" var="urlFilmMaj">			
+				<c:param name="idFilm" value="${film.id}"/>
+			</c:url>
+			<div class ="col-md-2 col-md-offset-2">
+				<a class="btn text-right " href="${urlFilmMaj}" role="button">
+					<img src="/Filmotheque/resources/images/icone/refresh.png" />
+				</a>
+			</div>
 		</div>
 		<hr/>
 		<h4 class ="text-center">Titre Original: </h4>
@@ -46,6 +54,7 @@
 				<li>${pays.nom}</li>
 			</c:forEach>
 		</ul>
+		<hr/>
 	</div>	
 </div>
 <hr/>

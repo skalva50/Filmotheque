@@ -20,6 +20,10 @@ public class AbstractService<PK extends Serializable, T> implements IService<Ser
 	public void save(T entite) {
 		dao.save(entite);		
 	}
+	
+	public void delete(T entity) {
+		dao.delete(entity);		
+	}
 
 	public T getByKey(Serializable key) {
 		return dao.getByKey(key);
@@ -52,5 +56,4 @@ public class AbstractService<PK extends Serializable, T> implements IService<Ser
 	public T getByKeyWithGraph(Serializable key, List<String> entites) {
 		return dao.getByKeyWithGraph(key, entites);
 	}
-
 }

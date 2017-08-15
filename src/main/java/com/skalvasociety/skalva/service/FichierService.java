@@ -118,8 +118,7 @@ public class FichierService extends AbstractService<Serializable, Fichier> imple
 								for (Crew crew : listeCrew) {
 									Realisateur realisateur = realisateurService.crewToRealisateur(crew);
 									if (realisateur != null){
-										listeRealisateur.add(realisateur);
-										System.out.println(realisateur.getNom());
+										listeRealisateur.add(realisateur);										
 									}										
 								}
 								film.setRealisateurs(listeRealisateur);
@@ -135,7 +134,7 @@ public class FichierService extends AbstractService<Serializable, Fichier> imple
 	}
 	
 
-	private void movieDetailsToFilm(MovieDetails movieDetail, Film film){
+	public void movieDetailsToFilm(MovieDetails movieDetail, Film film){
 		film.setResume(movieDetail.getOverview());
 		film.setTitre(movieDetail.getTitle());
 		film.setTitreOriginal(movieDetail.getOriginal_title());
@@ -147,6 +146,7 @@ public class FichierService extends AbstractService<Serializable, Fichier> imple
 		film.setDuree(movieDetail.getRuntime());
 		List<GenreTmdb> listGenreTmdb = movieDetail.getGenres();
 		List<Genre> listGenre = film.getGenres();
+		listGenre.removeAll(listGenre);
 		if(listGenreTmdb != null){
 			for (GenreTmdb genreTmdb : listGenreTmdb) {
 				Genre genre  = genreService.getGenreByIdTmdb(genreTmdb.getId());
@@ -161,6 +161,7 @@ public class FichierService extends AbstractService<Serializable, Fichier> imple
 		
 		List<Country> listCountry = movieDetail.getProduction_countries();
 		List<Pays> listPays = film.getPays();
+		listPays.removeAll(listPays);
 		if(listCountry != null){
 			for (Country country : listCountry) {
 				Pays pays = paysService.getPaysbyIdIso(country.getIso_3166_1());

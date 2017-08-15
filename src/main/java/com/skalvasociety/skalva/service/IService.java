@@ -10,6 +10,7 @@ import com.skalvasociety.skalva.enumeration.SortDirection;
 
 public interface IService<PK extends Serializable, T>  {
 	public void save(T entite);
+	public void delete(T entity);
 	public T getByKey(PK key);
 	public T getByKeyWithGraph(Serializable key);
 	public T getByKeyWithGraph(Serializable key, List<String> entites);

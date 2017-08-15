@@ -1,10 +1,12 @@
 package com.skalvasociety.skalva.controller;
 
+import java.io.IOException;
 import java.util.List;
 
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -20,6 +22,9 @@ import com.skalvasociety.skalva.bean.Realisateur;
 import com.skalvasociety.skalva.bean.Video;
 import com.skalvasociety.skalva.enumeration.FilmFilterBy;
 import com.skalvasociety.skalva.service.IFilmService;
+import com.skalvasociety.skalva.tmdbObject.ResultsSearchMovie;
+import com.skalvasociety.skalva.tmdbObject.SearchMovie;
+import com.skalvasociety.skalva.tmdbObject.TMDBRequest;
 
 @Controller
 @Transactional
@@ -28,7 +33,11 @@ import com.skalvasociety.skalva.service.IFilmService;
 public class FilmController {
 	
 	@Autowired
-	IFilmService filmService;	
+	IFilmService filmService;
+	
+	@Autowired
+    private Environment environment;	
+	
 	
     @ModelAttribute("filmModel")   
     public FilmViewModel addFilmModelToSessionScope() {
@@ -95,5 +104,24 @@ public class FilmController {
 		}		
 	}	
 	
+	@RequestMapping(value="/filmDetailsMaj" ,method = RequestMethod.GET)
+	public String majFilm(
+			@RequestParam(value="idFilm") Integer idFilm,
+			ModelMap model){
+		Film film = filmService.getByKey(idFilm);
+		if(film != null){			
+			model.addAttribute("film", film);
+			String API_KEY = environment.getProperty("tmdb.API_KEY");
+			TMDBRequest tmdbRequest = new TMDBRequest(API_KEY);
+			try {
+				SearchMovie movie = tmdbRequest.searchMovie(film.getFichier().getChemin());
+				List<ResultsSearchMovie> listMovie = movie.getResults();
+				model.addAttribute("listMovie", listMovie);			
+			} catch (IOException e) {				
+				e.printStackTrace();
+			}
+		}	
+		return "adminTMDB";
+	}
 }
 		    		
