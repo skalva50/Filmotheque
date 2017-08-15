@@ -17,6 +17,7 @@
 + Ajout de fonction download
 + Recherche textuelle sur serie, film, acteur, realisateur
 + MAJ de la BDD par rapport aux des données supprimées des repertoires
++ Ajout de la date d'ajout à la BDD
 + Maj des fiches films si erreur de correpondance
 
 ## V.0.4.0 

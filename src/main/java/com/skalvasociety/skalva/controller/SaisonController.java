@@ -1,5 +1,6 @@
 package com.skalvasociety.skalva.controller;
 
+import java.util.Collections;
 import java.util.List;
 
 import javax.transaction.Transactional;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.skalvasociety.skalva.bean.Episode;
 import com.skalvasociety.skalva.bean.Saison;
 import com.skalvasociety.skalva.bean.Video;
+import com.skalvasociety.skalva.bean.comparateur.EpisodeComparateur;
 import com.skalvasociety.skalva.service.ISaisonService;
 
 @Controller
@@ -41,6 +43,7 @@ public class SaisonController {
 				episode.getTitre();
 				episode.getResume();
 			}
+			Collections.sort(listEpisodes, new EpisodeComparateur());
 			model.addAttribute("episodes", listEpisodes);	
 			
 			List<Video> listVideos = saison.getVideos();

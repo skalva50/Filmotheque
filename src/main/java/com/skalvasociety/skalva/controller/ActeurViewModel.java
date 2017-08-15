@@ -24,7 +24,7 @@ public class ActeurViewModel extends AbstractListFiltreModel<Acteur, ActeurFilte
 	public ActeurViewModel(IActeurService service, ISexeService sexeService) {		
 		super(service);	
 		this.sexeService = sexeService;
-		setOrderBy(ActeurOrderBy.nom);
+		setOrderBy(ActeurOrderBy.popularite);
 		initialisation();		
 	}
 

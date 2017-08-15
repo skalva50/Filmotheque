@@ -15,7 +15,9 @@
 		<hr/>		
 		<h4 class ="text-center">Biographie: </h4>
 		<p> ${acteur.biographie}</p>		
-		<hr/>		
+		<hr/>
+		<h4 class ="text-center">Popularité: </h4>
+		<p><fmt:formatNumber type="number" maxFractionDigits = "2" value = "${acteur.popularite}"/>/10</p>		
 	</div>	
 </div>
 <hr/>

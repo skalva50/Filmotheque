@@ -9,7 +9,7 @@ public class RealisateurViewModel extends AbstractListModel<Realisateur> {
 
 	public RealisateurViewModel(IRealisateurService service) {
 		super(service);
-		setOrderBy(RealisateurOrderBy.nom);
+		setOrderBy(RealisateurOrderBy.popularite);
 		initialisation();		
 	}
 	
