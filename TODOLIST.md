@@ -32,6 +32,9 @@
 
 #### BugFix
 + OK Ordre de tri des épisodes
++ Nom dossier: supprimer la sensibilité à la casse
++ Ajout du sexe des personnes
++ si note null, mettre 0
 
 #### Onglet A propos
 + Version du site
