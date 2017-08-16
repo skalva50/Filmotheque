@@ -1,11 +1,13 @@
 package com.skalvasociety.skalva.controller;
 
+import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
 
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -23,6 +25,9 @@ import com.skalvasociety.skalva.bean.Video;
 import com.skalvasociety.skalva.bean.comparateur.SaisonComparateur;
 import com.skalvasociety.skalva.enumeration.SerieFilterBy;
 import com.skalvasociety.skalva.service.ISerieService;
+import com.skalvasociety.skalva.tmdbObject.ResultsSearchSerie;
+import com.skalvasociety.skalva.tmdbObject.SearchSerie;
+import com.skalvasociety.skalva.tmdbObject.TMDBRequest;
 
 @Controller
 @Transactional
@@ -32,6 +37,9 @@ public class SerieController {
 	
 	@Autowired
 	ISerieService serieService;	
+	
+	@Autowired
+    private Environment environment;	
 	
     @ModelAttribute("serieModel")   
     public SerieViewModel addSerieModelToSessionScope() {
@@ -116,4 +124,24 @@ public class SerieController {
         return "redirect:/series";
         
     }
+	
+	@RequestMapping(value="/serieDetailsMaj" ,method = RequestMethod.GET)
+	public String majFilm(
+			@RequestParam(value="idSerie") Integer idSerie,
+			ModelMap model){
+		Serie serie = serieService.getByKey(idSerie);
+		if(serie != null){			
+			model.addAttribute("serie", serie);
+			String API_KEY = environment.getProperty("tmdb.API_KEY");
+			TMDBRequest tmdbRequest = new TMDBRequest(API_KEY);
+			try {
+				SearchSerie searchSerie = tmdbRequest.searchSerie(serie.getTitre());
+				List<ResultsSearchSerie> listSearchSerie = searchSerie.getResults();
+				model.addAttribute("listSearchSerie", listSearchSerie);			
+			} catch (IOException e) {				
+				e.printStackTrace();
+			}
+		}	
+		return "adminTMDB";
+	}
 }

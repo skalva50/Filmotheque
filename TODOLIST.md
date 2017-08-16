@@ -31,7 +31,7 @@
 + OK Fiche realisateur : ajouter les series
 
 #### BugFix
-+ Ordre de tri des épisodes
++ OK Ordre de tri des épisodes
 
 #### Onglet A propos
 + Version du site
@@ -39,7 +39,7 @@
 
 #### Admin du site
 + MAJ de la BDD par rapport aux des données supprimées des repertoires
-+ Maj des fiches films si erreur de correpondance
++ OK Maj des fiches films et serie si erreur de correpondance    
 + Rapport ajout et suppression en fin de manip
 + Date d'ajout du media
 

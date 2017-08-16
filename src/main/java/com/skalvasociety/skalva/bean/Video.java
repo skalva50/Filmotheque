@@ -32,6 +32,7 @@ public class Video extends Entite {
 	public MediaTMDB getMedia() {
 		return media;
 	}
+	
 	public void setMedia(MediaTMDB media) {
 		this.media = media;
 	}

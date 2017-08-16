@@ -81,7 +81,8 @@ public abstract class MediaTMDB extends EntiteTmdb {
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "media")
 	public List<Video> getVideos() {
 		return videos;
-	}
+	}	
+	
 	public void setVideos(List<Video> videos) {
 		this.videos = videos;
 	}
