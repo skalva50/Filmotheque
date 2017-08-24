@@ -32,6 +32,7 @@
 
 #### BugFix
 + Ordre de tri des épisodes
++ Aligner les filtres dans page jsp
 
 #### Onglet A propos
 + Version du site

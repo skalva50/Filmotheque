@@ -41,7 +41,16 @@
 		  </div>
 		</form:form>
 	</div>
-	<div class="col-md-2 col-md-offset-6">
+	<div class="col-md-2 col-md-offset-4">
+		<form:form method="GET" action="series" modelAttribute="serieModel">
+		  <div class="form-group">
+		    <label for="SearchByTitre">Chercher par titre:
+		    </label>
+		    <form:input path="titreLike" class="form-control" onchange= "submit()"/>	                                	    
+		  </div>
+		</form:form>
+	</div>
+	<div class="col-md-2">
 		<form:form method="GET" action="series" modelAttribute="serieModel">
 		  <div class="form-group">
 		    <label for="orderBy">Trier par: </label>

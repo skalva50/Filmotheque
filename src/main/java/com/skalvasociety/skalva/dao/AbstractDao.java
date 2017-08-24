@@ -17,7 +17,7 @@ import com.javaetmoi.core.persistence.hibernate.LazyLoadingUtil;
 import com.skalvasociety.skalva.bean.IFiltre;
 import com.skalvasociety.skalva.daoTools.PageRequest;
 import com.skalvasociety.skalva.enumeration.SortDirection;
-import com.skalvasociety.skalva.enumeration.OrderBy;
+import com.skalvasociety.skalva.enumeration.IOrderBy;
 
 public abstract class AbstractDao<PK extends Serializable, T> implements IDao<Serializable,T>{
 
@@ -98,7 +98,7 @@ public abstract class AbstractDao<PK extends Serializable, T> implements IDao<Se
 	}
     
 	@SuppressWarnings("unchecked")
-	public List<T> getAll(OrderBy sortBy, SortDirection sort) {
+	public List<T> getAll(IOrderBy sortBy, SortDirection sort) {
 		Criteria criteria = createEntityCriteria();		
 		if(sort.equals(SortDirection.DESC)){
 			criteria.addOrder(Order.desc(sortBy.toString()));
@@ -116,7 +116,7 @@ public abstract class AbstractDao<PK extends Serializable, T> implements IDao<Se
 	}
 	
 	@SuppressWarnings("unchecked")
-	public List<T> getAllWithGraph(SortDirection sort, OrderBy sortBy, String entiteAddGraph) {		
+	public List<T> getAllWithGraph(SortDirection sort, IOrderBy sortBy, String entiteAddGraph) {		
 		Criteria criteria = createEntityCriteria();
 		if(entiteAddGraph !=  null && !entiteAddGraph.equals("")){
 			criteria.setFetchMode(entiteAddGraph, FetchMode.JOIN);
@@ -140,6 +140,5 @@ public abstract class AbstractDao<PK extends Serializable, T> implements IDao<Se
 	public List<T> getByFiltre (IFiltre<T> filtre){
 		return filtre.filtrerListe(getAll());
 	}
-	
 }
  

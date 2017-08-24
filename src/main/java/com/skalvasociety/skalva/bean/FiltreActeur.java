@@ -6,9 +6,10 @@ import java.util.List;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.skalvasociety.skalva.enumeration.ActeurFilterBy;
+import com.skalvasociety.skalva.enumeration.ActeurFilterText;
 
 @Transactional
-public class FiltreActeur extends AbstractFiltre<ActeurFilterBy> implements IFiltre<Acteur>  {
+public class FiltreActeur extends AbstractFiltre<ActeurFilterBy,ActeurFilterText> implements IFiltre<Acteur>  {
 
 	public List<Acteur> filtrerListe(List<Acteur> listeAFiltrer) {
 		List<Acteur> listToRemove = new LinkedList<Acteur>();	
@@ -30,6 +31,17 @@ public class FiltreActeur extends AbstractFiltre<ActeurFilterBy> implements IFil
 				break;
 			default:
 				break;
+			}			
+		}
+		
+		for (ActeurFilterText entite : listeFiltreText.keySet()) {
+			switch(entite){
+			case nom:
+				for (Acteur acteur : listeAFiltrer) {
+					if(!acteur.getNom().toUpperCase().contains(listeFiltreText.get(entite).toUpperCase())){
+						listToRemove.add(acteur);
+					}
+				}
 			}			
 		}
 		listeAFiltrer.removeAll(listToRemove);		
