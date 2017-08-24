@@ -70,7 +70,16 @@
 		  </div>
 		</form:form>
 	</div>
-	<div class="col-md-2 col-md-offset-4">
+	<div class="col-md-2 col-md-offset-2">
+		<form:form method="GET" action="films" modelAttribute="filmModel">
+		  <div class="form-group">
+		    <label for="SearchByTitre">Chercher par titre:
+		    </label>
+		    <form:input path="titreLike" class="form-control" onchange= "submit()"/>	                                	    
+		  </div>
+		</form:form>
+	</div>
+	<div class="col-md-2">
 		<form:form method="GET" action="films" modelAttribute="filmModel">
 		  <div class="form-group">
 		    <label for="orderBy">Trier par: </label>

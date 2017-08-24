@@ -4,8 +4,9 @@ import java.util.LinkedList;
 import java.util.List;
 
 import com.skalvasociety.skalva.enumeration.SerieFilterBy;
+import com.skalvasociety.skalva.enumeration.SerieFilterText;
 
-public class FiltreSerie extends AbstractFiltre<SerieFilterBy> implements IFiltre<Serie> {
+public class FiltreSerie extends AbstractFiltre<SerieFilterBy, SerieFilterText> implements IFiltre<Serie> {
 
 	public List<Serie> filtrerListe(List<Serie> listeAFiltrer) {
 		List<Serie> listToRemove = new LinkedList<Serie>();	
@@ -26,8 +27,6 @@ public class FiltreSerie extends AbstractFiltre<SerieFilterBy> implements IFiltr
 						listToRemove.add(serie);
 					}
 				}	
-				listeAFiltrer.removeAll(listToRemove);
-				listToRemove.clear();
 				break;
 			case pays:
 				for (Serie serie : listeAFiltrer) {
@@ -42,14 +41,26 @@ public class FiltreSerie extends AbstractFiltre<SerieFilterBy> implements IFiltr
 					if(!find){
 						listToRemove.add(serie);
 					}
-				}	
-				listeAFiltrer.removeAll(listToRemove);
-				listToRemove.clear();
+				}	;
 				break;
 			default:
 				break;
 			}
 		}
+		
+		// Filtrer par texte sur une entite
+		for (SerieFilterText entite : listeFiltreText.keySet()) {
+			switch(entite){
+			case titre:
+				for (Serie serie : listeAFiltrer) {
+					if(!serie.getTitre().toUpperCase().contains(listeFiltreText.get(entite).toUpperCase())){
+						listToRemove.add(serie);
+					}
+				}
+			}			
+		}
+		listeAFiltrer.removeAll(listToRemove);
+		listToRemove.clear();
 		return listeAFiltrer;
 	}
 }

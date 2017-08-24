@@ -6,9 +6,10 @@ import java.util.List;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.skalvasociety.skalva.enumeration.FilmFilterBy;
+import com.skalvasociety.skalva.enumeration.FilmFilterText;
 
 @Transactional
-public class FiltreFilm extends AbstractFiltre<FilmFilterBy> implements IFiltre<Film>{	
+public class FiltreFilm extends AbstractFiltre<FilmFilterBy, FilmFilterText> implements IFiltre<Film>{	
 
 
 	public List<Film> filtrerListe(List<Film> listeAFiltrer) {
@@ -64,6 +65,18 @@ public class FiltreFilm extends AbstractFiltre<FilmFilterBy> implements IFiltre<
 			default:
 				break;
 			}
+		}
+		
+		// Filtrer par texte sur une entite
+		for (FilmFilterText entite : listeFiltreText.keySet()) {
+			switch(entite){
+			case titre:
+				for (Film film : listeAFiltrer) {
+					if(!film.getTitre().toUpperCase().contains(listeFiltreText.get(entite).toUpperCase())){
+						listToRemove.add(film);
+					}
+				}
+			}			
 		}
 		listeAFiltrer.removeAll(listToRemove);
 		listToRemove.clear();

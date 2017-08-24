@@ -3,7 +3,7 @@ package com.skalvasociety.skalva.controller;
 import java.util.List;
 
 import com.skalvasociety.skalva.daoTools.PageRequest;
-import com.skalvasociety.skalva.enumeration.OrderBy;
+import com.skalvasociety.skalva.enumeration.IOrderBy;
 import com.skalvasociety.skalva.service.IService;
 
 public abstract class AbstractListModel<T> {
@@ -15,13 +15,13 @@ public abstract class AbstractListModel<T> {
 	
 	protected static final int PAGE_SIZE = 18;
 	protected static final int DEFAULT_PAGE = 1;
-	protected OrderBy orderBy ;
+	protected IOrderBy orderBy ;
 	
-	abstract protected OrderBy getOrderBy();
+	abstract protected IOrderBy getOrderBy();
 
-	abstract protected void setOrderBy(OrderBy orderBy);
+	abstract protected void setOrderBy(IOrderBy orderBy);
 	
-	protected abstract OrderBy [] getListOrderBy();
+	protected abstract IOrderBy [] getListOrderBy();
 	
 
 	public int getCurrentPage() {

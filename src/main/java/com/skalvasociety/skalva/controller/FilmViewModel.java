@@ -15,8 +15,9 @@ import com.skalvasociety.skalva.bean.comparateur.GenreComparateur;
 import com.skalvasociety.skalva.bean.comparateur.PaysComparateur;
 import com.skalvasociety.skalva.bean.comparateur.PersonneComparateur;
 import com.skalvasociety.skalva.enumeration.FilmFilterBy;
+import com.skalvasociety.skalva.enumeration.FilmFilterText;
 import com.skalvasociety.skalva.enumeration.FilmOrderBy;
-import com.skalvasociety.skalva.enumeration.OrderBy;
+import com.skalvasociety.skalva.enumeration.IOrderBy;
 import com.skalvasociety.skalva.service.IFilmService;
 
 @Transactional
@@ -29,7 +30,9 @@ public class FilmViewModel extends AbstractListFiltreModel<Film, FilmFilterBy> {
 	private Integer idGenre;
 	
 	private List<Pays> pays;
-	private Integer idPays;
+	private Integer idPays;	
+	
+	private String titreLike;
 	
 	private IFilmService filmService;
 
@@ -61,6 +64,9 @@ public class FilmViewModel extends AbstractListFiltreModel<Film, FilmFilterBy> {
 		}
 		if(this.getIdPays() != null && this.getIdPays() != 0){		
 			filtre.addFiltre(FilmFilterBy.pays,this.getIdPays());
+		}
+		if(this.getTitreLike() != null && !this.getTitreLike().isEmpty()){
+			filtre.addFiltreText(FilmFilterText.titre, this.getTitreLike());
 		}
 		return filtre;
 	}
@@ -108,7 +114,7 @@ public class FilmViewModel extends AbstractListFiltreModel<Film, FilmFilterBy> {
 	}
 
 	@Override
-	public void setOrderBy(OrderBy orderBy) {
+	public void setOrderBy(IOrderBy orderBy) {
 		this.orderBy = (FilmOrderBy) orderBy;		
 	}
 	
@@ -170,4 +176,12 @@ public class FilmViewModel extends AbstractListFiltreModel<Film, FilmFilterBy> {
 			setClearFiltre(null);
 		this.idPays = idPays;
 	}	
+	
+	public String getTitreLike() {
+		return titreLike;
+	}
+
+	public void setTitreLike(String titreLike) {
+		this.titreLike = titreLike;
+	}
 }

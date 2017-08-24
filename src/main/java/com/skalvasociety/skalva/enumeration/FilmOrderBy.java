@@ -1,6 +1,6 @@
 package com.skalvasociety.skalva.enumeration;
 
-public enum FilmOrderBy implements OrderBy {
+public enum FilmOrderBy implements IOrderBy {
 	titre("Titre"),
 	dateSortie("Date de sortie"),
 	note ("Note");
