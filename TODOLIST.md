@@ -41,7 +41,7 @@
 + credits
 
 #### Admin du site
-+ MAJ de la BDD par rapport aux des données supprimées des repertoires
++ MAJ de la BDD par rapport aux des données supprimées des repertoires (Ok pour film, reste serie)
 + OK Maj des fiches films et serie si erreur de correpondance    
 + Rapport ajout et suppression en fin de manip
 + Date d'ajout du media

@@ -40,13 +40,6 @@ public class FichierController {
         return "allfichiers";
     }
     
-    
-    @RequestMapping(value = { "/maj" }, method = RequestMethod.GET)
-    public String majFichiers() {
-    	service.majFichier();
-        return "redirect:/films";
-    }
-    
 	 @RequestMapping(value="/download", method = RequestMethod.GET)
 	    public void downloadFile(
 	    		HttpServletResponse response,	    	

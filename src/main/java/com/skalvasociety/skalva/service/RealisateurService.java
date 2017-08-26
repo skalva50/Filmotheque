@@ -1,6 +1,7 @@
 package com.skalvasociety.skalva.service;
 
 import java.io.Serializable;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -33,5 +34,17 @@ public class RealisateurService extends AbstractService<Serializable, Realisateu
 			realisateurDao.save(realisateur);
 		}	
 		return realisateur;
+	}
+
+	public void deleteRealisateurObsolete() {
+		List<Realisateur> realisateurs = this.getAll();
+		for (Realisateur realisateur : realisateurs) {
+			if((realisateur.getFilms() == null || realisateur.getFilms().isEmpty())&&
+				(realisateur.getSerie() == null || realisateur.getSerie().isEmpty()))
+			{
+				this.delete(realisateur);
+			}
+		}
+		
 	}
 }

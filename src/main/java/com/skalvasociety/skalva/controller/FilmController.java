@@ -21,6 +21,7 @@ import com.skalvasociety.skalva.bean.Pays;
 import com.skalvasociety.skalva.bean.Realisateur;
 import com.skalvasociety.skalva.bean.Video;
 import com.skalvasociety.skalva.enumeration.FilmFilterBy;
+import com.skalvasociety.skalva.service.IFichierService;
 import com.skalvasociety.skalva.service.IFilmService;
 import com.skalvasociety.skalva.tmdbObject.ResultsSearchMovie;
 import com.skalvasociety.skalva.tmdbObject.SearchMovie;
@@ -34,6 +35,9 @@ public class FilmController {
 	
 	@Autowired
 	IFilmService filmService;
+	
+	@Autowired
+	IFichierService fichierService;
 	
 	@Autowired
     private Environment environment;	
@@ -102,7 +106,15 @@ public class FilmController {
 		}else{
 			return "redirect:/films";
 		}		
-	}	
+	}
+	
+    
+    
+    @RequestMapping(value = { "/majFilm" }, method = RequestMethod.GET)
+    public String majFichiers() {
+    	fichierService.majFichier();
+        return "redirect:/films";
+    }
 	
 	@RequestMapping(value="/filmDetailsMaj" ,method = RequestMethod.GET)
 	public String majFilm(
@@ -123,5 +135,11 @@ public class FilmController {
 		}	
 		return "adminTMDB";
 	}
+	
+	@RequestMapping(value="/deleteFilm" ,method = RequestMethod.GET)
+	public String majFilm(){
+		filmService.deleteFilmObsolete();
+		return "redirect:/films";
+	}	
 }
 		    		

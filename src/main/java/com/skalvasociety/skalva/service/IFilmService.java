@@ -14,4 +14,5 @@ public interface IFilmService extends IService<Serializable, Film> {
 	public List<Genre> getGenreByListeFilm(List<Film> listeFilm);
 	public List<Pays> getPaysByListeFilm(List<Film> listeFilm);
 	public void majFilmByIdTMDB(Integer idFilm, Integer idTMDB);
+	public void deleteFilmObsolete();
 }

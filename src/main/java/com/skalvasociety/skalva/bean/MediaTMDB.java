@@ -4,7 +4,6 @@ import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Inheritance;
@@ -87,7 +86,7 @@ public abstract class MediaTMDB extends EntiteTmdb {
 		this.videos = videos;
 	}
 	
-	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@ManyToMany(fetch = FetchType.LAZY)
 	@JoinTable(name = "media_pays", 
 			joinColumns = {@JoinColumn(name = "idMedia", nullable = false, updatable = false) },
 			inverseJoinColumns = { @JoinColumn(name = "idPays",	nullable = false, updatable = false) })

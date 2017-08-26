@@ -1,5 +1,6 @@
 package com.skalvasociety.skalva.service;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
@@ -37,6 +38,9 @@ public class FilmService extends AbstractService<Integer, Film> implements IFilm
 	
 	@Autowired
     private IFilmPersonnageService personnageService;
+	
+	@Autowired
+    private IActeurService acteurService;
 	
 	@Autowired
 	private IRealisateurService realisateurService;
@@ -104,12 +108,7 @@ public class FilmService extends AbstractService<Integer, Film> implements IFilm
 				// Mise à jour des données du film
 				fichierService.movieDetailsToFilm(movieDetails, film);
 				
-				List<Video> listVideosToDelete = film.getVideos();
-				if(listVideosToDelete != null){
-					for (Video video : listVideosToDelete) {
-						videoService.delete(video);
-					}
-				}			
+				deleteVideos(film);			
 				
 				List<Video> listVideos = tmdbRequest.getVideoByID(film);
 				if(listVideos != null){
@@ -118,12 +117,7 @@ public class FilmService extends AbstractService<Integer, Film> implements IFilm
 					}
 				}	
 				
-				List<FilmPersonnage> listePersonnageToDelete = film.getPersonnages();
-				if(listePersonnageToDelete != null){
-					for (FilmPersonnage filmPersonnage : listePersonnageToDelete) {
-						personnageService.delete(filmPersonnage);
-					}
-				}
+				deletePersonnage(film);
 				
 				List<Cast> listeCasting = tmdbRequest.getCastbyMedia(film);
 				if(listeCasting != null){
@@ -153,4 +147,43 @@ public class FilmService extends AbstractService<Integer, Film> implements IFilm
 
 	}
 
+	private void deletePersonnage(Film film) {
+		List<FilmPersonnage> listePersonnageToDelete = film.getPersonnages();
+		if(listePersonnageToDelete != null){
+			for (FilmPersonnage filmPersonnage : listePersonnageToDelete) {
+				personnageService.delete(filmPersonnage);
+			}
+		}
+	}
+
+	private void deleteVideos(Film film) {
+		List<Video> listVideosToDelete = film.getVideos();
+		if(listVideosToDelete != null){
+			for (Video video : listVideosToDelete) {
+				videoService.delete(video);
+			}
+		}
+	}
+
+	public void deleteFilmObsolete() {
+		List<Film> films = this.getAll();
+		String pathFolder = environment.getProperty("film.path");
+		File file = null;
+		 
+		for (Film film : films) {
+			 file = new File(pathFolder+"/"+film.getFichier().getChemin());
+			 if(!file.exists()){
+				 // suppression des fk associe
+				 deletePersonnage(film);
+				 deleteVideos(film);
+				 // suppression du film
+				 this.delete(film);
+				 // suppression du fichier
+				 fichierService.delete(film.getFichier());
+			 }
+		}
+		// Suppression des acteurs et realisateurs n'ayant plus de lien avec les films ou serie
+		acteurService.deleteActeurObsolete();
+		realisateurService.deleteRealisateurObsolete();
+	}
 }
