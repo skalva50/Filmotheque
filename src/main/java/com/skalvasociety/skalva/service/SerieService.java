@@ -1,5 +1,6 @@
 package com.skalvasociety.skalva.service;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
@@ -42,6 +43,9 @@ public class SerieService extends AbstractService<Integer, Serie> implements ISe
 	
 	@Autowired
     private IGenreService genreService;
+	
+	@Autowired
+	private IActeurService acteurService;
 	
 	@Autowired
     private ISeriePersonnageService personnageService;
@@ -214,18 +218,10 @@ public class SerieService extends AbstractService<Integer, Serie> implements ISe
 			SerieDetails serieDetails = tmdbRequest.getSerieByID(idTMDB);
 			if(serieDetails != null){
 				serieDetailsToSerie(serieDetails, serie);
-				List<Video> listVideosToDelete = serie.getVideos();
-				if(listVideosToDelete != null){
-					deleteVideos(listVideosToDelete);
-				}	
+				deleteVideos(serie);	
 				loadVideos(tmdbRequest, serie);
 				
-				List<SeriePersonnage> listePersonnageToDelete = serie.getPersonnages();
-				if(listePersonnageToDelete != null){
-					for (SeriePersonnage seriePersonnage : listePersonnageToDelete) {
-						personnageService.delete(seriePersonnage);
-					}
-				}				
+				deletePersonnage(serie);				
 				loadCasting(tmdbRequest, serie);
 				loadCrew(tmdbRequest, serie);
 				
@@ -249,6 +245,22 @@ public class SerieService extends AbstractService<Integer, Serie> implements ISe
 			e.printStackTrace();
 		}
 		
+	}
+
+	private void deleteVideos(Serie serie) {
+		List<Video> listVideosToDelete = serie.getVideos();
+		if(listVideosToDelete != null){
+			deleteVideos(listVideosToDelete);
+		}
+	}
+
+	private void deletePersonnage(Serie serie) {
+		List<SeriePersonnage> listePersonnageToDelete = serie.getPersonnages();
+		if(listePersonnageToDelete != null){
+			for (SeriePersonnage seriePersonnage : listePersonnageToDelete) {
+				personnageService.delete(seriePersonnage);
+			}
+		}
 	}
 
 	private void deleteVideos(List<Video> listVideosToDelete) {
@@ -337,4 +349,40 @@ public class SerieService extends AbstractService<Integer, Serie> implements ISe
 		}
 	}
 
+	public void deleteSerieObsolete() {
+		// Suppression des episodes obsolètes
+		List<Episode> episodes = episodeService.getAll();
+		String pathFolder = environment.getProperty("serie.path");
+		File file = null;
+		for (Episode episode : episodes) {
+			file = new File(pathFolder+"/"+episode.getFichier().getChemin());
+			if(!file.exists()){
+				deleteVideos(episode.getVideos());	
+				fichierService.delete(episode.getFichier());
+				episodeService.delete(episode);				
+			}
+		}
+		
+		// Verification de la présence d'épisodes dans les saisons
+		List<Saison> saisons = saisonService.getAll();
+		for (Saison saison : saisons) {
+			if(saison.getEpisodes() == null || saison.getEpisodes().isEmpty()){
+				deleteVideos(saison.getVideos());
+				saisonService.delete(saison);
+			}			
+		}
+		
+		// Verification de la présence de saisons dans une serie
+		List<Serie> series = this.getAll();
+		for (Serie serie : series) {
+			if(serie.getSaison() == null || serie.getSaison().isEmpty()){
+				deleteVideos(serie);
+				deletePersonnage(serie);
+				this.delete(serie);
+			}
+		}
+		// Suppression des acteurs et realisateurs n'ayant plus de lien avec les films ou serie
+		acteurService.deleteActeurObsolete();
+		realisateurService.deleteRealisateurObsolete();	
+	}
 }

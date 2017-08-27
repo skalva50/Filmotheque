@@ -4,7 +4,6 @@ package com.skalvasociety.skalva.bean;
 import java.util.LinkedList;
 import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
@@ -61,7 +60,7 @@ public class Serie extends MediaTMDB {
 		super.setResumeCourt(resume.substring(0, endIndex)+"...");
 	}
 	
-	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@ManyToMany(fetch = FetchType.LAZY)
 	@JoinTable(name = "serie_genre", 
 			joinColumns = {@JoinColumn(name = "idserie", nullable = false, updatable = false) },
 			inverseJoinColumns = { @JoinColumn(name = "idgenre",	nullable = false, updatable = false) })
@@ -80,7 +79,7 @@ public class Serie extends MediaTMDB {
 		this.personnages = personnages;
 	}
 	
-	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@ManyToMany(fetch = FetchType.LAZY)
 	@JoinTable(name = "serie_realisateur", 
 			joinColumns = {@JoinColumn(name = "idserie", nullable = false, updatable = false) },
 			inverseJoinColumns = { @JoinColumn(name = "idrealisateur",	nullable = false, updatable = false) })

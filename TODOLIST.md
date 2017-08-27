@@ -41,7 +41,7 @@
 + credits
 
 #### Admin du site
-+ MAJ de la BDD par rapport aux des données supprimées des repertoires (Ok pour film, reste serie)
++ OK MAJ de la BDD par rapport aux des données supprimées des repertoires
 + OK Maj des fiches films et serie si erreur de correpondance    
 + Rapport ajout et suppression en fin de manip
 + Date d'ajout du media
@@ -49,5 +49,8 @@
 #### Securité accès
 + Gestion des droits d'accès (spring security)
 + Gestion des droits BDD
+
+#### Divers
++ Ajouter qques copies d'écran dans le readme
 
 

@@ -144,4 +144,12 @@ public class SerieController {
 		}	
 		return "adminTMDB";
 	}
+	
+	@RequestMapping(value="/deleteSerie" ,method = RequestMethod.GET)
+	public String deleteSerie(){
+		serieService.deleteSerieObsolete();
+		return "redirect:/series";
+	}
+	
+	
 }

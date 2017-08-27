@@ -14,4 +14,5 @@ public interface ISerieService extends IService<Serializable, Serie> {
 	public List<Pays> getPaysByListeSerie(List<Serie> listeSerie);
 	public boolean idTMDBExists(Serie serie);
 	public void majSerieByIdTMDB(Integer idSerie,Integer idTMDB);	
+	public void deleteSerieObsolete();
 }
