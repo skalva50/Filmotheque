@@ -16,10 +16,10 @@
 			<c:param name="pathFile" value="${film.fichier.chemin}"/>
 		</c:url>
 		<div class="row">
-			<div class ="col-md-2 col-md-offset-2">
+			<div class ="col-md-2 col-md-offset-2 verticalCenter">
 				<a  href="${urlFilm}"><h3 class="titreClickable">Télécharger:</h3></a>
 			</div>
-			<div class ="col-md-2 col-md-offset-2">
+			<div class ="col-md-2 col-md-offset-2 verticalCenter">
 				<a class="btn text-right " href="${urlFilm}" role="button">
 					<img src="/Filmotheque/resources/images/icone/download.png" />
 				</a>
@@ -46,6 +46,21 @@
 				<li>${pays.nom}</li>
 			</c:forEach>
 		</ul>
+		<hr/>
+		<div class = "row" >
+			<c:url value="/filmDetailsMaj" var="urlFilmMaj">			
+				<c:param name="idFilm" value="${film.id}"/>
+			</c:url>
+			<div class ="col-md-4 verticalCenter" >
+				Consulter les fiches disponibles:
+			</div>
+			<div class ="col-md-1 verticalCenter">
+				<a class="btn text-right " href="${urlFilmMaj}" role="button">
+					<img src="/Filmotheque/resources/images/icone/search64.png" />
+				</a>
+			</div>		
+		</div>		
+		<hr/>
 	</div>	
 </div>
 <hr/>

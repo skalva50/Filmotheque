@@ -7,6 +7,7 @@ import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import com.skalvasociety.skalva.bean.Personne;
+import com.skalvasociety.skalva.bean.Sexe;
 import com.skalvasociety.skalva.tmdbObject.People;
 import com.skalvasociety.skalva.tmdbObject.TMDBRequest;
 import com.skalvasociety.skalva.tools.Convert;
@@ -25,10 +26,20 @@ public class PersonneService implements IPersonneService {
 			People people = tmdbRequest.getPeopleDetail(personne.getIdTMDB());
 			if(people != null){
 				personne.setBiographie(people.getBiography());
+				if(people.getGender() == 1 || people.getGender() == 2){
+					Sexe sexe = new Sexe();
+					sexe.setId(people.getGender());
+					personne.setSexe(sexe);
+				}				
 				personne.setDateDeces(new Convert().stringToDate(people.getDeathday()));
 				personne.setDateNaissance(new Convert().stringToDate(people.getBirthday()));
 				personne.setLieuNaissance(people.getPlace_of_birth());
-				personne.setPopularite(people.getPopularity());
+				if(people.getPopularity() != null){
+					personne.setPopularite(people.getPopularity());
+				}else{
+					personne.setPopularite(0d);
+				}
+				
 			}
 		} catch (IOException e) {			
 			e.printStackTrace();
