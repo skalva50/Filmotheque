@@ -5,20 +5,37 @@ Application web de bibliotheque privé de film et series
 Cette application Web est destinée à créer et à présenter une bibliotheque de film et de série
 
 ### Quelques copies d'écrans
-
-![Capture liste film](Capture1.png "Liste des films")
-
+#### Listes des films
+![Capture liste film](CaptureFilm.png "Liste des films")
+---
+#### Details films
+![Capture details film](CaptureDetailsFilm.png "Details films")
+---
+#### Liste des Series
+![Capture liste Serie](CaptureSerie.png "")
+---
+#### Details Serie
+![Capture details serie](CaptureDetailsSerie.png "Details Serie")
+---
+#### Acteur
+![Capture Acteur](CaptureActeur.png "Acteur")
+---
+#### Realisateur
+![Capture Realisateur](CaptureRealisateur.png "Realisateur")
+---
 
 ## Fonctionnalités principales
 * Scane les repertoires de film et de serie paramétré et en extrait les informations necessaires à la mise à jour de la bibliothèque.
 * Complète les fiches films et séries crées avec les données mise à disposition par l'API "The Movie Database".
 * Permet la consultation des films et serie via des outils de recherche intégrés
     * Recheche par genre, nationalité, realisateur, acteur...
+    * Recherche textuelle sur les noms de films, serie, acteur, réalisateur...
     * trier
+* Telechargement des films et series
 
 ---
 #### /!\ En cours de developpement
-* Fonction de téléchargement des films et series ( V 0.3.0 )
+* Gestion des droits d'accès (V 0.4.0)
 
 -------
 

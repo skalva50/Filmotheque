@@ -1,8 +1,9 @@
 package com.skalvasociety.skalva.enumeration;
 
-public enum RealisateurOrderBy implements OrderBy {
+public enum RealisateurOrderBy implements IOrderBy {
 	nom("Nom"),
-	dateNaissance("Date de naissance");	
+	dateNaissance("Date de naissance"),	
+	popularite("Popularité");
 	
 	private String displayName;	
 
@@ -23,6 +24,8 @@ public enum RealisateurOrderBy implements OrderBy {
 		case nom:
 			return SortDirection.ASC;
 		case dateNaissance:
+			return SortDirection.DESC;
+		case popularite:
 			return SortDirection.DESC;
 		default:
 			return SortDirection.ASC;

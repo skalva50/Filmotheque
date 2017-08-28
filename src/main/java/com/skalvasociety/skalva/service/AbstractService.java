@@ -9,7 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.skalvasociety.skalva.bean.IFiltre;
 import com.skalvasociety.skalva.dao.IDao;
 import com.skalvasociety.skalva.daoTools.PageRequest;
-import com.skalvasociety.skalva.enumeration.OrderBy;
+import com.skalvasociety.skalva.enumeration.IOrderBy;
 import com.skalvasociety.skalva.enumeration.SortDirection;
 
 public class AbstractService<PK extends Serializable, T> implements IService<Serializable,T> {
@@ -20,6 +20,10 @@ public class AbstractService<PK extends Serializable, T> implements IService<Ser
 	public void save(T entite) {
 		dao.save(entite);		
 	}
+	
+	public void delete(T entity) {
+		dao.delete(entity);		
+	}
 
 	public T getByKey(Serializable key) {
 		return dao.getByKey(key);
@@ -29,7 +33,7 @@ public class AbstractService<PK extends Serializable, T> implements IService<Ser
 		return dao.getAll();		
 	}
 
-	public List<T> getAll(OrderBy orderBy, SortDirection sort) {
+	public List<T> getAll(IOrderBy orderBy, SortDirection sort) {
 		return dao.getAll(orderBy, sort);
 	}
 
@@ -52,5 +56,4 @@ public class AbstractService<PK extends Serializable, T> implements IService<Ser
 	public T getByKeyWithGraph(Serializable key, List<String> entites) {
 		return dao.getByKeyWithGraph(key, entites);
 	}
-
 }

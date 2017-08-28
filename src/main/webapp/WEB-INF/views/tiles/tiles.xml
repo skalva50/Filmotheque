@@ -85,5 +85,10 @@
        <put-attribute name="title" value="A propos" />  
        <put-attribute name="body" value="/WEB-INF/views/pages/apropos.jsp" />  
    </definition> 
+   
+   <definition name="adminTMDB" extends="base-definition">  
+       <put-attribute name="title" value="Choix TMDB" />  
+       <put-attribute name="body" value="/WEB-INF/views/pages/adminTMDB.jsp" />  
+   </definition> 
        
 </tiles-definitions>

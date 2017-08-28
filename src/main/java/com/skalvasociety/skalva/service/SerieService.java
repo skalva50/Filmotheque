@@ -1,5 +1,8 @@
 package com.skalvasociety.skalva.service;
 
+import java.io.File;
+import java.io.IOException;
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -8,10 +11,12 @@ import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.databind.JsonMappingException;
 import com.skalvasociety.skalva.bean.Episode;
 import com.skalvasociety.skalva.bean.Fichier;
-
 import com.skalvasociety.skalva.bean.Genre;
+import com.skalvasociety.skalva.bean.MediaTMDB;
 import com.skalvasociety.skalva.bean.Pays;
 import com.skalvasociety.skalva.bean.Realisateur;
 import com.skalvasociety.skalva.bean.Saison;
@@ -40,6 +45,9 @@ public class SerieService extends AbstractService<Integer, Serie> implements ISe
 	
 	@Autowired
     private IGenreService genreService;
+	
+	@Autowired
+	private IActeurService acteurService;
 	
 	@Autowired
     private ISeriePersonnageService personnageService;
@@ -73,10 +81,11 @@ public class SerieService extends AbstractService<Integer, Serie> implements ISe
 		return serieDao.getSerieByIdTMDB(idTMDB);
 	}
 	
-	public void majSerie() {	
+	public List<MediaTMDB> majSerie() {	
 		String path = environment.getProperty("serie.path");
 		String API_KEY = environment.getProperty("tmdb.API_KEY");
 		TMDBRequest tmdbRequest = new TMDBRequest(API_KEY);
+		List<MediaTMDB> listAjout = new LinkedList<MediaTMDB>();
 		List<String> listeNomSerie = new Acces().listDossier(path);
 		for (String nameSerie : listeNomSerie) {			
 			try {
@@ -88,108 +97,190 @@ public class SerieService extends AbstractService<Integer, Serie> implements ISe
 							SerieDetails serieDetail = tmdbRequest.getSerieByID(serie.getIdTMDB());
 							if (serieDetail != null){
 								serieDetailsToSerie(serieDetail, serie);
-							}							
+							}	
+							serie.setDateAjout(new Date());
 							save(serie);
-							List<Video> listVideos = tmdbRequest.getVideoByID(serie);
-							if(listVideos != null){
-								for (Video video : listVideos) {
-									videoService.save(video);
-								}
-							}
-								
-							List<Cast> listeCasting = tmdbRequest.getCastbyMedia(serie);
-							if (listeCasting != null){
-								List<SeriePersonnage> listePersonnage = new LinkedList<SeriePersonnage>();
-								for (Cast cast : listeCasting) {
-									SeriePersonnage personnage = personnageService.castToSeriePersonnage(cast, serie);
-									personnage.setSerie(serie);
-									listePersonnage.add(personnage);
-								}
-								serie.setPersonnages(listePersonnage);
-							}						
+							listAjout.add(serie);
+							loadVideos(tmdbRequest, serie);								
+							loadCasting(tmdbRequest, serie);					
+							loadCrew(tmdbRequest, serie);				
 							
-							List<Crew> listeCrew = tmdbRequest.getCrewbyMedia(serie);
-							if (listeCrew != null){
-								List<Realisateur> listeRealisateur = new LinkedList<Realisateur>();
-								for (Crew crew : listeCrew) {
-									Realisateur realisateur = realisateurService.crewToRealisateur(crew);
-									if (realisateur != null){
-										listeRealisateur.add(realisateur);									
-									}									
-								}
-								serie.setRealisateurs(listeRealisateur);
-							}				
 						}else{
 							serie = getSerieByIdTMDB(serie.getIdTMDB());
 						}
-						List<String> listSaisonDossier = new Acces().listDossier(path+"/"+nameSerie);
-						
-						for (String saisonDossier : listSaisonDossier) {							
-							SerieSaisonDetails serieSaisonDetails = tmdbRequest.getSerieSaison(serie.getIdTMDB(), saisonDossier);
-							if (serieSaisonDetails != null){								
-								Saison saison = saisonService.getSaisonByIdSerieNumSaison(serie, serieSaisonDetails.getSeason_number());
-								if (saison == null){
-									saison = new Saison();
-									saisonService.serieSaisonDetailstoSaison(serieSaisonDetails, saison);
-									saison.setSerie(serie);									
-									saisonService.save(saison);
-									List<Video> listVideos = tmdbRequest.getVideoByID(saison);
-									if(listVideos != null){
-										for (Video video : listVideos) {
-											videoService.save(video);
-										}
-									}									
-									
-									List<Cast> listeCasting = tmdbRequest.getCastbyMedia(saison);
-									if (listeCasting != null){
-										List<SeriePersonnage> listePersonnage = serie.getPersonnages();
-										for (Cast cast : listeCasting) {
-											SeriePersonnage personnage = personnageService.castToSeriePersonnage(cast, serie);
-											personnage.setSerie(serie);
-											listePersonnage.add(personnage);
-											System.out.println(personnage.getActeur().getNom());
-										}
-										serie.setPersonnages(listePersonnage);
-									}								
-								}																
-								List<String> listEpisodes = new Acces().listFichierVideo(path+"/"+nameSerie+"/Saison "+saison.getNumero());
-								for (String nomFichier : listEpisodes) {
-									Fichier fichier = new Fichier();
-									fichier.setChemin(nameSerie+"/Saison "+saison.getNumero()+"/"+nomFichier);
-									if(fichierService.isFichierCheminUnique(fichier.getChemin())){																				
-										EpisodeTMDB episodeTMDB = tmdbRequest.getEpisode(serie.getIdTMDB(), saison.getNumero(), nomFichier);
-										if (episodeTMDB == null){
-											System.out.println("Introuvable sur TMDB: " + nomFichier);
-										}else{
-											Episode episode = episodeService.getEpisodeBySaisonNumEpisode(saison, episodeTMDB.getEpisode_number());
-											if (episode == null){
-												episode = new Episode();
-												fichierService.save(fichier);
-												episodeService.episodeTmdbToEpisode(episodeTMDB, episode);											
-												episode.setFichier(fichier);
-												episode.setSaison(saison);												
-												episodeService.save(episode);
-												List<Video> listVideos = tmdbRequest.getVideoByID(episode);
-												if(listVideos != null){
-													for (Video video : listVideos) {
-														videoService.save(video);
-													}
-												}												
-												System.out.println("Episode: " + episode.getTitre());
-											}											
-										}										
-									}
-								}
-								
-							}							
-						}						
+						loadSaison(path, tmdbRequest, nameSerie, serie, listAjout);						
 					}					
 				}			
 				
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-		}		
+		}
+		return listAjout;
+	}
+
+	private void loadSaison(String path, TMDBRequest tmdbRequest, String nameSerie, Serie serie, List<MediaTMDB> listAjout)
+			throws IOException, JsonParseException, JsonMappingException {
+		List<String> listSaisonDossier = new Acces().listDossier(path+"/"+nameSerie);
+		
+		for (String saisonDossier : listSaisonDossier) {							
+			SerieSaisonDetails serieSaisonDetails = tmdbRequest.getSerieSaison(serie.getIdTMDB(), saisonDossier);
+			if (serieSaisonDetails != null){								
+				Saison saison = saisonService.getSaisonByIdSerieNumSaison(serie, serieSaisonDetails.getSeason_number());
+				if (saison == null){
+					saison = new Saison();
+					saisonService.serieSaisonDetailstoSaison(serieSaisonDetails, saison);
+					saison.setSerie(serie);	
+					saison.setDateAjout(new Date());
+					saisonService.save(saison);
+					if(listAjout != null){
+						listAjout.add(saison);
+					}						
+					List<Video> listVideos = tmdbRequest.getVideoByID(saison);
+					if(listVideos != null){
+						for (Video video : listVideos) {
+							videoService.save(video);
+						}
+					}									
+					
+					List<Cast> listeCasting = tmdbRequest.getCastbyMedia(saison);
+					if (listeCasting != null){
+						List<SeriePersonnage> listePersonnage = serie.getPersonnages();
+						for (Cast cast : listeCasting) {
+							SeriePersonnage personnage = personnageService.castToSeriePersonnage(cast, serie);
+							personnage.setSerie(serie);
+							listePersonnage.add(personnage);
+							System.out.println(personnage.getActeur().getNom());
+						}
+						serie.setPersonnages(listePersonnage);
+					}								
+				}																
+				List<String> listEpisodes = new Acces().listFichierVideo(path+"/"+nameSerie+"/Saison "+saison.getNumero());
+				for (String nomFichier : listEpisodes) {
+					Fichier fichier = new Fichier();
+					fichier.setChemin(nameSerie+"/Saison "+saison.getNumero()+"/"+nomFichier);
+					if(fichierService.isFichierCheminUnique(fichier.getChemin())){																				
+						EpisodeTMDB episodeTMDB = tmdbRequest.getEpisode(serie.getIdTMDB(), saison.getNumero(), nomFichier);
+						if (episodeTMDB == null){
+							System.out.println("Introuvable sur TMDB: " + nomFichier);
+						}else{
+							Episode episode = episodeService.getEpisodeBySaisonNumEpisode(saison, episodeTMDB.getEpisode_number());
+							if (episode == null){
+								episode = new Episode();
+								fichierService.save(fichier);
+								episodeService.episodeTmdbToEpisode(episodeTMDB, episode);											
+								episode.setFichier(fichier);
+								episode.setDateAjout(new Date());
+								episode.setSaison(saison);	
+								if(listAjout != null){
+									listAjout.add(episode);
+								}								
+								episodeService.save(episode);
+								List<Video> listVideos = tmdbRequest.getVideoByID(episode);
+								if(listVideos != null){
+									for (Video video : listVideos) {
+										videoService.save(video);
+									}
+								}									
+							}											
+						}										
+					}
+				}
+				
+			}							
+		}
+	}
+
+	private void loadCrew(TMDBRequest tmdbRequest, Serie serie) throws IOException {
+		List<Crew> listeCrew = tmdbRequest.getCrewbyMedia(serie);
+		if (listeCrew != null){
+			List<Realisateur> listeRealisateur = new LinkedList<Realisateur>();
+			for (Crew crew : listeCrew) {
+				Realisateur realisateur = realisateurService.crewToRealisateur(crew);
+				if (realisateur != null){
+					listeRealisateur.add(realisateur);									
+				}									
+			}
+			serie.setRealisateurs(listeRealisateur);
+		}
+	}
+
+	private void loadCasting(TMDBRequest tmdbRequest, Serie serie) throws IOException {
+		List<Cast> listeCasting = tmdbRequest.getCastbyMedia(serie);
+		if (listeCasting != null){
+			List<SeriePersonnage> listePersonnage = new LinkedList<SeriePersonnage>();
+			for (Cast cast : listeCasting) {
+				SeriePersonnage personnage = personnageService.castToSeriePersonnage(cast, serie);
+				personnage.setSerie(serie);
+				listePersonnage.add(personnage);
+			}
+			serie.setPersonnages(listePersonnage);
+		}
+	}
+
+
+	
+	public void majSerieByIdTMDB(Integer idSerie, Integer idTMDB) {	
+		Serie serie = getByKey(idSerie);
+		serie.setIdTMDB(idTMDB);
+		
+		String API_KEY = environment.getProperty("tmdb.API_KEY");
+		String path = environment.getProperty("serie.path");
+		TMDBRequest tmdbRequest = new TMDBRequest(API_KEY);		
+		
+		try {
+			SerieDetails serieDetails = tmdbRequest.getSerieByID(idTMDB);
+			if(serieDetails != null){
+				serieDetailsToSerie(serieDetails, serie);
+				deleteVideos(serie);	
+				loadVideos(tmdbRequest, serie);
+				
+				deletePersonnage(serie);				
+				loadCasting(tmdbRequest, serie);
+				loadCrew(tmdbRequest, serie);
+				
+				// Suppression des saisons et episodes
+				List<Saison> listSaisonToDelete = serie.getSaison();
+				for (Saison saison : listSaisonToDelete) {
+					List<Episode> listEpisodeToDelete = saison.getEpisodes();
+					for (Episode episode : listEpisodeToDelete) {
+						deleteVideos(episode.getVideos());	
+						fichierService.delete(episode.getFichier());
+						episodeService.delete(episode);
+					}	
+					List<Video> listVideoSaisonToDelete = saison.getVideos();
+					deleteVideos(listVideoSaisonToDelete);
+					saisonService.delete(saison);
+				}	
+				loadSaison(path, tmdbRequest, serie.getTitre(), serie, null);
+			}
+			
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+	}
+
+	private void deleteVideos(Serie serie) {
+		List<Video> listVideosToDelete = serie.getVideos();
+		if(listVideosToDelete != null){
+			deleteVideos(listVideosToDelete);
+		}
+	}
+
+	private void deletePersonnage(Serie serie) {
+		List<SeriePersonnage> listePersonnageToDelete = serie.getPersonnages();
+		if(listePersonnageToDelete != null){
+			for (SeriePersonnage seriePersonnage : listePersonnageToDelete) {
+				personnageService.delete(seriePersonnage);
+			}
+		}
+	}
+
+	private void deleteVideos(List<Video> listVideosToDelete) {
+		for (Video video : listVideosToDelete) {
+			videoService.delete(video);
+		}
 	}
 	
 	private Serie searchSerietoSerie(SearchSerie searchSerie){
@@ -212,6 +303,7 @@ public class SerieService extends AbstractService<Integer, Serie> implements ISe
 		serie.setDateSortie(new Convert().stringToDate(serieDetails.getFirst_air_date()));
 		List<GenreTmdb> listGenreTmdb = serieDetails.getGenres();
 		List<Genre> listGenre = serie.getGenres();
+		listGenre.removeAll(listGenre);
 		for (GenreTmdb genreTmdb : listGenreTmdb) {
 			Genre genre  = genreService.getGenreByIdTmdb(genreTmdb.getId());
 			if(genre == null){
@@ -224,6 +316,7 @@ public class SerieService extends AbstractService<Integer, Serie> implements ISe
 		
 		List<String> listCountry = serieDetails.getOrigin_country();
 		List<Pays> listPays = serie.getPays();
+		listPays.removeAll(listPays);
 		if(listCountry != null){
 			for (String country : listCountry) {
 				Pays pays = paysService.getPaysbyIdIso(country);
@@ -259,5 +352,56 @@ public class SerieService extends AbstractService<Integer, Serie> implements ISe
 			}
 		}
 		return listePays;
+	}
+	
+	private void loadVideos(TMDBRequest tmdbRequest, Serie serie) throws IOException {
+		List<Video> listVideos = tmdbRequest.getVideoByID(serie);
+		if(listVideos != null){
+			for (Video video : listVideos) {
+				videoService.save(video);
+			}
+		}
+	}
+
+	public List<MediaTMDB> deleteSerieObsolete() {
+		List<MediaTMDB> listDelete = new LinkedList<MediaTMDB>();
+		// Suppression des episodes obsolètes
+		List<Episode> episodes = episodeService.getAll();
+		String pathFolder = environment.getProperty("serie.path");
+		File file = null;
+		for (Episode episode : episodes) {
+			file = new File(pathFolder+"/"+episode.getFichier().getChemin());
+			if(!file.exists()){
+				deleteVideos(episode.getVideos());	
+				fichierService.delete(episode.getFichier());
+				listDelete.add(episode);
+				episodeService.delete(episode);				
+			}
+		}
+		
+		// Verification de la présence d'épisodes dans les saisons
+		List<Saison> saisons = saisonService.getAll();
+		for (Saison saison : saisons) {
+			if(saison.getEpisodes() == null || saison.getEpisodes().isEmpty()){
+				deleteVideos(saison.getVideos());
+				listDelete.add(saison);
+				saisonService.delete(saison);
+			}			
+		}
+		
+		// Verification de la présence de saisons dans une serie
+		List<Serie> series = this.getAll();
+		for (Serie serie : series) {
+			if(serie.getSaison() == null || serie.getSaison().isEmpty()){
+				deleteVideos(serie);
+				deletePersonnage(serie);
+				listDelete.add(serie);
+				this.delete(serie);
+			}
+		}
+		// Suppression des acteurs et realisateurs n'ayant plus de lien avec les films ou serie
+		acteurService.deleteActeurObsolete();
+		realisateurService.deleteRealisateurObsolete();	
+		return listDelete;
 	}
 }

@@ -4,7 +4,7 @@
   <groupId>com.skalvasociety.skalva</groupId>
   <artifactId>Filmotheque</artifactId>
   <packaging>war</packaging>
-  <version>0.2.0-Release</version>
+  <version>0.3.0-Release</version>
   <name>Filmotheque Maven Webapp</name>
   <url>http://maven.apache.org</url>
   

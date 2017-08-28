@@ -23,24 +23,39 @@
 + OK Systeme de filtre et de tri
 
 #### Fonction Download
++ OK
       
 #### Onglet Acteur et réalisateur
 + OK a faire avec solution de pagination, fitre, tri trouvé precedamment.
-+ ajouter le sexe(filtre), popularite(tri) des personnes (acteurs+realisateur); ajouter au cast de tmdb vers entite bdd
++ OK ajouter le sexe(filtre)OK, popularite(tri) des personnes (acteurs+realisateur); ajouter au cast de tmdb vers entite bdd
 + OK Fiche realisateur : ajouter les series
+
+#### BugFix
+
++ OK Ordre de tri des épisodes
++ Nom dossier: supprimer la sensibilité à la casse
++ OK Ajout du sexe des personnes
++ OK si note null, mettre 0
++ Suppression des acteurs et réalisateurs ne se fait qu'après un deuxième lancement de suppression
++ OK Ordre de tri des épisodes
++ Aligner les filtres dans page jsp
+
 
 #### Onglet A propos
 + Version du site
 + credits
 
 #### Admin du site
-+ MAJ de la BDD par rapport aux des données supprimées des repertoires
-+ Maj des fiches films si erreur de correpondance
-+ Rapport ajout et suppression en fin de manip
-+ Date d'ajout du media
++ OK MAJ de la BDD par rapport aux des données supprimées des repertoires
++ OK Maj des fiches films et serie si erreur de correpondance    
++ OK Rapport ajout et suppression en fin de manip
++ OK Date d'ajout du media
 
 #### Securité accès
 + Gestion des droits d'accès (spring security)
 + Gestion des droits BDD
+
+#### Divers
++ Ajouter qques copies d'écran dans le readme
 
 

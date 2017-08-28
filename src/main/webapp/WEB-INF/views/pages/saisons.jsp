@@ -29,6 +29,20 @@
 					<li>${pays.nom}</li>
 				</c:forEach>
 			</ul>
+		<hr/>
+		<div class = "row" >
+			<c:url value="/serieDetailsMaj" var="urlSerieMaj">			
+				<c:param name="idSerie" value="${serie.id}"/>
+			</c:url>
+			<div class ="col-md-4 verticalCenter" >
+				Consulter les fiches disponibles:
+			</div>
+			<div class ="col-md-1 verticalCenter">
+				<a class="btn text-right " href="${urlSerieMaj}" role="button">
+					<img src="/Filmotheque/resources/images/icone/search64.png" />
+				</a>
+			</div>		
+		</div>		
 		<hr/>		
 	</div>
 </div>

@@ -1,6 +1,7 @@
 package com.skalvasociety.skalva.service;
 
 import java.io.Serializable;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -32,5 +33,21 @@ public class ActeurService extends AbstractService<Serializable, Acteur> impleme
 		personneService.completeProfile(acteur);
 		save(acteur);
 		return acteur;
+	}
+	
+	/**
+	 * Supprime les acteurs sans film et series
+	 */
+	public void deleteActeurObsolete(){
+		List<Acteur> acteurs = this.getAll();
+		for (Acteur acteur : acteurs) {
+			
+			if((acteur.getFilmPersonnages()== null || acteur.getFilmPersonnages().isEmpty()) &&
+				(acteur.getSeriePersonnages() == null || acteur.getSeriePersonnages().isEmpty()))
+			{
+				this.delete(acteur);
+			}
+		}
+
 	}
 }

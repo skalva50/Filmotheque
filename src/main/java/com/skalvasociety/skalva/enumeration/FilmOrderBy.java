@@ -1,8 +1,9 @@
 package com.skalvasociety.skalva.enumeration;
 
-public enum FilmOrderBy implements OrderBy {
+public enum FilmOrderBy implements IOrderBy {
 	titre("Titre"),
 	dateSortie("Date de sortie"),
+	dateAjout("Date d'ajout"),
 	note ("Note");
 	
 	private String displayName;
@@ -17,6 +18,8 @@ public enum FilmOrderBy implements OrderBy {
 		case titre:
 			return SortDirection.ASC;
 		case dateSortie:
+			return SortDirection.DESC;
+		case dateAjout:
 			return SortDirection.DESC;
 		case note:
 			return SortDirection.DESC;

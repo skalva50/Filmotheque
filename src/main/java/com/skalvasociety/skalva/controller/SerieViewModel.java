@@ -10,8 +10,9 @@ import com.skalvasociety.skalva.bean.Pays;
 import com.skalvasociety.skalva.bean.Serie;
 import com.skalvasociety.skalva.bean.comparateur.GenreComparateur;
 import com.skalvasociety.skalva.bean.comparateur.PaysComparateur;
-import com.skalvasociety.skalva.enumeration.OrderBy;
+import com.skalvasociety.skalva.enumeration.IOrderBy;
 import com.skalvasociety.skalva.enumeration.SerieFilterBy;
+import com.skalvasociety.skalva.enumeration.SerieFilterText;
 import com.skalvasociety.skalva.enumeration.SerieOrderBy;
 import com.skalvasociety.skalva.service.ISerieService;
 
@@ -24,12 +25,14 @@ public class SerieViewModel extends AbstractListFiltreModel<Serie, SerieFilterBy
 	private List<Pays> pays;
 	private Integer idPays;
 	
+	private String titreLike;
+	
 	private ISerieService serieService;
 	
 	public SerieViewModel(ISerieService service){	
 		super(service);
 		this.serieService = service;
-		setOrderBy(SerieOrderBy.titre);
+		setOrderBy(SerieOrderBy.note);
 		initialisation();    	 
 	}	
 
@@ -108,6 +111,9 @@ public class SerieViewModel extends AbstractListFiltreModel<Serie, SerieFilterBy
 		if(this.getIdPays() != null && this.getIdPays() != 0){
 			filtre.addFiltre(SerieFilterBy.pays, this.getIdPays());
 		}
+		if(this.getTitreLike() != null && !this.getTitreLike().isEmpty()){
+			filtre.addFiltreText(SerieFilterText.titre, this.getTitreLike());
+		}
 		return filtre;
 	}
 
@@ -117,7 +123,7 @@ public class SerieViewModel extends AbstractListFiltreModel<Serie, SerieFilterBy
 	}
 
 	@Override
-	public void setOrderBy(OrderBy orderBy) {		
+	public void setOrderBy(IOrderBy orderBy) {		
 		this.orderBy = (SerieOrderBy)orderBy;
 	}
 
@@ -130,5 +136,13 @@ public class SerieViewModel extends AbstractListFiltreModel<Serie, SerieFilterBy
 	protected void chargerGraphe() {
 		// TODO Auto-generated method stub
 		
+	}
+
+	public String getTitreLike() {
+		return titreLike;
+	}
+
+	public void setTitreLike(String titreLike) {
+		this.titreLike = titreLike;
 	}
 }

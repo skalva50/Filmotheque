@@ -3,6 +3,7 @@ package com.skalvasociety.skalva.service;
 
 import java.io.IOException;
 import java.io.Serializable;
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -15,6 +16,7 @@ import com.skalvasociety.skalva.bean.Fichier;
 import com.skalvasociety.skalva.bean.Film;
 import com.skalvasociety.skalva.bean.FilmPersonnage;
 import com.skalvasociety.skalva.bean.Genre;
+import com.skalvasociety.skalva.bean.MediaTMDB;
 import com.skalvasociety.skalva.bean.Pays;
 import com.skalvasociety.skalva.bean.Realisateur;
 import com.skalvasociety.skalva.bean.Video;
@@ -69,9 +71,10 @@ public class FichierService extends AbstractService<Serializable, Fichier> imple
 			return false;
 	}
 	
-	public void majFichier() {		
+	public List<MediaTMDB> majFichier() {		
 		String path = environment.getProperty("film.path");
 		String API_KEY = environment.getProperty("tmdb.API_KEY");
+		List<MediaTMDB> listAjout = new LinkedList<MediaTMDB>();
 		TMDBRequest tmdbRequest = new TMDBRequest(API_KEY);		
 		List<String> listeFichier = new Acces().listFichierVideo(path);
 		for (String chemin : listeFichier) {			
@@ -87,7 +90,10 @@ public class FichierService extends AbstractService<Serializable, Fichier> imple
 						if (film != null){
 							// Creation de l'entree Film avec son idTMDB 
 							film.setFichier(fichier);
+							Date dateAjout = new Date();
+							film.setDateAjout(dateAjout);
 							filmService.save(film);
+							listAjout.add(film);
 							
 							// Mise à jour du detail du film avec son idTMDB
 							MovieDetails movieDetails = tmdbRequest.getMovieByID(film.getIdTMDB());
@@ -118,8 +124,7 @@ public class FichierService extends AbstractService<Serializable, Fichier> imple
 								for (Crew crew : listeCrew) {
 									Realisateur realisateur = realisateurService.crewToRealisateur(crew);
 									if (realisateur != null){
-										listeRealisateur.add(realisateur);
-										System.out.println(realisateur.getNom());
+										listeRealisateur.add(realisateur);										
 									}										
 								}
 								film.setRealisateurs(listeRealisateur);
@@ -131,11 +136,12 @@ public class FichierService extends AbstractService<Serializable, Fichier> imple
 				}
 			}			
 		}	
+		return listAjout;
 		
 	}
 	
 
-	private void movieDetailsToFilm(MovieDetails movieDetail, Film film){
+	public void movieDetailsToFilm(MovieDetails movieDetail, Film film){
 		film.setResume(movieDetail.getOverview());
 		film.setTitre(movieDetail.getTitle());
 		film.setTitreOriginal(movieDetail.getOriginal_title());
@@ -147,6 +153,7 @@ public class FichierService extends AbstractService<Serializable, Fichier> imple
 		film.setDuree(movieDetail.getRuntime());
 		List<GenreTmdb> listGenreTmdb = movieDetail.getGenres();
 		List<Genre> listGenre = film.getGenres();
+		listGenre.removeAll(listGenre);
 		if(listGenreTmdb != null){
 			for (GenreTmdb genreTmdb : listGenreTmdb) {
 				Genre genre  = genreService.getGenreByIdTmdb(genreTmdb.getId());
@@ -161,6 +168,7 @@ public class FichierService extends AbstractService<Serializable, Fichier> imple
 		
 		List<Country> listCountry = movieDetail.getProduction_countries();
 		List<Pays> listPays = film.getPays();
+		listPays.removeAll(listPays);
 		if(listCountry != null){
 			for (Country country : listCountry) {
 				Pays pays = paysService.getPaysbyIdIso(country.getIso_3166_1());

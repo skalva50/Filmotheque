@@ -81,3 +81,9 @@ body{
 .transparent{
 	background-color : #f9f9f9
 }
+
+.verticalCenter{
+	display: inline-block;
+    vertical-align: middle;
+    float: none;
+}
