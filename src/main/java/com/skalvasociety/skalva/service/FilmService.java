@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.skalvasociety.skalva.bean.Film;
 import com.skalvasociety.skalva.bean.FilmPersonnage;
 import com.skalvasociety.skalva.bean.Genre;
+import com.skalvasociety.skalva.bean.MediaTMDB;
 import com.skalvasociety.skalva.bean.Pays;
 import com.skalvasociety.skalva.bean.Realisateur;
 import com.skalvasociety.skalva.bean.Video;
@@ -165,7 +166,8 @@ public class FilmService extends AbstractService<Integer, Film> implements IFilm
 		}
 	}
 
-	public void deleteFilmObsolete() {
+	public List<MediaTMDB> deleteFilmObsolete() {
+		List<MediaTMDB> listDelete = new LinkedList<MediaTMDB>();
 		List<Film> films = this.getAll();
 		String pathFolder = environment.getProperty("film.path");
 		File file = null;
@@ -177,6 +179,7 @@ public class FilmService extends AbstractService<Integer, Film> implements IFilm
 				 deletePersonnage(film);
 				 deleteVideos(film);
 				 // suppression du film
+				 listDelete.add(film);
 				 this.delete(film);
 				 // suppression du fichier
 				 fichierService.delete(film.getFichier());
@@ -185,5 +188,6 @@ public class FilmService extends AbstractService<Integer, Film> implements IFilm
 		// Suppression des acteurs et realisateurs n'ayant plus de lien avec les films ou serie
 		acteurService.deleteActeurObsolete();
 		realisateurService.deleteRealisateurObsolete();
+		return listDelete;
 	}
 }

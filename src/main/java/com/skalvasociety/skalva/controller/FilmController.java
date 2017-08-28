@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.skalvasociety.skalva.bean.Film;
 import com.skalvasociety.skalva.bean.FilmPersonnage;
+import com.skalvasociety.skalva.bean.MediaTMDB;
 import com.skalvasociety.skalva.bean.Pays;
 import com.skalvasociety.skalva.bean.Realisateur;
 import com.skalvasociety.skalva.bean.Video;
@@ -111,9 +112,10 @@ public class FilmController {
     
     
     @RequestMapping(value = { "/majFilm" }, method = RequestMethod.GET)
-    public String majFichiers() {
-    	fichierService.majFichier();
-        return "redirect:/films";
+    public String majFichiers(ModelMap model) {    	
+    	List<MediaTMDB> listAjout = fichierService.majFichier();    	
+    	model.addAttribute("listAjout", listAjout);
+        return "administration";
     }
 	
 	@RequestMapping(value="/filmDetailsMaj" ,method = RequestMethod.GET)
@@ -137,9 +139,10 @@ public class FilmController {
 	}
 	
 	@RequestMapping(value="/deleteFilm" ,method = RequestMethod.GET)
-	public String majFilm(){
-		filmService.deleteFilmObsolete();
-		return "redirect:/films";
+	public String majFilm(ModelMap model){
+		List<MediaTMDB> listDelete = filmService.deleteFilmObsolete();
+		model.addAttribute("listDelete", listDelete);
+        return "administration";
 	}	
 }
 		    		

@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
+import com.skalvasociety.skalva.bean.MediaTMDB;
 import com.skalvasociety.skalva.bean.Pays;
 import com.skalvasociety.skalva.bean.Realisateur;
 import com.skalvasociety.skalva.bean.Saison;
@@ -119,9 +120,10 @@ public class SerieController {
     
 	
 	@RequestMapping(value = { "/majSerie" }, method = RequestMethod.GET)
-    public String majFichiers() {
-    	serieService.majSerie();
-        return "redirect:/series";
+    public String majFichiers(ModelMap model) {
+		List<MediaTMDB> listAjout = serieService.majSerie();
+    	model.addAttribute("listAjout", listAjout);
+        return "administration";
         
     }
 	
@@ -146,9 +148,10 @@ public class SerieController {
 	}
 	
 	@RequestMapping(value="/deleteSerie" ,method = RequestMethod.GET)
-	public String deleteSerie(){
-		serieService.deleteSerieObsolete();
-		return "redirect:/series";
+	public String deleteSerie(ModelMap model){
+		List<MediaTMDB> listDelete = serieService.deleteSerieObsolete();
+    	model.addAttribute("listDelete", listDelete);
+        return "administration";
 	}
 	
 	

@@ -16,6 +16,7 @@ import com.skalvasociety.skalva.bean.Fichier;
 import com.skalvasociety.skalva.bean.Film;
 import com.skalvasociety.skalva.bean.FilmPersonnage;
 import com.skalvasociety.skalva.bean.Genre;
+import com.skalvasociety.skalva.bean.MediaTMDB;
 import com.skalvasociety.skalva.bean.Pays;
 import com.skalvasociety.skalva.bean.Realisateur;
 import com.skalvasociety.skalva.bean.Video;
@@ -70,9 +71,10 @@ public class FichierService extends AbstractService<Serializable, Fichier> imple
 			return false;
 	}
 	
-	public void majFichier() {		
+	public List<MediaTMDB> majFichier() {		
 		String path = environment.getProperty("film.path");
 		String API_KEY = environment.getProperty("tmdb.API_KEY");
+		List<MediaTMDB> listAjout = new LinkedList<MediaTMDB>();
 		TMDBRequest tmdbRequest = new TMDBRequest(API_KEY);		
 		List<String> listeFichier = new Acces().listFichierVideo(path);
 		for (String chemin : listeFichier) {			
@@ -91,6 +93,7 @@ public class FichierService extends AbstractService<Serializable, Fichier> imple
 							Date dateAjout = new Date();
 							film.setDateAjout(dateAjout);
 							filmService.save(film);
+							listAjout.add(film);
 							
 							// Mise à jour du detail du film avec son idTMDB
 							MovieDetails movieDetails = tmdbRequest.getMovieByID(film.getIdTMDB());
@@ -133,6 +136,7 @@ public class FichierService extends AbstractService<Serializable, Fichier> imple
 				}
 			}			
 		}	
+		return listAjout;
 		
 	}
 	

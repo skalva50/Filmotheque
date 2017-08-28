@@ -43,8 +43,8 @@
 #### Admin du site
 + OK MAJ de la BDD par rapport aux des données supprimées des repertoires
 + OK Maj des fiches films et serie si erreur de correpondance    
-+ Rapport ajout et suppression en fin de manip
-+ Date d'ajout du media
++ OK Rapport ajout et suppression en fin de manip
++ OK Date d'ajout du media
 
 #### Securité accès
 + Gestion des droits d'accès (spring security)

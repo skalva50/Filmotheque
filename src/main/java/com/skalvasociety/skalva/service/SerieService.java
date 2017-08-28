@@ -16,6 +16,7 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import com.skalvasociety.skalva.bean.Episode;
 import com.skalvasociety.skalva.bean.Fichier;
 import com.skalvasociety.skalva.bean.Genre;
+import com.skalvasociety.skalva.bean.MediaTMDB;
 import com.skalvasociety.skalva.bean.Pays;
 import com.skalvasociety.skalva.bean.Realisateur;
 import com.skalvasociety.skalva.bean.Saison;
@@ -80,10 +81,11 @@ public class SerieService extends AbstractService<Integer, Serie> implements ISe
 		return serieDao.getSerieByIdTMDB(idTMDB);
 	}
 	
-	public void majSerie() {	
+	public List<MediaTMDB> majSerie() {	
 		String path = environment.getProperty("serie.path");
 		String API_KEY = environment.getProperty("tmdb.API_KEY");
 		TMDBRequest tmdbRequest = new TMDBRequest(API_KEY);
+		List<MediaTMDB> listAjout = new LinkedList<MediaTMDB>();
 		List<String> listeNomSerie = new Acces().listDossier(path);
 		for (String nameSerie : listeNomSerie) {			
 			try {
@@ -98,6 +100,7 @@ public class SerieService extends AbstractService<Integer, Serie> implements ISe
 							}	
 							serie.setDateAjout(new Date());
 							save(serie);
+							listAjout.add(serie);
 							loadVideos(tmdbRequest, serie);								
 							loadCasting(tmdbRequest, serie);					
 							loadCrew(tmdbRequest, serie);				
@@ -105,17 +108,18 @@ public class SerieService extends AbstractService<Integer, Serie> implements ISe
 						}else{
 							serie = getSerieByIdTMDB(serie.getIdTMDB());
 						}
-						loadSaison(path, tmdbRequest, nameSerie, serie);						
+						loadSaison(path, tmdbRequest, nameSerie, serie, listAjout);						
 					}					
 				}			
 				
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-		}		
+		}
+		return listAjout;
 	}
 
-	private void loadSaison(String path, TMDBRequest tmdbRequest, String nameSerie, Serie serie)
+	private void loadSaison(String path, TMDBRequest tmdbRequest, String nameSerie, Serie serie, List<MediaTMDB> listAjout)
 			throws IOException, JsonParseException, JsonMappingException {
 		List<String> listSaisonDossier = new Acces().listDossier(path+"/"+nameSerie);
 		
@@ -129,6 +133,9 @@ public class SerieService extends AbstractService<Integer, Serie> implements ISe
 					saison.setSerie(serie);	
 					saison.setDateAjout(new Date());
 					saisonService.save(saison);
+					if(listAjout != null){
+						listAjout.add(saison);
+					}						
 					List<Video> listVideos = tmdbRequest.getVideoByID(saison);
 					if(listVideos != null){
 						for (Video video : listVideos) {
@@ -164,7 +171,10 @@ public class SerieService extends AbstractService<Integer, Serie> implements ISe
 								episodeService.episodeTmdbToEpisode(episodeTMDB, episode);											
 								episode.setFichier(fichier);
 								episode.setDateAjout(new Date());
-								episode.setSaison(saison);												
+								episode.setSaison(saison);	
+								if(listAjout != null){
+									listAjout.add(episode);
+								}								
 								episodeService.save(episode);
 								List<Video> listVideos = tmdbRequest.getVideoByID(episode);
 								if(listVideos != null){
@@ -242,7 +252,7 @@ public class SerieService extends AbstractService<Integer, Serie> implements ISe
 					deleteVideos(listVideoSaisonToDelete);
 					saisonService.delete(saison);
 				}	
-				loadSaison(path, tmdbRequest, serie.getTitre(), serie);
+				loadSaison(path, tmdbRequest, serie.getTitre(), serie, null);
 			}
 			
 		} catch (IOException e) {
@@ -353,7 +363,8 @@ public class SerieService extends AbstractService<Integer, Serie> implements ISe
 		}
 	}
 
-	public void deleteSerieObsolete() {
+	public List<MediaTMDB> deleteSerieObsolete() {
+		List<MediaTMDB> listDelete = new LinkedList<MediaTMDB>();
 		// Suppression des episodes obsolètes
 		List<Episode> episodes = episodeService.getAll();
 		String pathFolder = environment.getProperty("serie.path");
@@ -363,6 +374,7 @@ public class SerieService extends AbstractService<Integer, Serie> implements ISe
 			if(!file.exists()){
 				deleteVideos(episode.getVideos());	
 				fichierService.delete(episode.getFichier());
+				listDelete.add(episode);
 				episodeService.delete(episode);				
 			}
 		}
@@ -372,6 +384,7 @@ public class SerieService extends AbstractService<Integer, Serie> implements ISe
 		for (Saison saison : saisons) {
 			if(saison.getEpisodes() == null || saison.getEpisodes().isEmpty()){
 				deleteVideos(saison.getVideos());
+				listDelete.add(saison);
 				saisonService.delete(saison);
 			}			
 		}
@@ -382,11 +395,13 @@ public class SerieService extends AbstractService<Integer, Serie> implements ISe
 			if(serie.getSaison() == null || serie.getSaison().isEmpty()){
 				deleteVideos(serie);
 				deletePersonnage(serie);
+				listDelete.add(serie);
 				this.delete(serie);
 			}
 		}
 		// Suppression des acteurs et realisateurs n'ayant plus de lien avec les films ou serie
 		acteurService.deleteActeurObsolete();
 		realisateurService.deleteRealisateurObsolete();	
+		return listDelete;
 	}
 }
