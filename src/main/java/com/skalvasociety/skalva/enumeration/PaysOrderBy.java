@@ -1,6 +1,6 @@
 package com.skalvasociety.skalva.enumeration;
 
-public enum PaysOrderBy implements OrderBy {
+public enum PaysOrderBy implements IOrderBy {
 	nom;
 
 	public SortDirection getSortDirectionDefaut() {

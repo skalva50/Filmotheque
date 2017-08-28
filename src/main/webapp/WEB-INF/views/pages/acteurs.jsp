@@ -23,7 +23,16 @@
 		  </div>
 		</form:form>
 	</div>
-	<div class="col-md-2 col-md-offset-8">
+	<div class="col-md-2 col-md-offset-6">
+		<form:form method="GET" action="acteurs" modelAttribute="acteursModel">
+		  <div class="form-group">
+		    <label for="SearchByNom">Chercher par nom:
+		    </label>
+		    <form:input path="nomLike" class="form-control" onchange= "submit()"/>	                                	    
+		  </div>
+		</form:form>
+	</div>
+	<div class="col-md-2">
 		<form:form method="GET" action="acteurs" modelAttribute="acteursModel">
 			<div class="form-group">
 				<label for="orderBy">Trier par: </label>

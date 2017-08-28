@@ -4,12 +4,12 @@ import java.util.List;
 
 import com.skalvasociety.skalva.bean.IFiltre;
 import com.skalvasociety.skalva.daoTools.PageRequest;
-import com.skalvasociety.skalva.enumeration.FilterBy;
+import com.skalvasociety.skalva.enumeration.IFilterBy;
 import com.skalvasociety.skalva.service.IService;
 
-public abstract class AbstractListFiltreModel<T, FILTRE extends FilterBy > extends AbstractListModel<T> {
+public abstract class AbstractListFiltreModel<T, FILTRE extends IFilterBy > extends AbstractListModel<T> {
 	
-	private FILTRE clearFiltre;
+	private FILTRE clearFiltre;	
 
 	public AbstractListFiltreModel(IService<?, T> service) {
 		super(service);

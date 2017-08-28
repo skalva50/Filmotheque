@@ -31,11 +31,15 @@
 + OK Fiche realisateur : ajouter les series
 
 #### BugFix
+
 + OK Ordre de tri des épisodes
 + Nom dossier: supprimer la sensibilité à la casse
 + OK Ajout du sexe des personnes
 + OK si note null, mettre 0
 + Suppression des acteurs et réalisateurs ne se fait qu'après un deuxième lancement de suppression
++ OK Ordre de tri des épisodes
++ Aligner les filtres dans page jsp
+
 
 #### Onglet A propos
 + Version du site

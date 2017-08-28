@@ -1,6 +1,6 @@
 package com.skalvasociety.skalva.enumeration;
 
-public enum SerieOrderBy implements OrderBy {
+public enum SerieOrderBy implements IOrderBy {
 	titre("Titre"),
 	dateSortie("Date de sortie"),
 	dateAjout("Date d'ajout"),

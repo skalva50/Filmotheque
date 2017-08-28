@@ -1,6 +1,6 @@
 package com.skalvasociety.skalva.enumeration;
 
-public enum GenreOrderBy implements OrderBy {
+public enum GenreOrderBy implements IOrderBy {
 	libelle;
 
 	public SortDirection getSortDirectionDefaut() {

@@ -1,5 +1,5 @@
 package com.skalvasociety.skalva.enumeration;
 
-public interface OrderBy {
+public interface IOrderBy {
 	SortDirection getSortDirectionDefaut();
 }

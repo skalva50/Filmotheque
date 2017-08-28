@@ -7,8 +7,9 @@ import com.skalvasociety.skalva.bean.FiltreActeur;
 import com.skalvasociety.skalva.bean.IFiltre;
 import com.skalvasociety.skalva.bean.Sexe;
 import com.skalvasociety.skalva.enumeration.ActeurOrderBy;
-import com.skalvasociety.skalva.enumeration.OrderBy;
+import com.skalvasociety.skalva.enumeration.IOrderBy;
 import com.skalvasociety.skalva.enumeration.ActeurFilterBy;
+import com.skalvasociety.skalva.enumeration.ActeurFilterText;
 import com.skalvasociety.skalva.service.IActeurService;
 import com.skalvasociety.skalva.service.ISexeService;
 
@@ -17,6 +18,8 @@ public class ActeurViewModel extends AbstractListFiltreModel<Acteur, ActeurFilte
 	
 	private List<Sexe> sexes;
 	private Integer idSexe;	
+	
+	private String nomLike;
 	
 	private ISexeService sexeService;
 
@@ -33,6 +36,9 @@ public class ActeurViewModel extends AbstractListFiltreModel<Acteur, ActeurFilte
 		FiltreActeur filtre = new FiltreActeur();
 		if(this.getIdSexe() !=  null && this.getIdSexe() !=  0){
 			filtre.addFiltre(ActeurFilterBy.sexe,this.getIdSexe());						
+		}
+		if(this.getNomLike() != null && !this.getNomLike().isEmpty()){
+			filtre.addFiltreText(ActeurFilterText.nom, this.getNomLike());
 		}
 		return filtre;
 	}
@@ -63,7 +69,7 @@ public class ActeurViewModel extends AbstractListFiltreModel<Acteur, ActeurFilte
 	}
 
 	@Override
-	public void setOrderBy(OrderBy orderBy) {
+	public void setOrderBy(IOrderBy orderBy) {
 		this.orderBy = (ActeurOrderBy) orderBy;		
 	}
 	
@@ -93,5 +99,13 @@ public class ActeurViewModel extends AbstractListFiltreModel<Acteur, ActeurFilte
 	protected void chargerGraphe() {
 		// TODO Auto-generated method stub
 		
+	}
+
+	public String getNomLike() {
+		return nomLike;
+	}
+
+	public void setNomLike(String nomLike) {
+		this.nomLike = nomLike;
 	}
 }

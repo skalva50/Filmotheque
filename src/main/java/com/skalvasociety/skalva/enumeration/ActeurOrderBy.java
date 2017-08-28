@@ -1,6 +1,6 @@
 package com.skalvasociety.skalva.enumeration;
 
-public enum ActeurOrderBy implements OrderBy {
+public enum ActeurOrderBy implements IOrderBy {
 	nom("Nom"),
 	dateNaissance("Date de naissance"),
 	popularite("Popularité");
