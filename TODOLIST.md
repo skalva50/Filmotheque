@@ -33,8 +33,9 @@
 #### BugFix
 + OK Ordre de tri des épisodes
 + Nom dossier: supprimer la sensibilité à la casse
-+ Ajout du sexe des personnes
-+ si note null, mettre 0
++ OK Ajout du sexe des personnes
++ OK si note null, mettre 0
++ Suppression des acteurs et réalisateurs ne se fait qu'après un deuxième lancement de suppression
 
 #### Onglet A propos
 + Version du site
