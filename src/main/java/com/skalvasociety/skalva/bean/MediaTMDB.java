@@ -24,7 +24,8 @@ public abstract class MediaTMDB extends EntiteTmdb {
 	private String cleVideo;
 	private String siteVideo;
 	private String resumeCourt;
-	private Date dateSortie;	
+	private Date dateSortie;
+	private Date dateAjout;
 	private List<Pays> pays = new LinkedList<Pays>();
 	private List<Video> videos = new LinkedList<Video>();
 
@@ -77,6 +78,12 @@ public abstract class MediaTMDB extends EntiteTmdb {
 		this.dateSortie = dateSortie;
 	}
 	
+	public Date getDateAjout() {
+		return dateAjout;
+	}
+	public void setDateAjout(Date dateAjout) {
+		this.dateAjout = dateAjout;
+	}
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "media")
 	public List<Video> getVideos() {
 		return videos;

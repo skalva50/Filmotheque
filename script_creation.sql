@@ -85,6 +85,7 @@ CREATE TABLE MediaTMDB
 	siteVideo varchar(255),
 	resumeCourt varchar(500),
 	dateSortie Date,
+	dateAjout Date,
 	CONSTRAINT prk_constraint_MEDIA PRIMARY KEY (id)
 );
 

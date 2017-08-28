@@ -3,6 +3,7 @@ package com.skalvasociety.skalva.service;
 
 import java.io.IOException;
 import java.io.Serializable;
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -87,6 +88,8 @@ public class FichierService extends AbstractService<Serializable, Fichier> imple
 						if (film != null){
 							// Creation de l'entree Film avec son idTMDB 
 							film.setFichier(fichier);
+							Date dateAjout = new Date();
+							film.setDateAjout(dateAjout);
 							filmService.save(film);
 							
 							// Mise à jour du detail du film avec son idTMDB

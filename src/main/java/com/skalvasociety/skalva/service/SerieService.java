@@ -2,6 +2,7 @@ package com.skalvasociety.skalva.service;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -94,7 +95,8 @@ public class SerieService extends AbstractService<Integer, Serie> implements ISe
 							SerieDetails serieDetail = tmdbRequest.getSerieByID(serie.getIdTMDB());
 							if (serieDetail != null){
 								serieDetailsToSerie(serieDetail, serie);
-							}							
+							}	
+							serie.setDateAjout(new Date());
 							save(serie);
 							loadVideos(tmdbRequest, serie);								
 							loadCasting(tmdbRequest, serie);					
@@ -124,7 +126,8 @@ public class SerieService extends AbstractService<Integer, Serie> implements ISe
 				if (saison == null){
 					saison = new Saison();
 					saisonService.serieSaisonDetailstoSaison(serieSaisonDetails, saison);
-					saison.setSerie(serie);									
+					saison.setSerie(serie);	
+					saison.setDateAjout(new Date());
 					saisonService.save(saison);
 					List<Video> listVideos = tmdbRequest.getVideoByID(saison);
 					if(listVideos != null){
@@ -160,6 +163,7 @@ public class SerieService extends AbstractService<Integer, Serie> implements ISe
 								fichierService.save(fichier);
 								episodeService.episodeTmdbToEpisode(episodeTMDB, episode);											
 								episode.setFichier(fichier);
+								episode.setDateAjout(new Date());
 								episode.setSaison(saison);												
 								episodeService.save(episode);
 								List<Video> listVideos = tmdbRequest.getVideoByID(episode);
