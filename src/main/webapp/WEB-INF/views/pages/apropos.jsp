@@ -1,7 +1,7 @@
 <div class="row">
  	<h2>Version</h2>
  	<ul>
- 		<li><h4>0.2.0-Release</h4></li>
+ 		<li><h4>0.3.0-Release</h4></li>
  	</ul>
  	<h2>Credits</h2> 	
   	<div>

@@ -13,7 +13,7 @@
 + Ajout d'une page liste acteur
 + Ajout d'une page liste realisateur
 
-## V.0.3.0 (bientôt)
+## V.0.3.0 (28/08/17)
 + Ajout de fonction download
 + Recherche textuelle sur serie, film, acteur, realisateur
 + MAJ de la BDD par rapport aux des données supprimées des repertoires
