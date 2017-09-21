@@ -24,8 +24,7 @@ public class AppConfig extends WebMvcConfigurerAdapter {
         TilesConfigurer tilesConfigurer = new TilesConfigurer();
         tilesConfigurer.setDefinitions(
           new String[] { "/WEB-INF/views/**/tiles.xml" });
-        tilesConfigurer.setCheckRefresh(true);
-         
+        tilesConfigurer.setCheckRefresh(true);         
         return tilesConfigurer;
     }
 	

@@ -147,7 +147,7 @@
 		<c:forEach begin="0" end ="5" var="j">
 			<div class="col-sm-2 col-md-4S">
 				<c:set var="k" scope="session" value="${(i*6)+j}"/>		
-				<c:url value="/filmDetails" var="url">
+				<c:url value="/films/filmDetails" var="url">
 					<c:param name="idFilm" value="${filmModel.liste[k].id}"/>
 				</c:url>
 				<c:if test="${k<filmModel.liste.size()}">								

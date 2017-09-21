@@ -18,7 +18,7 @@ public class AdminTMDBController {
 	@Autowired
 	ISerieService serieService;
 	
-	@RequestMapping(value = { "/majTMDB" }, method = RequestMethod.GET)
+	@RequestMapping(value = { "/administration/majTMDB" }, method = RequestMethod.GET)
     public String accueil(
     		@RequestParam(value="idTMDB") Integer idTMDB,
     		@RequestParam(value="idFilm", required = false) Integer idFilm,

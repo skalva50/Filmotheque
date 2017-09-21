@@ -21,7 +21,7 @@ public class EpisodeController {
 	@Autowired
 	IEpisodeService episodeService;
 	
-	@RequestMapping(value="/episode" ,method = RequestMethod.GET)
+	@RequestMapping(value="/series/saisons/episode" ,method = RequestMethod.GET)
 	public String episodeById(@RequestParam(value="idEpisode") Integer idEpisode, ModelMap model){	
 		if (idEpisode == null)
 			return "redirect:/series";

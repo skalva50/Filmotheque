@@ -65,7 +65,7 @@ public class FilmController {
         return "films";
     }    
 
-	@RequestMapping(value="/filmDetails" ,method = RequestMethod.GET)
+	@RequestMapping(value="/films/filmDetails" ,method = RequestMethod.GET)
 	public String filmById(@RequestParam(value="idFilm") Integer idFilm, ModelMap model){	
 		if (idFilm == null)
 			return "redirect:/films";
@@ -111,14 +111,14 @@ public class FilmController {
 	
     
     
-    @RequestMapping(value = { "/majFilm" }, method = RequestMethod.GET)
+    @RequestMapping(value = { "/administration/majFilm" }, method = RequestMethod.GET)
     public String majFichiers(ModelMap model) {    	
     	List<MediaTMDB> listAjout = fichierService.majFichier();    	
     	model.addAttribute("listAjout", listAjout);
         return "administration";
     }
 	
-	@RequestMapping(value="/filmDetailsMaj" ,method = RequestMethod.GET)
+	@RequestMapping(value="/administration/filmDetailsMaj" ,method = RequestMethod.GET)
 	public String majFilm(
 			@RequestParam(value="idFilm") Integer idFilm,
 			ModelMap model){
@@ -129,8 +129,10 @@ public class FilmController {
 			TMDBRequest tmdbRequest = new TMDBRequest(API_KEY);
 			try {
 				SearchMovie movie = tmdbRequest.searchMovie(film.getFichier().getChemin());
-				List<ResultsSearchMovie> listMovie = movie.getResults();
-				model.addAttribute("listMovie", listMovie);			
+				if(movie != null){
+					List<ResultsSearchMovie> listMovie = movie.getResults();
+					model.addAttribute("listMovie", listMovie);			
+				}				
 			} catch (IOException e) {				
 				e.printStackTrace();
 			}
@@ -138,7 +140,7 @@ public class FilmController {
 		return "adminTMDB";
 	}
 	
-	@RequestMapping(value="/deleteFilm" ,method = RequestMethod.GET)
+	@RequestMapping(value="/administration/deleteFilm" ,method = RequestMethod.GET)
 	public String majFilm(ModelMap model){
 		List<MediaTMDB> listDelete = filmService.deleteFilmObsolete();
 		model.addAttribute("listDelete", listDelete);

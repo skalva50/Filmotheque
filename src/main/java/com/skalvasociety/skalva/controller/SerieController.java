@@ -63,7 +63,7 @@ public class SerieController {
     }
      
     
-    @RequestMapping(value="/saisons" ,method = RequestMethod.GET)
+    @RequestMapping(value="/series/saisons" ,method = RequestMethod.GET)
 	public String serieById(@RequestParam(value="idSerie") Integer idSerie, ModelMap model){	
 		if (idSerie == null)
 			return "redirect:/series";
@@ -119,7 +119,7 @@ public class SerieController {
 	}    
     
 	
-	@RequestMapping(value = { "/majSerie" }, method = RequestMethod.GET)
+	@RequestMapping(value = { "/administration/majSerie" }, method = RequestMethod.GET)
     public String majFichiers(ModelMap model) {
 		List<MediaTMDB> listAjout = serieService.majSerie();
     	model.addAttribute("listAjout", listAjout);
@@ -127,7 +127,7 @@ public class SerieController {
         
     }
 	
-	@RequestMapping(value="/serieDetailsMaj" ,method = RequestMethod.GET)
+	@RequestMapping(value="/administration/serieDetailsMaj" ,method = RequestMethod.GET)
 	public String majFilm(
 			@RequestParam(value="idSerie") Integer idSerie,
 			ModelMap model){
@@ -147,7 +147,7 @@ public class SerieController {
 		return "adminTMDB";
 	}
 	
-	@RequestMapping(value="/deleteSerie" ,method = RequestMethod.GET)
+	@RequestMapping(value="/administration/deleteSerie" ,method = RequestMethod.GET)
 	public String deleteSerie(ModelMap model){
 		List<MediaTMDB> listDelete = serieService.deleteSerieObsolete();
     	model.addAttribute("listDelete", listDelete);

@@ -39,6 +39,7 @@
 + Suppression des acteurs et réalisateurs ne se fait qu'après un deuxième lancement de suppression
 + OK Ordre de tri des épisodes
 + Aligner les filtres dans page jsp
++ Absence de tmdb key
 
 
 #### Onglet A propos
@@ -55,7 +56,9 @@
 + Gestion des droits d'accès (spring security)
 + Gestion des droits BDD
 
-#### Divers
-+ Ajouter qques copies d'écran dans le readme
+#### Logs
++ Supprimer les system.out
++ Supprimer le log des requete SQL
++ implementer Log4J ou autre solution
 
 
