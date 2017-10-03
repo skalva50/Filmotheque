@@ -2,28 +2,14 @@ package com.skalvasociety.skalva.bean;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
 @Table(name="USER_PROFILE")
-public class UserProfile {
+public class UserProfile extends Entite{
 	
-	 @Id @GeneratedValue(strategy=GenerationType.IDENTITY)
-	    private int id; 
-	 
 	    @Column(name="TYPE", length=15, unique=true, nullable=false)
 	    private String type = UserProfileType.USER.getUserProfileType();
-	     
-	    public int getId() {
-	        return id;
-	    }
-	 
-	    public void setId(int id) {
-	        this.id = id;
-	    }
 	 
 	    public String getType() {
 	        return type;
@@ -38,7 +24,7 @@ public class UserProfile {
 	    public int hashCode() {
 	        final int prime = 31;
 	        int result = 1;
-	        result = prime * result + id;
+	        result = prime * result + getId();
 	        result = prime * result + ((type == null) ? 0 : type.hashCode());
 	        return result;
 	    }
@@ -52,7 +38,7 @@ public class UserProfile {
 	        if (!(obj instanceof UserProfile))
 	            return false;
 	        UserProfile other = (UserProfile) obj;
-	        if (id != other.id)
+	        if (getId() != other.getId())
 	            return false;
 	        if (type == null) {
 	            if (other.type != null)
@@ -64,7 +50,7 @@ public class UserProfile {
 	 
 	    @Override
 	    public String toString() {
-	        return "UserProfile [id=" + id + ",  type=" + type  + "]";
+	        return "UserProfile [id=" + getId() + ",  type=" + type  + "]";
 	    }
 
 }

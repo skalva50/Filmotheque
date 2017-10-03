@@ -1,4 +1,4 @@
-delete from APP_USER_USER_PROFILE;
+﻿delete from APP_USER_USER_PROFILE;
 delete from USER_PROFILE;
 delete from APP_USER﻿;
 delete from episode;

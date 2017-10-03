@@ -10,7 +10,7 @@
   
 	<properties>
 		<springframework.version>4.3.11.RELEASE</springframework.version>
-		<springsecurity.version>4.2.3.RELEASE</springsecurity.version>
+		<springsecurity.version>4.0.1.RELEASE</springsecurity.version>
 		<hibernate.version>4.3.11.Final</hibernate.version>
 		<postgresql.version>9.3-1102-jdbc41</postgresql.version>
 		<apachetiles.version>3.0.7</apachetiles.version>

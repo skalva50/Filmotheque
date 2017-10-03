@@ -1,36 +1,51 @@
 package com.skalvasociety.skalva.controller;
 
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.transaction.Transactional;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.skalvasociety.skalva.service.IUserProfileService;
+import com.skalvasociety.skalva.service.IUserService;
 
+@Transactional
 @Controller
 public class AccueilController {
+	@Autowired 
+	IUserService userService;
+	
+	@Autowired 
+	IUserProfileService userProfileService;
+	
 	@RequestMapping(value = { "/" }, method = RequestMethod.GET)
-    public String accueil(ModelMap model) {       
-
+    public String accueil(ModelMap model) {  
+		
+//		User user = new User();
+//		user.setIdentifiant("olivier");
+//		String password = "olivier";
+//        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+//        user.setPassword(passwordEncoder.encode(password));
+//		List<UserProfile> listeProfile = userProfileService.getAll();
+//		user.setUserProfiles(listeProfile);
+//		userService.save(user);
+		
+		
         return "accueil";
-    }
-	
-	
-	@RequestMapping(value = { "/administration" }, method = RequestMethod.GET)
-    public String administration(ModelMap model) {       
+    }	
 
-        return "administration";
-    }
-	
 	@RequestMapping(value = { "/apropos" }, method = RequestMethod.GET)
     public String apropos(ModelMap model) {       
-
         return "apropos";
     }
 	

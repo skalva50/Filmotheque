@@ -12,7 +12,7 @@
 #### Organisation
 + Determiner objectif de la prochaine release  
 + Lister les modifs à effectuer lors de la réalisation d'une release
-     + Ajouter le war (se fait dans la fiche de release github)
+    + Ajouter le war (se fait dans la fiche de release github)
      + Mettre application.properties en générique (login, mdp ...)
 
 ------------------------------------
@@ -40,11 +40,11 @@
 + OK Ordre de tri des épisodes
 + Aligner les filtres dans page jsp
 + Absence de tmdb key
-
++ Ne pas executer actualisation si dossier serie/film introuvable
 
 #### Onglet A propos
-+ Version du site
-+ credits
++ version du site (a voir avec version maven)
++ OK credits
 
 #### Admin du site
 + OK MAJ de la BDD par rapport aux des données supprimées des repertoires
@@ -54,11 +54,17 @@
 
 #### Securité accès
 + Gestion des droits d'accès (spring security)
+    + OK suppression du user
+    + Gerer la verif de password
+    + OK Mise en forme de la page admin
+    + Afficher la nom de l'utilisateur dans la barre de menu
+
 + Gestion des droits BDD
 
 #### Logs
 + Supprimer les system.out
 + Supprimer le log des requete SQL
 + implementer Log4J ou autre solution
++ trapper les exceptions potentiel dans le log (abstract dao par exemple) 
 
 

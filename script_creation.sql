@@ -236,14 +236,11 @@ CREATE TABLE EPISODE
 		REFERENCES MediaTMDB(id) 
 );
 
--- Ceation USER
+-- Creation USER
 create table APP_USER (
    id serial NOT NULL,
    identifiant VARCHAR(30) NOT NULL,
-   password VARCHAR(100) NOT NULL,
-   prenom VARCHAR(30) NOT NULL,
-   nom  VARCHAR(30) NOT NULL,
-   email VARCHAR(30) NOT NULL,
+   password VARCHAR(100) NOT NULL,   
    state VARCHAR(30) NOT NULL,  
    PRIMARY KEY (id),
    UNIQUE (identifiant)
@@ -274,29 +271,3 @@ VALUES ('ADMIN');
 INSERT INTO USER_PROFILE(type)
 VALUES ('INSCRIT');
  
-/* Populate APP_USER Table */
-INSERT INTO APP_USER(identifiant, password, prenom, nom, email, state)
-VALUES ('olivier','olivier', 'Olivier','lecornu','olivier@xyz.com', 'Active');
- 
-INSERT INTO APP_USER(identifiant, password, prenom, nom, email, state)
-VALUES ('laurie','laurie', 'Laurie','Fabre','laurie@xyz.com', 'Active');
-
- 
-/* Populate JOIN Table */
-INSERT INTO APP_USER_USER_PROFILE (user_id, user_profile_id)
-(
-  SELECT usr.id, profile.id FROM app_user usr, user_profile profile  
-  where usr.identifiant='olivier' and profile.type='ADMIN'
- );
-
-INSERT INTO APP_USER_USER_PROFILE (user_id, user_profile_id)
-(
-  SELECT usr.id, profile.id FROM app_user usr, user_profile profile  
-  where usr.identifiant='olivier' and profile.type='INSCRIT'
- );
-
-INSERT INTO APP_USER_USER_PROFILE (user_id, user_profile_id)
-(
-  SELECT usr.id, profile.id FROM app_user usr, user_profile profile
-  where usr.identifiant='laurie' and profile.type='INSCRIT'
-);
