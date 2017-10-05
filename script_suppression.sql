@@ -1,4 +1,6 @@
-﻿
+﻿delete from APP_USER_USER_PROFILE;
+delete from USER_PROFILE;
+delete from APP_USER﻿;
 delete from episode;
 delete from saison;
 delete from MEDIA_PAYS;
@@ -19,6 +21,9 @@ delete from SEXE;
 delete from genre;
 delete from fichier;
 
+drop table APP_USER_USER_PROFILE;
+drop table USER_PROFILE;
+drop table APP_USER﻿;
 drop table episode;
 drop table saison;
 drop table MEDIA_PAYS;

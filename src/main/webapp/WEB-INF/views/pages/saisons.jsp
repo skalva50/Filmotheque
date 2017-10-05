@@ -31,7 +31,7 @@
 			</ul>
 		<hr/>
 		<div class = "row" >
-			<c:url value="/serieDetailsMaj" var="urlSerieMaj">			
+			<c:url value="/administration/serieDetailsMaj" var="urlSerieMaj">			
 				<c:param name="idSerie" value="${serie.id}"/>
 			</c:url>
 			<div class ="col-md-4 verticalCenter" >
@@ -77,7 +77,7 @@
 		</thead>
 		<tbody>    
 		    <c:forEach items="${saisons}" var="saison">		    		
-				<c:url value="/episodes" var="url">
+				<c:url value="/series/saisons/episodes" var="url">
 					<c:param name="idSaison" value="${saison.id}"/>
 				</c:url>   	
 		        <tr> 
@@ -100,7 +100,7 @@
 			<c:forEach begin="0" end ="5" var="j">
 				<div class="col-sm-4 col-md-2">
 					<c:set var="k" scope="session" value="${(i*6)+j}"/>		
-					<c:url value="/realisateur" var="url">
+					<c:url value="/realisateurs/realisateur" var="url">
 						<c:param name="idRealisateur" value="${realisateurs[k].id}"/>
 					</c:url>
 					<c:if test="${k<realisateurs.size()}">								
@@ -123,7 +123,7 @@
 		<c:forEach begin="0" end ="5" var="j">
 			<div class="col-sm-4 col-md-2">
 				<c:set var="k" scope="session" value="${(i*6)+j}"/>		
-				<c:url value="/acteur" var="url">
+				<c:url value="/acteurs/acteur" var="url">
 					<c:param name="idActeur" value="${personnages[k].acteur.id}"/>
 				</c:url>
 				<c:if test="${k<personnages.size()}">								

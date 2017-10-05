@@ -18,7 +18,7 @@
 			<div class="col-md-2">
 				${movie.release_date}
 			</div>
-			<c:url value="/majTMDB" var="urlmajTMDB">			
+			<c:url value="/administration/majTMDB" var="urlmajTMDB">			
 				<c:param name="idTMDB" value="${movie.id}"/>
 				<c:param name="idFilm" value="${film.id}"/>
 			</c:url>

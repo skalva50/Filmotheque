@@ -236,3 +236,38 @@ CREATE TABLE EPISODE
 		REFERENCES MediaTMDB(id) 
 );
 
+-- Creation USER
+create table APP_USER (
+   id serial NOT NULL,
+   identifiant VARCHAR(30) NOT NULL,
+   password VARCHAR(100) NOT NULL,   
+   state VARCHAR(30) NOT NULL,  
+   PRIMARY KEY (id),
+   UNIQUE (identifiant)
+);
+  
+/* USER_PROFILE table contains all possible roles */
+create table USER_PROFILE(
+   id serial NOT NULL,
+   type VARCHAR(30) NOT NULL,
+   PRIMARY KEY (id),
+   UNIQUE (type)
+);
+  
+/* JOIN TABLE for MANY-TO-MANY relationship*/ 
+CREATE TABLE APP_USER_USER_PROFILE (	
+    user_id BIGINT NOT NULL,
+    user_profile_id BIGINT NOT NULL,
+    PRIMARY KEY (user_id, user_profile_id),
+    CONSTRAINT FK_APP_USER FOREIGN KEY (user_id) REFERENCES APP_USER (id),
+    CONSTRAINT FK_USER_PROFILE FOREIGN KEY (user_profile_id) REFERENCES USER_PROFILE (id)
+);
+ 
+/* Populate USER_PROFILE Table */
+ 
+INSERT INTO USER_PROFILE(type)
+VALUES ('ADMIN');
+ 
+INSERT INTO USER_PROFILE(type)
+VALUES ('INSCRIT');
+ 

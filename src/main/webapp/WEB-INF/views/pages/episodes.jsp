@@ -50,7 +50,7 @@
 		</thead>
 		<tbody>    
 		    <c:forEach items="${episodes}" var="episode">
-		    	<c:url value="/episode" var="url">
+		    	<c:url value="/series/saisons/episode" var="url">
 					<c:param name="idEpisode" value="${episode.id}"/>
 				</c:url> 	   	
 		        <tr> 

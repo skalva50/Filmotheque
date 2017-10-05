@@ -27,7 +27,7 @@
 		<c:forEach begin="0" end ="5" var="j">
 			<div class="col-sm-4 col-md-2">
 				<c:set var="k" scope="session" value="${(i*6)+j}"/>		
-				<c:url value="/filmDetails" var="url">
+				<c:url value="/films/filmDetails" var="url">
 					<c:param name="idFilm" value="${filmpersonnages[k].film.id}"/>
 				</c:url>
 				<c:if test="${k<filmpersonnages.size()}">								
@@ -49,7 +49,7 @@
 		<c:forEach begin="0" end ="5" var="j">
 			<div class="col-sm-4 col-md-2">
 				<c:set var="k" scope="session" value="${(i*6)+j}"/>		
-				<c:url value="/saisons" var="url">
+				<c:url value="/series/saisons" var="url">
 					<c:param name="idSerie" value="${seriePersonnages[k].serie.id}"/>
 				</c:url>
 				<c:if test="${k<seriePersonnages.size()}">								

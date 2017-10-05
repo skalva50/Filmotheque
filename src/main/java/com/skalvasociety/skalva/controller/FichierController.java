@@ -33,7 +33,7 @@ public class FichierController {
 	@Autowired
     private Environment environment;
     
-    @RequestMapping(value = { "/listFichiers" }, method = RequestMethod.GET)
+    @RequestMapping(value = { "/administration/listFichiers" }, method = RequestMethod.GET)
     public String listFichiers(ModelMap model) { 
         List<Fichier> fichiers = service.getAll();
         model.addAttribute("fichiers", fichiers);

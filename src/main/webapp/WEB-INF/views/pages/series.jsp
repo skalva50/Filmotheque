@@ -120,7 +120,7 @@
 		<c:forEach begin="0" end ="5" var="j">
 			<div class="col-sm-4 col-md-2">
 				<c:set var="k" scope="session" value="${(i*6)+j}"/>		
-				<c:url value="/saisons" var="url">
+				<c:url value="/series/saisons" var="url">
 					<c:param name="idSerie" value="${serieModel.liste[k].id}"/>
 				</c:url>	
 				<c:if test="${k<serieModel.liste.size()}">						

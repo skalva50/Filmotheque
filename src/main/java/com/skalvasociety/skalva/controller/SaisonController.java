@@ -25,7 +25,7 @@ public class SaisonController {
 	@Autowired
 	ISaisonService service;
 	
-	@RequestMapping(value="/episodes" ,method = RequestMethod.GET)
+	@RequestMapping(value="/series/saisons/episodes" ,method = RequestMethod.GET)
 	public String episodesById(@RequestParam(value="idSaison") Integer idSaison, ModelMap model){	
 		if (idSaison == null)
 			return "redirect:/series";
