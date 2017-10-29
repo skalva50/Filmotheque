@@ -67,4 +67,7 @@
 + implementer Log4J ou autre solution
 + trapper les exceptions potentiel dans le log (abstract dao par exemple) 
 
+#### Accueil
++ Expliquer les fonctionnalités principales dans la page d'accueil
+
 
