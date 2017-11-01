@@ -41,9 +41,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
 	@Override
 	public void configure(HttpSecurity http) throws Exception {
-	      http.authorizeRequests()
-	      	.antMatchers("/").permitAll()
-	      	//.antMatchers("/").access("hasRole('INSCRIT')")	
+	      http.authorizeRequests()	      	
+	      	.antMatchers("/").access("hasRole('INSCRIT')")	
 	      	.antMatchers("/films/**").access("hasRole('INSCRIT')")
 	      	.antMatchers("/series/**").access("hasRole('INSCRIT')")
 	      	.antMatchers("/download").access("hasRole('INSCRIT')")

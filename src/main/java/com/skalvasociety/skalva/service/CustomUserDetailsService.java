@@ -3,6 +3,7 @@ package com.skalvasociety.skalva.service;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -20,14 +21,14 @@ public class CustomUserDetailsService implements UserDetailsService {
 	
 	 @Autowired
 	 private IUserService userService;
+	 
+	 private Logger logger = Logger.getLogger(CustomUserDetailsService.class);
 
 	@Transactional(readOnly=true)
 	public UserDetails loadUserByUsername(String ssoId) throws UsernameNotFoundException {
-		// TODO Auto-generated method stub
-		User user = userService.getByIdentifiant(ssoId);
-        System.out.println("User : "+user);
+		User user = userService.getByIdentifiant(ssoId);        
         if(user==null){
-            System.out.println("User not found");
+            logger.error(new UsernameNotFoundException("Username not found").getMessage(), new UsernameNotFoundException("Username not found").getCause());
             throw new UsernameNotFoundException("Username not found");
         }
             return new org.springframework.security.core.userdetails.User(user.getIdentifiant(), user.getPassword(), 
@@ -37,11 +38,9 @@ public class CustomUserDetailsService implements UserDetailsService {
 	private List<GrantedAuthority> getGrantedAuthorities(User user){
         List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
          
-        for(UserProfile userProfile : user.getUserProfiles()){
-            System.out.println("UserProfile : "+userProfile);
+        for(UserProfile userProfile : user.getUserProfiles()){            
             authorities.add(new SimpleGrantedAuthority("ROLE_"+userProfile.getType()));
-        }
-        System.out.print("authorities :"+authorities);
+        }        
         return authorities;
     }
 

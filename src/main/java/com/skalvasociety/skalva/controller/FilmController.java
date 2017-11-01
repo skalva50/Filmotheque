@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.transaction.Transactional;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Controller;
@@ -33,6 +34,8 @@ import com.skalvasociety.skalva.tmdbObject.TMDBRequest;
 //Permet de garder les choix de filtre et de titre de l'utilisateur durant toute sa session
 @SessionAttributes( value="filmModel", types={FilmViewModel.class})
 public class FilmController {
+	
+	private Logger logger = Logger.getLogger(FilmController.class);
 	
 	@Autowired
 	IFilmService filmService;
@@ -134,7 +137,7 @@ public class FilmController {
 					model.addAttribute("listMovie", listMovie);			
 				}				
 			} catch (IOException e) {				
-				e.printStackTrace();
+				logger.error(e.getMessage(), e.getCause());
 			}
 		}	
 		return "adminTMDB";

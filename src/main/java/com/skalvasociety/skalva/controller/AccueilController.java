@@ -29,18 +29,7 @@ public class AccueilController {
 	IUserProfileService userProfileService;
 	
 	@RequestMapping(value = { "/" }, method = RequestMethod.GET)
-    public String accueil(ModelMap model) {  
-		
-//		User user = new User();
-//		user.setIdentifiant("olivier");
-//		String password = "olivier";
-//        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-//        user.setPassword(passwordEncoder.encode(password));
-//		List<UserProfile> listeProfile = userProfileService.getAll();
-//		user.setUserProfiles(listeProfile);
-//		userService.save(user);
-		
-		
+    public String accueil(ModelMap model){	
         return "accueil";
     }	
 

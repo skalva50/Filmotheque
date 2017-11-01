@@ -3,11 +3,14 @@ package com.skalvasociety.skalva.bean;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.apache.log4j.Logger;
+
 import com.skalvasociety.skalva.enumeration.SerieFilterBy;
 import com.skalvasociety.skalva.enumeration.SerieFilterText;
 
 public class FiltreSerie extends AbstractFiltre<SerieFilterBy, SerieFilterText> implements IFiltre<Serie> {
-
+	private Logger logger = Logger.getLogger(FiltreSerie.class);
+	
 	public List<Serie> filtrerListe(List<Serie> listeAFiltrer) {
 		List<Serie> listToRemove = new LinkedList<Serie>();	
 		
@@ -44,6 +47,7 @@ public class FiltreSerie extends AbstractFiltre<SerieFilterBy, SerieFilterText> 
 				}	;
 				break;
 			default:
+				logger.error("Type de filtre inconnu");
 				break;
 			}
 		}

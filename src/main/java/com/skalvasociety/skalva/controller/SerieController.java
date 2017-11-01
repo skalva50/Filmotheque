@@ -6,6 +6,7 @@ import java.util.List;
 
 import javax.transaction.Transactional;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Controller;
@@ -35,6 +36,7 @@ import com.skalvasociety.skalva.tmdbObject.TMDBRequest;
 //Permet de garder les choix de filtre et de titre de l'utilisateur durant toute sa session
 @SessionAttributes( value="serieModel", types={SerieViewModel.class})
 public class SerieController {
+	private Logger logger = Logger.getLogger(SerieController.class);
 	
 	@Autowired
 	ISerieService serieService;	
@@ -141,7 +143,7 @@ public class SerieController {
 				List<ResultsSearchSerie> listSearchSerie = searchSerie.getResults();
 				model.addAttribute("listSearchSerie", listSearchSerie);			
 			} catch (IOException e) {				
-				e.printStackTrace();
+				logger.error(e.getMessage(), e.getCause());
 			}
 		}	
 		return "adminTMDB";

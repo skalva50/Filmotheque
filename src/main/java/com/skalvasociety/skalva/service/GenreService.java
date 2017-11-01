@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.util.List;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
@@ -18,6 +19,7 @@ import com.skalvasociety.skalva.tmdbObject.TMDBRequest;
 @Service("genreService")
 @Transactional
 public class GenreService extends AbstractService<Serializable, Genre> implements IGenreService {
+	private Logger logger = Logger.getLogger(GenreService.class);
 	
 	@Autowired
 	private IGenreDao dao;
@@ -49,9 +51,8 @@ public class GenreService extends AbstractService<Serializable, Genre> implement
 					save(genre);
 				}					
 			}
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		} catch (IOException e) {			
+			logger.error(e.getMessage(), e.getCause());
 		}
 		
 	}

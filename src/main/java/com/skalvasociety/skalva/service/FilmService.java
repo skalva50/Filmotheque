@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
@@ -26,6 +27,7 @@ import com.skalvasociety.skalva.tmdbObject.TMDBRequest;
 @Service("filmService")
 @Transactional
 public class FilmService extends AbstractService<Integer, Film> implements IFilmService {
+	private Logger logger = Logger.getLogger(FilmService.class);
 	
 	@SuppressWarnings("unused")
 	@Autowired
@@ -143,7 +145,7 @@ public class FilmService extends AbstractService<Integer, Film> implements IFilm
 				}	
 			}	
 		} catch (IOException e) {			
-			e.printStackTrace();
+			logger.error(e.getMessage(), e.getCause());
 		}
 
 	}
@@ -171,6 +173,12 @@ public class FilmService extends AbstractService<Integer, Film> implements IFilm
 		List<Film> films = this.getAll();
 		String pathFolder = environment.getProperty("film.path");
 		File file = null;
+		// verification de l'existence du dossier de film
+		file = new File(pathFolder);
+		if(!file.exists()){
+			logger.error("Le dossier de films "+pathFolder+" n'existe pas. Aucune suppression réalisée"  );
+			return listDelete;
+		}
 		 
 		for (Film film : films) {
 			 file = new File(pathFolder+"/"+film.getFichier().getChemin());

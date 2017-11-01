@@ -39,8 +39,8 @@
 + Suppression des acteurs et réalisateurs ne se fait qu'après un deuxième lancement de suppression
 + OK Ordre de tri des épisodes
 + Aligner les filtres dans page jsp
-+ Absence de tmdb key
-+ Ne pas executer actualisation si dossier serie/film introuvable
++ OK Absence de tmdb key
++ OK Ne pas executer actualisation si dossier serie/film introuvable
 
 #### Onglet A propos
 + version du site (a voir avec version maven)
@@ -62,12 +62,12 @@
 + Gestion des droits BDD
 
 #### Logs
-+ Supprimer les system.out
-+ Supprimer le log des requete SQL
-+ implementer Log4J ou autre solution
-+ trapper les exceptions potentiel dans le log (abstract dao par exemple) 
++ OK Supprimer les system.out
++ OK implementer Log4J ou autre solution
+ 
 
 #### Accueil
 + Expliquer les fonctionnalités principales dans la page d'accueil
++ Liste des derniers films/series ajoutés
 
 

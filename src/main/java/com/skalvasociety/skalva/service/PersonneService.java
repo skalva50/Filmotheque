@@ -2,6 +2,7 @@ package com.skalvasociety.skalva.service;
 
 import java.io.IOException;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
@@ -15,7 +16,7 @@ import com.skalvasociety.skalva.tools.Convert;
 @Service("personneService")
 @Transactional
 public class PersonneService implements IPersonneService {
-
+	private Logger logger = Logger.getLogger(PersonneService.class);
 	@Autowired
     private Environment environment;
 	
@@ -42,7 +43,7 @@ public class PersonneService implements IPersonneService {
 				
 			}
 		} catch (IOException e) {			
-			e.printStackTrace();
+			logger.error(e.getMessage(), e.getCause());
 		}	
 
 	}
