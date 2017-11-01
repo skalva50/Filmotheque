@@ -46,19 +46,4 @@ public class SaisonDao extends AbstractDao<Integer, Saison> implements ISaisonDa
 		criteria.add(Restrictions.eq("serie", serie));
 		return (List<Saison>) criteria.list();
 	}	
-	/*
-	public Saison getSaisonById(Integer idSaison){
-		Criteria criteria = createEntityCriteria();
-		criteria.setFetchMode("episodes", FetchMode.JOIN);
-		criteria.setFetchMode("serie", FetchMode.JOIN);
-        criteria.add(Restrictions.eq("id", idSaison));      
-        Saison saison = (Saison) criteria.uniqueResult();
-        if(saison !=  null && saison.getEpisodes() != null){
-        	List<Episode> episodes = saison.getEpisodes();
-        	Collections.sort(episodes, new EpisodeComparateur());
-        	saison.setEpisodes(episodes);       	
-        }
-		return saison;
-	}*/
-
 }

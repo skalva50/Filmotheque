@@ -7,6 +7,7 @@ import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
@@ -34,6 +35,7 @@ import com.skalvasociety.skalva.tools.Convert;
 @Service("fichierService")
 @Transactional
 public class FichierService extends AbstractService<Serializable, Fichier> implements IFichierService {
+	private Logger logger = Logger.getLogger(FichierService.class);
 	
 	@Autowired
     private IFichierDao dao;
@@ -132,7 +134,7 @@ public class FichierService extends AbstractService<Serializable, Fichier> imple
 						}					
 					}																
 				} catch (IOException e) {			
-					e.printStackTrace();
+					logger.error(e.getMessage(), e.getCause());
 				}
 			}			
 		}	

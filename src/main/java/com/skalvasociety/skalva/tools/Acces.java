@@ -3,10 +3,15 @@ package com.skalvasociety.skalva.tools;
 import java.io.File;
 
 import javax.activation.MimetypesFileTypeMap;
+
+import org.apache.log4j.Logger;
+
 import java.util.LinkedList;
 import java.util.List;
 
 public class Acces {
+	private static Logger logger = Logger.getLogger(Acces.class);
+	
 	/**
 	 * Lit les dossiers d'un dossier (ne lit pas dans les sous-dossiers)
 	 * @param path
@@ -45,7 +50,7 @@ public class Acces {
 					if(fileTypeMap.getContentType(files[i].getName()).startsWith("video")){						
 						listFichier.add(files[i].getName());						
 					}else{
-						System.out.println("Probleme type Fichier " +files[i].getName() + " - type fichier: " + fileTypeMap.getContentType(files[i].getName()));
+						logger.error("Probleme type Fichier, Nom du fichier: " +files[i].getName() + " - type fichier: " + fileTypeMap.getContentType(files[i].getName()));
 					}
 				}
 			}

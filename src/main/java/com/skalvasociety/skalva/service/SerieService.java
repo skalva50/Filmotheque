@@ -6,6 +6,7 @@ import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
@@ -39,6 +40,7 @@ import com.skalvasociety.skalva.tools.Convert;
 @Service("serieService")
 @Transactional
 public class SerieService extends AbstractService<Integer, Serie> implements ISerieService{
+	private Logger logger = Logger.getLogger(SerieService.class);
 	
 	@Autowired
 	ISerieDao serieDao;
@@ -113,7 +115,7 @@ public class SerieService extends AbstractService<Integer, Serie> implements ISe
 				}			
 				
 			} catch (Exception e) {
-				e.printStackTrace();
+				logger.error(e.getMessage(), e.getCause());
 			}
 		}
 		return listAjout;
@@ -149,8 +151,7 @@ public class SerieService extends AbstractService<Integer, Serie> implements ISe
 						for (Cast cast : listeCasting) {
 							SeriePersonnage personnage = personnageService.castToSeriePersonnage(cast, serie);
 							personnage.setSerie(serie);
-							listePersonnage.add(personnage);
-							System.out.println(personnage.getActeur().getNom());
+							listePersonnage.add(personnage);							
 						}
 						serie.setPersonnages(listePersonnage);
 					}								
@@ -161,8 +162,8 @@ public class SerieService extends AbstractService<Integer, Serie> implements ISe
 					fichier.setChemin(nameSerie+"/Saison "+saison.getNumero()+"/"+nomFichier);
 					if(fichierService.isFichierCheminUnique(fichier.getChemin())){																				
 						EpisodeTMDB episodeTMDB = tmdbRequest.getEpisode(serie.getIdTMDB(), saison.getNumero(), nomFichier);
-						if (episodeTMDB == null){
-							System.out.println("Introuvable sur TMDB: " + nomFichier);
+						if (episodeTMDB == null){							
+							logger.error("Introuvable sur TMDB: " + nomFichier);
 						}else{
 							Episode episode = episodeService.getEpisodeBySaisonNumEpisode(saison, episodeTMDB.getEpisode_number());
 							if (episode == null){
@@ -256,7 +257,7 @@ public class SerieService extends AbstractService<Integer, Serie> implements ISe
 			}
 			
 		} catch (IOException e) {
-			e.printStackTrace();
+			logger.error(e.getMessage(), e.getCause());
 		}
 		
 	}
@@ -369,6 +370,13 @@ public class SerieService extends AbstractService<Integer, Serie> implements ISe
 		List<Episode> episodes = episodeService.getAll();
 		String pathFolder = environment.getProperty("serie.path");
 		File file = null;
+		// verification de l'existence du dossier de serie
+		file = new File(pathFolder);
+		if(!file.exists()){
+			logger.error("Le dossier de serie "+pathFolder+" n'existe pas. Aucune suppression réalisée"  );
+			return listDelete;
+		}
+		
 		for (Episode episode : episodes) {
 			file = new File(pathFolder+"/"+episode.getFichier().getChemin());
 			if(!file.exists()){
