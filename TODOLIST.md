@@ -49,9 +49,10 @@
 
 ####
 + Liste saisons et episodes, mettre le lien sur la totalité de la ligne et non uniquement la photos.
-+ Récuperer la date du fichier pour la date d'ajout
++ OK Récuperer la date du fichier pour la date d'ajout
 + Tester connexion en SSL
 + Ajouter TMDB dans les crédits
 + Virer les robots
++ Mettre la date d'ajout dans les fiches
 
 
