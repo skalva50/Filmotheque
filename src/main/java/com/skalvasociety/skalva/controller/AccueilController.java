@@ -1,6 +1,8 @@
 package com.skalvasociety.skalva.controller;
 
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.transaction.Transactional;
@@ -16,6 +18,15 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.skalvasociety.skalva.bean.Film;
+import com.skalvasociety.skalva.bean.Genre;
+import com.skalvasociety.skalva.bean.Serie;
+import com.skalvasociety.skalva.daoTools.PageRequest;
+import com.skalvasociety.skalva.enumeration.FilmOrderBy;
+import com.skalvasociety.skalva.enumeration.SerieOrderBy;
+import com.skalvasociety.skalva.enumeration.SortDirection;
+import com.skalvasociety.skalva.service.IFilmService;
+import com.skalvasociety.skalva.service.ISerieService;
 import com.skalvasociety.skalva.service.IUserProfileService;
 import com.skalvasociety.skalva.service.IUserService;
 
@@ -26,10 +37,38 @@ public class AccueilController {
 	IUserService userService;
 	
 	@Autowired 
+	IFilmService filmService;
+	
+	@Autowired 
+	ISerieService serieService;
+	
+	@Autowired 
 	IUserProfileService userProfileService;
 	
 	@RequestMapping(value = { "/" }, method = RequestMethod.GET)
     public String accueil(ModelMap model){	
+		model.addAttribute("user", getPrincipal());
+		
+		PageRequest<Film> pageRequestFilm = new PageRequest<Film>(1, 6, SortDirection.DESC, FilmOrderBy.dateAjout); 
+		List<Film> films = filmService.getAllByPage(pageRequestFilm);
+		for (Film film : films) {
+			List<Genre> list = film.getGenres();
+			for (Genre genre : list) {
+				genre.getLibelle();
+			}
+		}
+		model.addAttribute("films", films);
+		
+		PageRequest<Serie> pageRequestSerie = new PageRequest<Serie>(1, 6, SortDirection.DESC, SerieOrderBy.dateAjout); 
+		List<Serie> series = serieService.getAllByPage(pageRequestSerie);
+		for (Serie serie : series) {
+			List<Genre> list = serie.getGenres();
+			for (Genre genre : list) {
+				genre.getLibelle();
+			}
+		}
+		model.addAttribute("series", series);
+		
         return "accueil";
     }	
 
