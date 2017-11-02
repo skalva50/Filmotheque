@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1" isELIgnored="false" pageEncoding="ISO-8859-1"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" isELIgnored="false" pageEncoding="UTF-8"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
@@ -20,10 +20,10 @@
 		<h4 class ="text-center">Note: </h4>
 			<p>${serie.note}/10</p>	 
 		<hr/>
-		<h4 class ="text-center">Résumé: </h4>
+		<h4 class ="text-center">RÃ©sumÃ©: </h4>
 			<p> ${serie.resume}</p>			
 		<hr/>
-		<h4 class ="text-center">Nationalité: </h4>
+		<h4 class ="text-center">NationalitÃ©: </h4>
 			<ul>
 				<c:forEach items="${pays}" var="pays">
 					<li>${pays.nom}</li>
@@ -72,7 +72,7 @@
 	<table class="table table-hover">
 		<thead>
 		    <tr>
-		        <th></th><th>Saison</th><th>Date sortie</th><th>Résumé</th>
+		        <th></th><th>Saison</th><th>Date sortie</th><th>RÃ©sumÃ©</th>
 		    </tr>
 		</thead>
 		<tbody>    

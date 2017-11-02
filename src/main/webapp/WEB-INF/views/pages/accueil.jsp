@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1" isELIgnored="false" pageEncoding="ISO-8859-1"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" isELIgnored="false" pageEncoding="UTF-8"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <div class="row text-center">
 	<h3 class="titreAccueil">Bienvenue ${user}</h3>
@@ -6,36 +6,36 @@
 <div class="row">
 	<div class="col-md-10 col-md-offset-1">
 		<p>
-			Ce site vous permet de consulter ma filmo/seriethèque personelle classée par:
+			Ce site vous permet de consulter ma filmo/seriethÃ¨que personelle classÃ©e par:
 		</p>
 		<ul>
 			<li>Films</li>
-			<li>Series / saisons / épisodes</li>			
+			<li>Series / saisons / Ã©pisodes</li>			
 		</ul>
 		<p>
-			Vous pouvez également retrouver les biographies et filmographies disponible de vos acteurs et réalisateurs préférés.
+			Vous pouvez Ã©galement retrouver les biographies et filmographies disponible de vos acteurs et rÃ©alisateurs prÃ©fÃ©rÃ©s.
 		</p>
 		<p>
-			Et le petit plus de la maison, vous pouvez <strong>télécharger</strong> les films et les épisodes de chaque série. <br/>
+			Et le petit plus de la maison, vous pouvez <strong>tÃ©lÃ©charger</strong> les films et les Ã©pisodes de chaque sÃ©rie. <br/>
 			Un petit clique sur le nuage dans la fiche correspondante, un peu de patience (plus ou moins selon la taille du fichier) et hop, vous pouvez le regarder tranquillement! <br/>
-			Pour les séries, il suffit d'aller sur l'épisode desiré pour le télécharger.
+			Pour les sÃ©ries, il suffit d'aller sur l'Ã©pisode desirÃ© pour le tÃ©lÃ©charger.
 			
 		</p>
 		<p>
-			Des remarques, des suggestions pour des films/series qui vous intéressent, envoyez moi un mail :<a href="mailto:skalva50@gmail.com">skalva50@gmail.com</a>, je verrai ce que je peux faire pour vous.		   
+			Des remarques, des suggestions pour des films/series qui vous intÃ©ressent, envoyez moi un mail :<a href="mailto:skalva50@gmail.com">skalva50@gmail.com</a>, je verrai ce que je peux faire pour vous.		   
 		</p>
 		<p>
-			Pour les développeurs dans l'âme ou si vous souhaitez créer votre propre site, le code source est disponible sur <a href="https://github.com/skalva50/Filmotheque" title="Dépot GitHub">GitHub</a> 
+			Pour les dÃ©veloppeurs dans l'Ã¢me ou si vous souhaitez crÃ©er votre propre site, le code source est disponible sur <a href="https://github.com/skalva50/Filmotheque" title="DÃ©pot GitHub">GitHub</a> 
 		</p>
 		<h4>Bonne visite et bon film !</h4> 
 	</div>
 </div>
 <hr/>
 <div class="row text-center">
-	<h3 class="titreAccueil">Actualités</h3>
+	<h3 class="titreAccueil">ActualitÃ©s</h3>
 </div>
 <div class="col-md-10 col-md-offset-1">
-	<h3>Derniers films ajoutés</h3><br/>
+	<h3>Derniers films ajoutÃ©s</h3><br/>
 </div>
 <div class="row">
 	<c:forEach items="${films}" var="film">
@@ -60,7 +60,7 @@
 <hr/>
 <div class="row">
 <div class="col-md-10 col-md-offset-1">
-	<h3>Dernières séries ajoutées</h3><br/>
+	<h3>DerniÃ¨res sÃ©ries ajoutÃ©es</h3><br/>
 </div>
 	<c:forEach items="${series}" var="serie">
 		<div class="col-sm-2 col-md-4S">

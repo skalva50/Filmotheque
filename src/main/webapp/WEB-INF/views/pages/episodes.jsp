@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1" isELIgnored="false" pageEncoding="ISO-8859-1"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" isELIgnored="false" pageEncoding="UTF-8"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
@@ -15,7 +15,7 @@
 		<h4 class ="text-center">Date de sortie: </h4>
 			<p><fmt:formatDate type="date" value="${saison.dateSortie}" /></p>			
 		<hr/>
-		<h4 class ="text-center">Résumé: </h4>
+		<h4 class ="text-center">RÃ©sumÃ©: </h4>
 			<p> ${saison.resume}</p>
 	</div>
 </div>
@@ -45,7 +45,7 @@
 	<table class="table table-hover">
 		<thead>
 		    <tr>
-		        <th></th><th>Episode</th><th>Titre</th><th>Résumé</th>
+		        <th></th><th>Episode</th><th>Titre</th><th>RÃ©sumÃ©</th>
 		    </tr>
 		</thead>
 		<tbody>    

@@ -54,5 +54,7 @@
 + Ajouter TMDB dans les crédits
 + Virer les robots
 + Mettre la date d'ajout dans les fiches
++ OK Problème de reconnaissance caractère
++ Creer page lors d'erreur de telechargement (fichier n'existe pas)
 
 

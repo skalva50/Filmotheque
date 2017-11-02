@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1" isELIgnored="false" pageEncoding="ISO-8859-1"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" isELIgnored="false" pageEncoding="UTF-8"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
@@ -8,29 +8,29 @@
 	<div class="col-md-6">
 		<a class="btn text-center " href="/Filmotheque/administration/majFilm" role="button">
 			<img src="/Filmotheque/resources/images/icone/update.png" />
-			<h3 class="text-center">Mise à jour Film</h3>
+			<h3 class="text-center">Mise Ã  jour Film</h3>
 		</a>
 	</div>
 	<div class="col-md-6">
 		<a class="btn text-center " href="/Filmotheque/administration/deleteFilm" role="button">
 			<img src="/Filmotheque/resources/images/icone/delete.png" />
-			<h3 class="text-center">Supprimer film obsolètes</h3>
+			<h3 class="text-center">Supprimer film obsolÃ¨tes</h3>
 		</a>
 	</div>
 </div>
 <hr/>
-<h1 class="text-center">Gestion des séries</h1>
+<h1 class="text-center">Gestion des sÃ©ries</h1>
 <div class="row text-center">
   <div class="col-md-6 text-center">  	
 		<a class="btn text-center" href="/Filmotheque/administration/majSerie" role="button">
 			<img src="/Filmotheque/resources/images/icone/update.png" />
-			<h3 class="text-center">Mise à jour Series TV</h3>	
+			<h3 class="text-center">Mise Ã  jour Series TV</h3>	
 		</a>	
 	</div>  	
 	<div class="col-md-6">
 		<a class="btn text-center " href="/Filmotheque/administration/deleteSerie" role="button">
 			<img src="/Filmotheque/resources/images/icone/delete.png" />
-			<h3 class="text-center">Supprimer serie obsolètes</h3>
+			<h3 class="text-center">Supprimer serie obsolÃ¨tes</h3>
 		</a>
 	</div>	  
 </div>
