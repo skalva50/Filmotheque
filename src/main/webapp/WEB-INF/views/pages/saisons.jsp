@@ -79,15 +79,16 @@
 		    <c:forEach items="${saisons}" var="saison">		    		
 				<c:url value="/series/saisons/episodes" var="url">
 					<c:param name="idSaison" value="${saison.id}"/>
-				</c:url>   	
+				</c:url>
 		        <tr> 
 		        	<td  width="10%">				
 		        		<a href="${url}"><img src ="https://image.tmdb.org/t/p/w500${saison.affiche}" class="img-thumbnail img-responsive"/></a>    		        		
-		        	</td>
-		        	<td width="10%">Saison ${saison.numero}</td>
-		        	<td width="10%"><fmt:formatDate type="date" value="${saison.dateSortie}" /></td>   
-		        	<td>${saison.resume}</td>     	
-		        </tr>		       	     	
+		        	</td>		        	
+		        	<td width="10%"><a href="${url}">Saison ${saison.numero}</a></td>
+		        	<td width="10%"><a href="${url}"><fmt:formatDate type="date" value="${saison.dateSortie}" /></a></td>   
+		        	<td><a href="${url}">${saison.resume}</a></td>     	
+		        </tr>	
+		        </a>	       	     	
 		    </c:forEach>
 	    </tbody>
 	</table>  

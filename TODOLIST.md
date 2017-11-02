@@ -48,7 +48,7 @@
 
 
 ####
-+ Liste saisons et episodes, mettre le lien sur la totalité de la ligne et non uniquement la photos.
++ OK Liste saisons et episodes, mettre le lien sur la totalité de la ligne et non uniquement la photos.
 + OK Récuperer la date du fichier pour la date d'ajout
 + Tester connexion en SSL
 + Ajouter TMDB dans les crédits

@@ -57,9 +57,9 @@
 		        	<td  width="10%">				
 		        		<a href="${url}"><img src ="https://image.tmdb.org/t/p/w500${episode.affiche}" class="img-thumbnail img-responsive"/></a>   		        		
 		        	</td>
-		        	<td width="10%">${episode.numero}</td>
-		        	<td width="10%">${episode.titre}</td>
-		        	<td>${episode.resume}</td>     	
+		        	<td width="10%"><a href="${url}">${episode.numero}</a></td>
+		        	<td width="10%"><a href="${url}">${episode.titre}</a></td>
+		        	<td><a href="${url}">${episode.resume}</a></td>     	
 		        </tr>		       	     	
 		    </c:forEach>
 	    </tbody>
