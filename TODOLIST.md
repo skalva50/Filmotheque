@@ -18,17 +18,7 @@
 ------------------------------------
 ## Majeures
 ---------------------------------
-#### Mise en forme resultats
-+ OK Pagination 
-+ OK Systeme de filtre et de tri
-
-#### Fonction Download
-+ OK
-      
-#### Onglet Acteur et réalisateur
-+ OK a faire avec solution de pagination, fitre, tri trouvé precedamment.
-+ OK ajouter le sexe(filtre)OK, popularite(tri) des personnes (acteurs+realisateur); ajouter au cast de tmdb vers entite bdd
-+ OK Fiche realisateur : ajouter les series
+    
 
 #### BugFix
 
@@ -46,11 +36,6 @@
 + version du site (a voir avec version maven)
 + OK credits
 
-#### Admin du site
-+ OK MAJ de la BDD par rapport aux des données supprimées des repertoires
-+ OK Maj des fiches films et serie si erreur de correpondance    
-+ OK Rapport ajout et suppression en fin de manip
-+ OK Date d'ajout du media
 
 #### Securité accès
 + Gestion des droits d'accès (spring security)
@@ -61,13 +46,12 @@
 
 + Gestion des droits BDD
 
-#### Logs
-+ OK Supprimer les system.out
-+ OK implementer Log4J ou autre solution
- 
 
-#### Accueil
-+ Expliquer les fonctionnalités principales dans la page d'accueil
-+ Liste des derniers films/series ajoutés
+####
++ Liste saisons et episodes, mettre le lien sur la totalité de la ligne et non uniquement la photos.
++ Récuperer la date du fichier pour la date d'ajout
++ Tester connexion en SSL
++ Ajouter TMDB dans les crédits
++ Virer les robots
 
 
