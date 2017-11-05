@@ -5,8 +5,6 @@
 
 #### fiche
 + OK Ajouter la note dans les fiches film et serie
-+ Ajouter nombre de vote
-+ Voir si bio en fançais plus pertinente
 + OK format affichage date
 
 #### Organisation
@@ -52,9 +50,9 @@
 + OK Récuperer la date du fichier pour la date d'ajout
 + Tester connexion en SSL
 + Ajouter TMDB dans les crédits
-+ Virer les robots
-+ Mettre la date d'ajout dans les fiches
++ OK Virer les robots
++ OK Mettre la date d'ajout dans les fiches
 + OK Problème de reconnaissance caractère
-+ Creer page lors d'erreur de telechargement (fichier n'existe pas)
++ OK Creer page lors d'erreur de telechargement (fichier n'existe pas)
 
 

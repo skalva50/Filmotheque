@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" isELIgnored="false" pageEncoding="UTF-8"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <div class="row text-center">
 	<h3 class="titreAccueil">Bienvenue ${user}</h3>
 </div>
@@ -43,6 +44,7 @@
 			<c:url value="/films/filmDetails" var="url">
 				<c:param name="idFilm" value="${film.id}"/>
 			</c:url>
+			<fmt:formatDate type="date" value="${film.dateAjout}"/>
 			<div class="thumbnail">
 				<a href="${url}"><img src ="https://image.tmdb.org/t/p/w500${film.affiche}" class="img-thumbnail img-responsive"/></a> 
 			</div>
@@ -67,6 +69,7 @@
 			<c:url value="/series/saisons" var="url">
 				<c:param name="idSerie" value="${serie.id}"/>
 			</c:url>
+			<fmt:formatDate type="date" value="${serie.dateAjout}"/>
 			<div class="thumbnail">
 				<a href="${url}"><img src ="https://image.tmdb.org/t/p/w500${serie.affiche}" class="img-thumbnail img-responsive"/></a> 
 			</div>

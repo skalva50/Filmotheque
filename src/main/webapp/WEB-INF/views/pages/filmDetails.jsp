@@ -30,7 +30,10 @@
 			<p>${film.titreOriginal}</p>	 
 		<hr/>
 		<h4 class ="text-center">Date de sortie: </h4>
-		<fmt:formatDate type="date" value="${film.dateSortie}" />
+			<fmt:formatDate type="date" value="${film.dateSortie}" />
+        <hr/>
+        <h4 class ="text-center">Date d'ajout: </h4>
+			<fmt:formatDate type="date" value="${film.dateAjout}" />
         <hr/>
         <h4 class ="text-center">Note: </h4>
 			<p>${film.note}/10</p>	 

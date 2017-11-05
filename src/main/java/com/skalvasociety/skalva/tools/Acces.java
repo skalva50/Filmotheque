@@ -52,7 +52,7 @@ public class Acces {
 					if(fileTypeMap.getContentType(files[i].getName()).startsWith("video")){	
 						FileMetaData fileMetaData = new FileMetaData();
 						fileMetaData.setNom(files[i].getName());						
-						fileMetaData.setDateModification(new Date(files[i].lastModified()*1000));						
+						fileMetaData.setDateModification(new Date(files[i].lastModified()));						
 						listFichier.add(fileMetaData);						
 					}else{
 						logger.error("Probleme type Fichier, Nom du fichier: " +files[i].getName() + " - type fichier: " + fileTypeMap.getContentType(files[i].getName()));

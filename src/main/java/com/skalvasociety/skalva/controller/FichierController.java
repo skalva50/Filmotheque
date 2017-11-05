@@ -5,9 +5,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.OutputStream;
 import java.net.URLConnection;
-import java.nio.charset.Charset;
 import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
@@ -44,11 +42,11 @@ public class FichierController {
     }
     
 	 @RequestMapping(value="/download", method = RequestMethod.GET)
-	    public void downloadFile(
-	    		HttpServletResponse response,	    	
+	 public void downloadFile(
+	    		HttpServletResponse response,		    		
 	    		@RequestParam("typeFolder") String typeFolder,
 	    		@RequestParam("pathFile") String pathFile
-	    ) throws IOException {
+	    ) throws IOException{
 		 
 		 String pathFolder ="";
 		 if(typeFolder.equalsIgnoreCase("film")){
@@ -60,11 +58,8 @@ public class FichierController {
 		 File file = new File(pathFolder+"/"+pathFile);
 		 
 		 if(!file.exists()){
-	            String errorMessage = "Désolé, le fichier demandé n'existe pas" + pathFolder+"/"+pathFile;	            
-	            OutputStream outputStream = response.getOutputStream();
-	            outputStream.write(errorMessage.getBytes(Charset.forName("UTF-8")));
-	            outputStream.close();
-	            logger.error(errorMessage);
+			 	response.sendRedirect("fichierInexistant?fichier="+pathFile);	            	            
+	            logger.error("Erreur telechargement fichier, introuvable, "+ pathFolder+"/"+pathFile );
 	            return;
 	     }
 	        String mimeType= URLConnection.guessContentTypeFromName(file.getName());
@@ -77,6 +72,6 @@ public class FichierController {
 	        response.setContentLength((int)file.length());
 	        InputStream inputStream = new BufferedInputStream(new FileInputStream(file));
 	        //Copy bytes from source to destination(outputstream in this example), closes both streams.
-	        FileCopyUtils.copy(inputStream, response.getOutputStream());		 
-	 }
+	        FileCopyUtils.copy(inputStream, response.getOutputStream());	        	        
+	 }     
 }

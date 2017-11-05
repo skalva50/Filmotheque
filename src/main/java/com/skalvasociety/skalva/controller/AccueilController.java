@@ -17,6 +17,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.skalvasociety.skalva.bean.Film;
 import com.skalvasociety.skalva.bean.Genre;
@@ -96,6 +98,21 @@ public class AccueilController {
         }
         return "redirect:/login?logout";
     }
+    
+    @RequestMapping(value="/fichierInexistant", method = RequestMethod.GET)
+    public String fichierInexistant (ModelMap model, @RequestParam(value="fichier") String fichier) {
+    	model.addAttribute("Fichier", fichier);
+        return "fichierInexistant";
+    }
+    
+    @RequestMapping(value = "/robots.txt", produces = {"text/plain"}, method = RequestMethod.GET)
+    @ResponseBody
+    public String getRobotsTxt() {
+        return "User-agent: *" + 
+       "\n" + "Disallow: /"; 
+       
+    }
+    
     
     private String getPrincipal(){
         String userName = null;
