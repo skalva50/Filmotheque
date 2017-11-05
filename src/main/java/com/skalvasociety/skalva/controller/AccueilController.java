@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -73,9 +74,13 @@ public class AccueilController {
 		
         return "accueil";
     }	
+	
+    @Value("${build.version}")
+    private String buildVersion;
 
 	@RequestMapping(value = { "/apropos" }, method = RequestMethod.GET)
-    public String apropos(ModelMap model) {       
+    public String apropos(ModelMap model) {    
+		model.addAttribute("version", buildVersion);
         return "apropos";
     }
 	
