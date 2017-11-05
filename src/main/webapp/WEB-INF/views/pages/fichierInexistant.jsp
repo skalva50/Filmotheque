@@ -3,5 +3,7 @@
 <%@ taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles"%>
 
 <div>
-Cher <strong>${user}</strong>, Vous n'êtes pas autorisé à acceder à cette page.    
+	<h1 class = "text-center">OOOPS ! Une erreur est survenue</h1>
+	<h3 class = "text-center">Le fichier que vous avez demandé n'existe pas</h3>	
+	<h3 class = "text-center">Nom du fichier: ${Fichier}</h3>
 </div>

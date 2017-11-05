@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1" isELIgnored="false" pageEncoding="ISO-8859-1"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" isELIgnored="false" pageEncoding="UTF-8"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles"%>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
@@ -14,7 +14,7 @@
 		    </c:if>
 		    <c:if test="${param.logout != null}">
 		        <div class="alert alert-success">
-		            <p>Vous avez été deconnecté avec succès.</p>
+		            <p>Vous avez Ã©tÃ© deconnectÃ© avec succÃ¨s.</p>
 		        </div>
 		    </c:if>
 		    <div class="input-group input-sm">

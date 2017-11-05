@@ -2,7 +2,6 @@ package com.skalvasociety.skalva.service;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -35,6 +34,7 @@ import com.skalvasociety.skalva.tmdbObject.SerieSaisonDetails;
 import com.skalvasociety.skalva.tmdbObject.TMDBRequest;
 import com.skalvasociety.skalva.tools.Acces;
 import com.skalvasociety.skalva.tools.Convert;
+import com.skalvasociety.skalva.tools.FileMetaData;
 
 
 @Service("serieService")
@@ -100,7 +100,6 @@ public class SerieService extends AbstractService<Integer, Serie> implements ISe
 							if (serieDetail != null){
 								serieDetailsToSerie(serieDetail, serie);
 							}	
-							serie.setDateAjout(new Date());
 							save(serie);
 							listAjout.add(serie);
 							loadVideos(tmdbRequest, serie);								
@@ -133,7 +132,6 @@ public class SerieService extends AbstractService<Integer, Serie> implements ISe
 					saison = new Saison();
 					saisonService.serieSaisonDetailstoSaison(serieSaisonDetails, saison);
 					saison.setSerie(serie);	
-					saison.setDateAjout(new Date());
 					saisonService.save(saison);
 					if(listAjout != null){
 						listAjout.add(saison);
@@ -156,14 +154,14 @@ public class SerieService extends AbstractService<Integer, Serie> implements ISe
 						serie.setPersonnages(listePersonnage);
 					}								
 				}																
-				List<String> listEpisodes = new Acces().listFichierVideo(path+"/"+nameSerie+"/Saison "+saison.getNumero());
-				for (String nomFichier : listEpisodes) {
+				List<FileMetaData> listEpisodes = new Acces().listFichierVideo(path+"/"+nameSerie+"/Saison "+saison.getNumero());
+				for (FileMetaData fileMetaData : listEpisodes) {
 					Fichier fichier = new Fichier();
-					fichier.setChemin(nameSerie+"/Saison "+saison.getNumero()+"/"+nomFichier);
+					fichier.setChemin(nameSerie+"/Saison "+saison.getNumero()+"/"+fileMetaData.getNom());
 					if(fichierService.isFichierCheminUnique(fichier.getChemin())){																				
-						EpisodeTMDB episodeTMDB = tmdbRequest.getEpisode(serie.getIdTMDB(), saison.getNumero(), nomFichier);
+						EpisodeTMDB episodeTMDB = tmdbRequest.getEpisode(serie.getIdTMDB(), saison.getNumero(), fileMetaData.getNom());
 						if (episodeTMDB == null){							
-							logger.error("Introuvable sur TMDB: " + nomFichier);
+							logger.error("Introuvable sur TMDB: " + fileMetaData.getNom());
 						}else{
 							Episode episode = episodeService.getEpisodeBySaisonNumEpisode(saison, episodeTMDB.getEpisode_number());
 							if (episode == null){
@@ -171,7 +169,18 @@ public class SerieService extends AbstractService<Integer, Serie> implements ISe
 								fichierService.save(fichier);
 								episodeService.episodeTmdbToEpisode(episodeTMDB, episode);											
 								episode.setFichier(fichier);
-								episode.setDateAjout(new Date());
+								episode.setDateAjout(fileMetaData.getDateModification());
+								if(saison.getDateAjout() == null){
+									saison.setDateAjout(fileMetaData.getDateModification());
+								}else if(saison.getDateAjout().before(fileMetaData.getDateModification())){
+									saison.setDateAjout(fileMetaData.getDateModification());
+								}
+								if(serie.getDateAjout() == null){
+									serie.setDateAjout(fileMetaData.getDateModification());
+								}else if(serie.getDateAjout().before(fileMetaData.getDateModification())){
+									serie.setDateAjout(fileMetaData.getDateModification());
+								}								
+								
 								episode.setSaison(saison);	
 								if(listAjout != null){
 									listAjout.add(episode);

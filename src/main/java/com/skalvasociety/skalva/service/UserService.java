@@ -36,7 +36,7 @@ public class UserService extends AbstractService<Integer, User> implements IUser
         User entity = dao.getByKey(user.getId());
         if(entity!=null){
             entity.setIdentifiant(user.getIdentifiant());
-            entity.setPassword(user.getPassword());            
+            entity.setPassword(passwordEncoder.encode(user.getPassword()));            
             entity.setUserProfiles(user.getUserProfiles());
         }
     }

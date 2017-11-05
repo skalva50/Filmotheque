@@ -5,8 +5,6 @@
 
 #### fiche
 + OK Ajouter la note dans les fiches film et serie
-+ Ajouter nombre de vote
-+ Voir si bio en fançais plus pertinente
 + OK format affichage date
 
 #### Organisation
@@ -33,7 +31,7 @@
 + OK Ne pas executer actualisation si dossier serie/film introuvable
 
 #### Onglet A propos
-+ version du site (a voir avec version maven)
++ OK version du site (a voir avec version maven)
 + OK credits
 
 
@@ -48,10 +46,14 @@
 
 
 ####
-+ Liste saisons et episodes, mettre le lien sur la totalité de la ligne et non uniquement la photos.
-+ Récuperer la date du fichier pour la date d'ajout
++ OK Liste saisons et episodes, mettre le lien sur la totalité de la ligne et non uniquement la photos.
++ OK Récuperer la date du fichier pour la date d'ajout
 + Tester connexion en SSL
-+ Ajouter TMDB dans les crédits
-+ Virer les robots
++ OK Ajouter TMDB dans les crédits
++ OK Virer les robots
++ OK Mettre la date d'ajout dans les fiches
++ OK Problème de reconnaissance caractère
++ OK Creer page lors d'erreur de telechargement (fichier n'existe pas)
++ OK version du site (a voir avec version maven)
 
 

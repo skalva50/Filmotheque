@@ -110,5 +110,10 @@
        <put-attribute name="title" value="Utilisateur créé" />  
        <put-attribute name="body" value="/WEB-INF/views/pages/registrationsuccess.jsp" />  
    </definition> 
+   
+   <definition name="fichierInexistant" extends="base-definition">  
+       <put-attribute name="title" value="A propos" />  
+       <put-attribute name="body" value="/WEB-INF/views/pages/fichierInexistant.jsp" />  
+   </definition> 
        
 </tiles-definitions>
