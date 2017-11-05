@@ -19,4 +19,5 @@ public interface IDao<PK extends Serializable, T> {
 	public List<T> getByFiltre (IFiltre<T> filtre);
 	public List<T> getAllByPage(PageRequest<T> pageRequest);
 	public List<T> getAllByFiltrePage(PageRequest<T> pageRequest, IFiltre<T> filtre);
+	public boolean isExists(String uniqueProperties, Object name);
 }

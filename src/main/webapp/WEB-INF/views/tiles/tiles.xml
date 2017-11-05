@@ -90,5 +90,30 @@
        <put-attribute name="title" value="Choix TMDB" />  
        <put-attribute name="body" value="/WEB-INF/views/pages/adminTMDB.jsp" />  
    </definition> 
+   
+   <definition name="login" extends="base-definition">  
+       <put-attribute name="title" value="Connection" />  
+       <put-attribute name="body" value="/WEB-INF/views/pages/login.jsp" />  
+   </definition> 
+   
+   <definition name="accessDenied" extends="base-definition">  
+       <put-attribute name="title" value="Acces refusé" />  
+       <put-attribute name="body" value="/WEB-INF/views/pages/accessDenied.jsp" />  
+   </definition> 
+   
+   <definition name="newuser" extends="base-definition">  
+       <put-attribute name="title" value="Nouvel utilisateur" />  
+       <put-attribute name="body" value="/WEB-INF/views/pages/newuser.jsp" />  
+   </definition> 
+   
+   <definition name="registrationsuccess" extends="base-definition">  
+       <put-attribute name="title" value="Utilisateur créé" />  
+       <put-attribute name="body" value="/WEB-INF/views/pages/registrationsuccess.jsp" />  
+   </definition> 
+   
+   <definition name="fichierInexistant" extends="base-definition">  
+       <put-attribute name="title" value="A propos" />  
+       <put-attribute name="body" value="/WEB-INF/views/pages/fichierInexistant.jsp" />  
+   </definition> 
        
 </tiles-definitions>

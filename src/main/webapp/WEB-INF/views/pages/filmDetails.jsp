@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1" isELIgnored="false" pageEncoding="ISO-8859-1"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" isELIgnored="false" pageEncoding="UTF-8"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
@@ -17,7 +17,7 @@
 		</c:url>
 		<div class="row">
 			<div class ="col-md-2 col-md-offset-2 verticalCenter">
-				<a  href="${urlFilm}"><h3 class="titreClickable">Télécharger:</h3></a>
+				<a  href="${urlFilm}"><h3 class="titreClickable">TÃ©lÃ©charger:</h3></a>
 			</div>
 			<div class ="col-md-2 col-md-offset-2 verticalCenter">
 				<a class="btn text-right " href="${urlFilm}" role="button">
@@ -30,17 +30,20 @@
 			<p>${film.titreOriginal}</p>	 
 		<hr/>
 		<h4 class ="text-center">Date de sortie: </h4>
-		<fmt:formatDate type="date" value="${film.dateSortie}" />
+			<fmt:formatDate type="date" value="${film.dateSortie}" />
+        <hr/>
+        <h4 class ="text-center">Date d'ajout: </h4>
+			<fmt:formatDate type="date" value="${film.dateAjout}" />
         <hr/>
         <h4 class ="text-center">Note: </h4>
 			<p>${film.note}/10</p>	 
 		<hr/>
-		<h4 class ="text-center">Résumé: </h4>
+		<h4 class ="text-center">RÃ©sumÃ©: </h4>
 			<p> ${film.resume}</p>			
 		<hr/>
-		Durée: ${dureeFormatee} minutes<br/>
+		DurÃ©e: ${dureeFormatee} minutes<br/>
 		<hr/>
-		<h4 class ="text-center">Nationalité: </h4>
+		<h4 class ="text-center">NationalitÃ©: </h4>
 		<ul>
 			<c:forEach items="${pays}" var="pays">
 				<li>${pays.nom}</li>
@@ -48,7 +51,7 @@
 		</ul>
 		<hr/>
 		<div class = "row" >
-			<c:url value="/filmDetailsMaj" var="urlFilmMaj">			
+			<c:url value="/administration/filmDetailsMaj" var="urlFilmMaj">			
 				<c:param name="idFilm" value="${film.id}"/>
 			</c:url>
 			<div class ="col-md-4 verticalCenter" >
@@ -90,7 +93,7 @@
 		<c:forEach begin="0" end ="5" var="j">
 			<div class="col-sm-4 col-md-2">
 				<c:set var="k" scope="session" value="${(i*6)+j}"/>		
-				<c:url value="/realisateur" var="url">
+				<c:url value="/realisateurs/realisateur" var="url">
 					<c:param name="idRealisateur" value="${realisateurs[k].id}"/>
 				</c:url>
 				<c:if test="${k<realisateurs.size()}">								
@@ -112,7 +115,7 @@
 		<c:forEach begin="0" end ="5" var="j">
 			<div class="col-sm-4 col-md-2">
 				<c:set var="k" scope="session" value="${(i*6)+j}"/>		
-				<c:url value="/acteur" var="url">
+				<c:url value="/acteurs/acteur" var="url">
 					<c:param name="idActeur" value="${personnages[k].acteur.id}"/>
 				</c:url>
 				<c:if test="${k<personnages.size()}">								

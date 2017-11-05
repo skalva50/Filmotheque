@@ -8,6 +8,8 @@ import java.net.URL;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.apache.log4j.Logger;
+
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -19,6 +21,8 @@ import com.skalvasociety.skalva.bean.Episode;
 
 
 public class TMDBRequest {
+	
+	private Logger logger = Logger.getLogger(TMDBRequest.class);
     
 	public TMDBRequest(String API_KEY){
 		this.setApi_key(API_KEY);
@@ -35,8 +39,7 @@ public class TMDBRequest {
 		this.api_key = api_key;
 	}
 	
-	public SearchMovie searchMovie(String nameMovie) throws IOException{
-			
+	public SearchMovie searchMovie(String nameMovie) throws IOException{			
 		
 		// Au minimum le nom doit contenir 1 caractères + l'extension
 		if(nameMovie.length()<=4)
@@ -49,10 +52,8 @@ public class TMDBRequest {
 		nameMovieFormat = nameMovieFormat.replace('.', ' ');
 		nameMovieFormat = nameMovieFormat.replace('_', ' ');
 		
-		// formatage des espaces pour requetes
-		
-		nameMovieFormat = nameMovieFormat.replaceAll(" ", "%20");
-				
+		// formatage des espaces pour requetes		
+		nameMovieFormat = nameMovieFormat.replaceAll(" ", "%20");				
 		
 		
 		String url = "https://api.themoviedb.org/3/search/movie";
@@ -67,38 +68,26 @@ public class TMDBRequest {
 		
 		
 		URL obj = new URL(url);
-		HttpURLConnection con = (HttpURLConnection) obj.openConnection();
-		
+		HttpURLConnection con = (HttpURLConnection) obj.openConnection();		
 		// optional default is GET
-		con.setRequestMethod("GET");
-		
+		con.setRequestMethod("GET");		
 		//add request header
 		con.setRequestProperty("User-Agent", USER_AGENT);
-
+		
 		int responseCode = con.getResponseCode();
-		//System.out.println("\nSending 'GET' request to URL : " + url);
-		//System.out.println("Response Code : " + responseCode);
 		
 		if (responseCode == 429){
 			try {
 				Thread.sleep(5000);
 				obj = new URL(url);
-				con = (HttpURLConnection) obj.openConnection();
-				
+				con = (HttpURLConnection) obj.openConnection();				
 				// optional default is GET
-				con.setRequestMethod("GET");
-				
+				con.setRequestMethod("GET");				
 				//add request header
 				con.setRequestProperty("User-Agent", USER_AGENT);
-
-				responseCode = con.getResponseCode();
-				//System.out.println("2 eme essai");
-				//System.out.println("\nSending 'GET' request to URL : " + url);
-				//System.out.println("Response Code : " + responseCode);
-				
-				
+				responseCode = con.getResponseCode();						
 			} catch (InterruptedException e) {				
-				e.printStackTrace();
+				logger.error(e.getMessage(),e.getCause());
 			}
 		}
 		
@@ -112,66 +101,48 @@ public class TMDBRequest {
 			while ((inputLine = in.readLine()) != null) {
 				response.append(inputLine);
 			}
-			in.close();
-
-			//print result
-			//System.out.println(response.toString());
-			
+			in.close();			
 			ObjectMapper objectMapper = new ObjectMapper(); 
 			SearchMovie movie = objectMapper.readValue(response.toString(),SearchMovie.class );
 			return movie;
+		}else if (responseCode == 400){
+			logger.error("Erreur connexion à TMDB, APIKEY = "+ api_key);
+			return null;
 		}else{
 			return null;
 		}
 	}
 	
 	public MovieDetails getMovieByID (int id) throws IOException{
-	
-		//https://api.themoviedb.org/3/movie/100?api_key=806c2dcfdd6cab66be30e3353293fee2&language=fr-FR
 		
 		String url = "https://api.themoviedb.org/3/movie/"+ id;
 		// Api_key
 		url += "?api_key="+getApi_key();
 		// Language
-		url += "&language=fr-FR";
-		
+		url += "&language=fr-FR";		
 		
 		URL obj = new URL(url);
-		HttpURLConnection con = (HttpURLConnection) obj.openConnection();
-		
+		HttpURLConnection con = (HttpURLConnection) obj.openConnection();		
 		// optional default is GET
-		con.setRequestMethod("GET");
-		
+		con.setRequestMethod("GET");		
 		//add request header
 		con.setRequestProperty("User-Agent", USER_AGENT);
-
 		int responseCode = con.getResponseCode();
-		//System.out.println("\nSending 'GET' request to URL : " + url);
-		//System.out.println("Response Code : " + responseCode);
-		
 		if (responseCode == 429){
 			try {
 				Thread.sleep(5000);
 				obj = new URL(url);
-				con = (HttpURLConnection) obj.openConnection();
-				
+				con = (HttpURLConnection) obj.openConnection();				
 				// optional default is GET
-				con.setRequestMethod("GET");
-				
+				con.setRequestMethod("GET");				
 				//add request header
 				con.setRequestProperty("User-Agent", USER_AGENT);
-
-				responseCode = con.getResponseCode();
-				//System.out.println("2 eme essai");
-				//System.out.println("\nSending 'GET' request to URL : " + url);
-				//System.out.println("Response Code : " + responseCode);
-				
+				responseCode = con.getResponseCode();			
 				
 			} catch (InterruptedException e) {
-				e.printStackTrace();
+				logger.error(e.getMessage(),e.getCause());
 			}
-		}
-		
+		}		
 		
 		if (responseCode == 200){
 			BufferedReader in = new BufferedReader(
@@ -182,21 +153,19 @@ public class TMDBRequest {
 			while ((inputLine = in.readLine()) != null) {
 				response.append(inputLine);
 			}
-			in.close();
-
-			//print result
-			//System.out.println(response.toString());
-			
+			in.close();			
 			ObjectMapper objectMapper = new ObjectMapper(); 
 			MovieDetails movie = objectMapper.readValue(response.toString(),MovieDetails.class );
 			return movie;
+		}else if (responseCode == 400){
+			logger.error("Erreur connexion à TMDB, APIKEY = "+ api_key);
+			return null;
 		}else{
 			return null;
 		}
 	}
 	
-	public List<com.skalvasociety.skalva.bean.Video> getVideoByID (MediaTMDB media) throws IOException{
-		//https://api.themoviedb.org/3/movie/75/videos?api_key=806c2dcfdd6cab66be30e3353293fee2&language=en-US
+	public List<com.skalvasociety.skalva.bean.Video> getVideoByID (MediaTMDB media) throws IOException{		
 		
 		String url = "";
 		if (media.getClass() == Film.class){
@@ -220,45 +189,29 @@ public class TMDBRequest {
 		url += "?api_key="+getApi_key();
 		// Language
 		url += "&language=en-US";
-		
-		
+				
 		URL obj = new URL(url);
-		HttpURLConnection con = (HttpURLConnection) obj.openConnection();
-		
+		HttpURLConnection con = (HttpURLConnection) obj.openConnection();		
 		// optional default is GET
-		con.setRequestMethod("GET");
-		
+		con.setRequestMethod("GET");		
 		//add request header
 		con.setRequestProperty("User-Agent", USER_AGENT);
-
-		int responseCode = con.getResponseCode();
-		//System.out.println("\nSending 'GET' request to URL : " + url);
-		//System.out.println("Response Code : " + responseCode);
-		
+		int responseCode = con.getResponseCode();		
 		if (responseCode == 429){
 			try {
 				Thread.sleep(5000);
 				obj = new URL(url);
-				con = (HttpURLConnection) obj.openConnection();
-				
+				con = (HttpURLConnection) obj.openConnection();				
 				// optional default is GET
-				con.setRequestMethod("GET");
-				
+				con.setRequestMethod("GET");				
 				//add request header
 				con.setRequestProperty("User-Agent", USER_AGENT);
-
-				responseCode = con.getResponseCode();
-				//System.out.println("2 eme essai");
-				//System.out.println("\nSending 'GET' request to URL : " + url);
-				//System.out.println("Response Code : " + responseCode);
-				
-				
+				responseCode = con.getResponseCode();	
 			} catch (InterruptedException e) {
-				e.printStackTrace();
+				logger.error(e.getMessage(),e.getCause());
 			}
 		}
-		
-		
+				
 		if (responseCode == 200){
 			BufferedReader in = new BufferedReader(
 			        new InputStreamReader(con.getInputStream()));
@@ -285,13 +238,15 @@ public class TMDBRequest {
 					listVideos.add(video);
 				}				
 				return listVideos;
-			}
+			}		
+		}else if (responseCode == 400){
+			logger.error("Erreur connexion à TMDB, APIKEY = "+ api_key);
+			return null;
 		}
 		return null;
 	}
 	
 	public SearchSerie searchSerie (String name) throws JsonParseException, JsonMappingException, IOException{
-		//https://api.themoviedb.org/3/search/tv?api_key=806c2dcfdd6cab66be30e3353293fee2&language=fr-FR&query=Vikings&page=1
 		
 		String nameSerieFormat = name.replaceAll(" ", "%20");		
 		String url = "https://api.themoviedb.org/3/search/tv";
@@ -302,45 +257,31 @@ public class TMDBRequest {
 		// Query
 		url += "&query="+nameSerieFormat;
 		// Options
-		url += "&page=1";
-		
+		url += "&page=1";		
 		
 		URL obj = new URL(url);
-		HttpURLConnection con = (HttpURLConnection) obj.openConnection();
-		
+		HttpURLConnection con = (HttpURLConnection) obj.openConnection();		
 		// optional default is GET
-		con.setRequestMethod("GET");
-		
+		con.setRequestMethod("GET");		
 		//add request header
 		con.setRequestProperty("User-Agent", USER_AGENT);
-
 		int responseCode = con.getResponseCode();
-		//System.out.println("\nSending 'GET' request to URL : " + url);
-		//System.out.println("Response Code : " + responseCode);
 		
 		if (responseCode == 429){
 			try {
 				Thread.sleep(5000);
 				obj = new URL(url);
-				con = (HttpURLConnection) obj.openConnection();
-				
+				con = (HttpURLConnection) obj.openConnection();				
 				// optional default is GET
-				con.setRequestMethod("GET");
-				
+				con.setRequestMethod("GET");				
 				//add request header
 				con.setRequestProperty("User-Agent", USER_AGENT);
-
-				responseCode = con.getResponseCode();
-				//System.out.println("2 eme essai");
-				//System.out.println("\nSending 'GET' request to URL : " + url);
-				//System.out.println("Response Code : " + responseCode);
-				
+				responseCode = con.getResponseCode();	
 				
 			} catch (InterruptedException e) {
-				e.printStackTrace();
+				logger.error(e.getMessage(),e.getCause());
 			}
-		}
-		
+		}		
 		
 		if (responseCode == 200){
 			BufferedReader in = new BufferedReader(
@@ -351,63 +292,46 @@ public class TMDBRequest {
 			while ((inputLine = in.readLine()) != null) {
 				response.append(inputLine);
 			}
-			in.close();
-
-			//print result
-			//System.out.println(response.toString());
-			
+			in.close();			
 			ObjectMapper objectMapper = new ObjectMapper(); 
 			SearchSerie serie = objectMapper.readValue(response.toString(),SearchSerie.class );
 			return serie;
+		}else if (responseCode == 400){
+			logger.error("Erreur connexion à TMDB, APIKEY = "+ api_key);
+			return null;
 		}else{
 			return null;
 		}
 	}
 	
-	public SerieDetails getSerieByID (int id) throws IOException{
+	public SerieDetails getSerieByID (int id) throws IOException{	
 		
-		//https://api.themoviedb.org/3/tv/300?api_key=806c2dcfdd6cab66be30e3353293fee2&language=fr-FR
-			
 		String url = "https://api.themoviedb.org/3/tv/"+ id;
 		// Api_key
 		url += "?api_key="+getApi_key();
 		// Language
-		url += "&language=fr-FR";
-		
+		url += "&language=fr-FR";		
 		
 		URL obj = new URL(url);
-		HttpURLConnection con = (HttpURLConnection) obj.openConnection();
-		
+		HttpURLConnection con = (HttpURLConnection) obj.openConnection();		
 		// optional default is GET
-		con.setRequestMethod("GET");
-		
+		con.setRequestMethod("GET");		
 		//add request header
 		con.setRequestProperty("User-Agent", USER_AGENT);
-
 		int responseCode = con.getResponseCode();
-		//System.out.println("\nSending 'GET' request to URL : " + url);
-		//System.out.println("Response Code : " + responseCode);
 		
 		if (responseCode == 429){
 			try {
 				Thread.sleep(5000);
 				obj = new URL(url);
-				con = (HttpURLConnection) obj.openConnection();
-				
+				con = (HttpURLConnection) obj.openConnection();				
 				// optional default is GET
-				con.setRequestMethod("GET");
-				
+				con.setRequestMethod("GET");				
 				//add request header
 				con.setRequestProperty("User-Agent", USER_AGENT);
-
-				responseCode = con.getResponseCode();
-				//System.out.println("2 eme essai");
-				//System.out.println("\nSending 'GET' request to URL : " + url);
-				//System.out.println("Response Code : " + responseCode);
-				
-				
+				responseCode = con.getResponseCode();				
 			} catch (InterruptedException e) {				
-				e.printStackTrace();
+				logger.error(e.getMessage(),e.getCause());
 			}
 		}
 		
@@ -421,14 +345,13 @@ public class TMDBRequest {
 			while ((inputLine = in.readLine()) != null) {
 				response.append(inputLine);
 			}
-			in.close();
-
-			//print result
-			//System.out.println(response.toString());
-			
+			in.close();			
 			ObjectMapper objectMapper = new ObjectMapper(); 
 			SerieDetails serie = objectMapper.readValue(response.toString(),SerieDetails.class );
 			return serie;
+		}else if (responseCode == 400){
+			logger.error("Erreur connexion à TMDB, APIKEY = "+ api_key);
+			return null;
 		}else{
 			return null;
 		}
@@ -447,58 +370,41 @@ public class TMDBRequest {
 		try {
 			numSaison = Integer.parseInt(numSaisonFormat);
 		} catch (Exception e) {
+			logger.error("Erreur formatage du numero de saison: "+sNumSaison+ " - "+ e.getMessage(),e.getCause());
 			return null;
 		}	
-		
-		
-		//https://api.themoviedb.org/3/tv/46533/season/1?api_key=806c2dcfdd6cab66be30e3353293fee2&language=fr-FR
-			
 		String url = "https://api.themoviedb.org/3/tv/"+ id;
 		// numero saison
 		url += "/season/"+numSaison;
 		// Api_key
 		url += "?api_key="+getApi_key();
 		// Language
-		url += "&language=fr-FR";
-		
+		url += "&language=fr-FR";		
 		
 		URL obj = new URL(url);
-		HttpURLConnection con = (HttpURLConnection) obj.openConnection();
-		
+		HttpURLConnection con = (HttpURLConnection) obj.openConnection();		
 		// optional default is GET
-		con.setRequestMethod("GET");
-		
+		con.setRequestMethod("GET");		
 		//add request header
 		con.setRequestProperty("User-Agent", USER_AGENT);
-
 		int responseCode = con.getResponseCode();
-		//System.out.println("\nSending 'GET' request to URL : " + url);
-		//System.out.println("Response Code : " + responseCode);
 		
 		if (responseCode == 429){
 			try {
 				Thread.sleep(5000);
 				obj = new URL(url);
-				con = (HttpURLConnection) obj.openConnection();
-				
+				con = (HttpURLConnection) obj.openConnection();				
 				// optional default is GET
-				con.setRequestMethod("GET");
-				
+				con.setRequestMethod("GET");				
 				//add request header
 				con.setRequestProperty("User-Agent", USER_AGENT);
-
 				responseCode = con.getResponseCode();
-				//System.out.println("2 eme essai");
-				//System.out.println("\nSending 'GET' request to URL : " + url);
-				//System.out.println("Response Code : " + responseCode);
-				
-				
+			
 			} catch (InterruptedException e) {				
-				e.printStackTrace();
+				logger.error(e.getMessage(),e.getCause());
 			}
 		}
-		
-		
+			
 		if (responseCode == 200){
 			BufferedReader in = new BufferedReader(
 			        new InputStreamReader(con.getInputStream()));
@@ -513,6 +419,9 @@ public class TMDBRequest {
 			ObjectMapper objectMapper = new ObjectMapper(); 
 			SerieSaisonDetails serieSaison = objectMapper.readValue(response.toString(),SerieSaisonDetails.class );
 			return serieSaison;
+		}else if (responseCode == 400){
+			logger.error("Erreur connexion à TMDB, APIKEY = "+ api_key);
+			return null;
 		}else{
 			return null;
 		}
@@ -535,10 +444,10 @@ public class TMDBRequest {
 		try {
 			numEpisode = Integer.parseInt(sNumEpisode);
 		} catch (Exception e) {
+			logger.error("Erreur formatage du numero de saison: "+sNumEpisode+ " - "+ e.getMessage(),e.getCause());
 			return null;
-		}
+		}		
 		
-		//https://api.themoviedb.org/3/tv/44217/season/4/episode/13?api_key=806c2dcfdd6cab66be30e3353293fee2&language=fr-FR
 		String url = "https://api.themoviedb.org/3/tv/"+ idSerie;
 		// numero saison
 		url += "/season/"+numSaison;
@@ -550,14 +459,11 @@ public class TMDBRequest {
 		url += "&language=fr-FR";	
 		
 		URL obj = new URL(url);
-		HttpURLConnection con = (HttpURLConnection) obj.openConnection();
-		
+		HttpURLConnection con = (HttpURLConnection) obj.openConnection();		
 		// optional default is GET
-		con.setRequestMethod("GET");
-		
+		con.setRequestMethod("GET");		
 		//add request header
 		con.setRequestProperty("User-Agent", USER_AGENT);
-
 		int responseCode = con.getResponseCode();
 		
 		if (responseCode == 429){
@@ -569,7 +475,7 @@ public class TMDBRequest {
 				con.setRequestProperty("User-Agent", USER_AGENT);
 				responseCode = con.getResponseCode();								
 			} catch (InterruptedException e) {				
-				e.printStackTrace();
+				logger.error(e.getMessage(),e.getCause());
 			}
 		}	
 		if (responseCode == 200){
@@ -585,13 +491,15 @@ public class TMDBRequest {
 			ObjectMapper objectMapper = new ObjectMapper(); 
 			EpisodeTMDB episodeTMDB = objectMapper.readValue(response.toString(),EpisodeTMDB.class );
 			return episodeTMDB;
+		}else if (responseCode == 400){
+			logger.error("Erreur connexion à TMDB, APIKEY = "+ api_key);
+			return null;
 		}else{
 			return null;
 		}							
 	}
 	
 	public List<Cast> getCastbyMedia (MediaTMDB media) throws IOException{
-		//https://api.themoviedb.org/3/tv/44217/credits?api_key=806c2dcfdd6cab66be30e3353293fee2&language=fr-FR
 		
 		String url = "";
 		if (media.getClass() == Film.class){
@@ -599,44 +507,37 @@ public class TMDBRequest {
 		}else if (media.getClass() == Serie.class){
 			url = "https://api.themoviedb.org/3/tv/"+  ((Serie)media).getIdTMDB()+ "/credits";	
 		}else if (media.getClass() == Saison.class){			
-			url = "https://api.themoviedb.org/3/tv/"+  ((Saison)media).getSerie().getIdTMDB()+ "/season/"+((Saison)media).getNumero()+"/credits";
-			System.out.println(url);
+			url = "https://api.themoviedb.org/3/tv/"+  ((Saison)media).getSerie().getIdTMDB()+ "/season/"+((Saison)media).getNumero()+"/credits";			
 		}else{
 			return null;
 		}
-		
-		
+				
 		// Api_key
 		url += "?api_key="+getApi_key();
 		// Language
 		url += "&language=en-US";
 		
 		URL obj = new URL(url);
-		HttpURLConnection con = (HttpURLConnection) obj.openConnection();
-		
+		HttpURLConnection con = (HttpURLConnection) obj.openConnection();		
 		// optional default is GET
-		con.setRequestMethod("GET");
-		
+		con.setRequestMethod("GET");		
 		//add request header
 		con.setRequestProperty("User-Agent", USER_AGENT);
-
 		int responseCode = con.getResponseCode();
 		
 		if (responseCode == 429){
 			try {
 				Thread.sleep(5000);
 				obj = new URL(url);
-				con = (HttpURLConnection) obj.openConnection();
-				
+				con = (HttpURLConnection) obj.openConnection();				
 				// optional default is GET
-				con.setRequestMethod("GET");
-				
+				con.setRequestMethod("GET");				
 				//add request header
 				con.setRequestProperty("User-Agent", USER_AGENT);
 				responseCode = con.getResponseCode();
 				
 			} catch (InterruptedException e) {
-				e.printStackTrace();
+				logger.error(e.getMessage(),e.getCause());
 			}
 		}
 		
@@ -660,13 +561,15 @@ public class TMDBRequest {
 			}else{
 				return null;
 			}
+		}else if (responseCode == 400){
+			logger.error("Erreur connexion à TMDB, APIKEY = "+ api_key);
+			return null;
 		}else{
 			return null;
 		}
 	}
 	
-	public List<Crew> getCrewbyMedia (MediaTMDB media) throws IOException{
-		//https://api.themoviedb.org/3/tv/44217/credits?api_key=806c2dcfdd6cab66be30e3353293fee2&language=fr-FR
+	public List<Crew> getCrewbyMedia (MediaTMDB media) throws IOException{		
 		
 		String url = "";
 		if (media.getClass() == Film.class){
@@ -675,40 +578,32 @@ public class TMDBRequest {
 			url = "https://api.themoviedb.org/3/tv/"+  ((Serie)media).getIdTMDB()+ "/credits";		
 		}else{
 			return null;
-		}
-		
+		}	
 		
 		// Api_key
 		url += "?api_key="+getApi_key();
 		// Language
-		url += "&language=en-US";
-		
+		url += "&language=en-US";		
 		URL obj = new URL(url);
-		HttpURLConnection con = (HttpURLConnection) obj.openConnection();
-		
+		HttpURLConnection con = (HttpURLConnection) obj.openConnection();		
 		// optional default is GET
-		con.setRequestMethod("GET");
-		
+		con.setRequestMethod("GET");		
 		//add request header
 		con.setRequestProperty("User-Agent", USER_AGENT);
-
 		int responseCode = con.getResponseCode();
 		
 		if (responseCode == 429){
 			try {
 				Thread.sleep(5000);
 				obj = new URL(url);
-				con = (HttpURLConnection) obj.openConnection();
-				
+				con = (HttpURLConnection) obj.openConnection();				
 				// optional default is GET
-				con.setRequestMethod("GET");
-				
+				con.setRequestMethod("GET");				
 				//add request header
 				con.setRequestProperty("User-Agent", USER_AGENT);
-				responseCode = con.getResponseCode();
-				
+				responseCode = con.getResponseCode();				
 			} catch (InterruptedException e) {
-				e.printStackTrace();
+				logger.error(e.getMessage(),e.getCause());
 			}
 		}
 		
@@ -732,31 +627,28 @@ public class TMDBRequest {
 			}else{
 				return null;
 			}
+		}else if (responseCode == 400){
+			logger.error("Erreur connexion à TMDB, APIKEY = "+ api_key);
+			return null;
 		}else{
 			return null;
 		}
 	}
 
-	public Genres getGenresSeries() throws IOException {
-		// https://api.themoviedb.org/3/genre/movie/list?api_key=806c2dcfdd6cab66be30e3353293fee2&language=fr-FR
-		
+	public Genres getGenresSeries() throws IOException {		
 		
 		String url = "https://api.themoviedb.org/3/genre/tv/list";
 		// Api_key
 		url += "?api_key="+getApi_key();
 		// Language
-		url += "&language=fr-FR";
-		
+		url += "&language=fr-FR";		
 		
 		URL obj = new URL(url);
-		HttpURLConnection con = (HttpURLConnection) obj.openConnection();
-		
+		HttpURLConnection con = (HttpURLConnection) obj.openConnection();		
 		// optional default is GET
-		con.setRequestMethod("GET");
-		
+		con.setRequestMethod("GET");		
 		//add request header
 		con.setRequestProperty("User-Agent", USER_AGENT);
-
 		int responseCode = con.getResponseCode();
 		
 		if (responseCode == 429){
@@ -764,18 +656,14 @@ public class TMDBRequest {
 				Thread.sleep(5000);
 				obj = new URL(url);
 				con = (HttpURLConnection) obj.openConnection();
-				
 				// optional default is GET
-				con.setRequestMethod("GET");
-				
+				con.setRequestMethod("GET");				
 				//add request header
 				con.setRequestProperty("User-Agent", USER_AGENT);
-
-				responseCode = con.getResponseCode();
-				
+				responseCode = con.getResponseCode();				
 				
 			} catch (InterruptedException e) {				
-				e.printStackTrace();
+				logger.error(e.getMessage(),e.getCause());
 			}
 		}
 		
@@ -794,14 +682,15 @@ public class TMDBRequest {
 			ObjectMapper objectMapper = new ObjectMapper(); 
 			Genres genres = objectMapper.readValue(response.toString(),Genres.class );
 			return genres;
+		}else if (responseCode == 400){
+			logger.error("Erreur connexion à TMDB, APIKEY = "+ api_key);
+			return null;
 		}else{
 			return null;
 		}
 	}
 	
 	public Genres getGenresFilms() throws IOException {
-		// https://api.themoviedb.org/3/genre/movie/list?api_key=806c2dcfdd6cab66be30e3353293fee2&language=fr-FR
-		
 		
 		String url = "https://api.themoviedb.org/3/genre/movie/list";
 		// Api_key
@@ -811,33 +700,25 @@ public class TMDBRequest {
 		
 		
 		URL obj = new URL(url);
-		HttpURLConnection con = (HttpURLConnection) obj.openConnection();
-		
+		HttpURLConnection con = (HttpURLConnection) obj.openConnection();		
 		// optional default is GET
-		con.setRequestMethod("GET");
-		
+		con.setRequestMethod("GET");		
 		//add request header
 		con.setRequestProperty("User-Agent", USER_AGENT);
-
-		int responseCode = con.getResponseCode();
-		
+		int responseCode = con.getResponseCode();		
 		if (responseCode == 429){
 			try {
 				Thread.sleep(5000);
 				obj = new URL(url);
-				con = (HttpURLConnection) obj.openConnection();
-				
+				con = (HttpURLConnection) obj.openConnection();				
 				// optional default is GET
-				con.setRequestMethod("GET");
-				
+				con.setRequestMethod("GET");				
 				//add request header
 				con.setRequestProperty("User-Agent", USER_AGENT);
-
-				responseCode = con.getResponseCode();
-				
+				responseCode = con.getResponseCode();				
 				
 			} catch (InterruptedException e) {				
-				e.printStackTrace();
+				logger.error(e.getMessage(),e.getCause());
 			}
 		}
 		
@@ -856,55 +737,45 @@ public class TMDBRequest {
 			ObjectMapper objectMapper = new ObjectMapper(); 
 			Genres genres = objectMapper.readValue(response.toString(),Genres.class );
 			return genres;
+		}else if (responseCode == 400){
+			logger.error("Erreur connexion à TMDB, APIKEY = "+ api_key);
+			return null;
 		}else{
 			return null;
 		}
 	}
 	
 	public People getPeopleDetail(Integer idTMDB) throws IOException {
-		// https://api.themoviedb.org/3/person/72129?api_key=806c2dcfdd6cab66be30e3353293fee2&language=en-US
-		
-		
+	
 		String url = "https://api.themoviedb.org/3/person/";
 		// id
 		url += idTMDB;
 		// Api_key
 		url += "?api_key="+getApi_key();
 		// Language
-		url += "&language=en-US";
-		
+		url += "&language=en-US";		
 		
 		URL obj = new URL(url);
-		HttpURLConnection con = (HttpURLConnection) obj.openConnection();
-		
+		HttpURLConnection con = (HttpURLConnection) obj.openConnection();		
 		// optional default is GET
-		con.setRequestMethod("GET");
-		
+		con.setRequestMethod("GET");		
 		//add request header
 		con.setRequestProperty("User-Agent", USER_AGENT);
-
-		int responseCode = con.getResponseCode();
-		
+		int responseCode = con.getResponseCode();		
 		if (responseCode == 429){
 			try {
 				Thread.sleep(5000);
 				obj = new URL(url);
-				con = (HttpURLConnection) obj.openConnection();
-				
+				con = (HttpURLConnection) obj.openConnection();				
 				// optional default is GET
-				con.setRequestMethod("GET");
-				
+				con.setRequestMethod("GET");				
 				//add request header
 				con.setRequestProperty("User-Agent", USER_AGENT);
-
-				responseCode = con.getResponseCode();
-				
-				
+				responseCode = con.getResponseCode();				
 			} catch (InterruptedException e) {				
-				e.printStackTrace();
+				logger.error(e.getMessage(),e.getCause());
 			}
-		}
-		
+		}		
 		
 		if (responseCode == 200){
 			BufferedReader in = new BufferedReader(
@@ -920,6 +791,9 @@ public class TMDBRequest {
 			ObjectMapper objectMapper = new ObjectMapper(); 
 			People people = objectMapper.readValue(response.toString(),People.class );
 			return people;
+		}else if (responseCode == 400){
+			logger.error("Erreur connexion à TMDB, APIKEY = "+ api_key);
+			return null;
 		}else{
 			return null;
 		}

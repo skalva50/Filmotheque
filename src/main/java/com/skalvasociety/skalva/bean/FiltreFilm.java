@@ -3,6 +3,7 @@ package com.skalvasociety.skalva.bean;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.apache.log4j.Logger;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.skalvasociety.skalva.enumeration.FilmFilterBy;
@@ -10,7 +11,8 @@ import com.skalvasociety.skalva.enumeration.FilmFilterText;
 
 @Transactional
 public class FiltreFilm extends AbstractFiltre<FilmFilterBy, FilmFilterText> implements IFiltre<Film>{	
-
+	
+	private Logger logger = Logger.getLogger(FiltreFilm.class);
 
 	public List<Film> filtrerListe(List<Film> listeAFiltrer) {
 		List<Film> listToRemove = new LinkedList<Film>();	
@@ -63,6 +65,7 @@ public class FiltreFilm extends AbstractFiltre<FilmFilterBy, FilmFilterText> imp
 				}
 				break;
 			default:
+				logger.error("Type de filtre inconnu");
 				break;
 			}
 		}

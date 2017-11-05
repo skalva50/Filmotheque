@@ -3,10 +3,10 @@ package com.skalvasociety.skalva.service;
 
 import java.io.IOException;
 import java.io.Serializable;
-import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
@@ -30,10 +30,12 @@ import com.skalvasociety.skalva.tmdbObject.SearchMovie;
 import com.skalvasociety.skalva.tmdbObject.TMDBRequest;
 import com.skalvasociety.skalva.tools.Acces;
 import com.skalvasociety.skalva.tools.Convert;
+import com.skalvasociety.skalva.tools.FileMetaData;
 
 @Service("fichierService")
 @Transactional
 public class FichierService extends AbstractService<Serializable, Fichier> implements IFichierService {
+	private Logger logger = Logger.getLogger(FichierService.class);
 	
 	@Autowired
     private IFichierDao dao;
@@ -76,10 +78,11 @@ public class FichierService extends AbstractService<Serializable, Fichier> imple
 		String API_KEY = environment.getProperty("tmdb.API_KEY");
 		List<MediaTMDB> listAjout = new LinkedList<MediaTMDB>();
 		TMDBRequest tmdbRequest = new TMDBRequest(API_KEY);		
-		List<String> listeFichier = new Acces().listFichierVideo(path);
-		for (String chemin : listeFichier) {			
+		List<FileMetaData> listeFichier = new Acces().listFichierVideo(path);
+		for (FileMetaData fileMetaData : listeFichier) {			
 			Fichier fichier = new Fichier();
-			fichier.setChemin(chemin);
+			
+			fichier.setChemin(fileMetaData.getNom());
 			if(isFichierCheminUnique(fichier.getChemin())){				
 				try {	
 					// Recherche de l'idTMDB sur la bas TMDB
@@ -89,9 +92,8 @@ public class FichierService extends AbstractService<Serializable, Fichier> imple
 						Film film = movie.toFilm();	
 						if (film != null){
 							// Creation de l'entree Film avec son idTMDB 
-							film.setFichier(fichier);
-							Date dateAjout = new Date();
-							film.setDateAjout(dateAjout);
+							film.setFichier(fichier);							
+							film.setDateAjout(fileMetaData.getDateModification());
 							filmService.save(film);
 							listAjout.add(film);
 							
@@ -132,7 +134,7 @@ public class FichierService extends AbstractService<Serializable, Fichier> imple
 						}					
 					}																
 				} catch (IOException e) {			
-					e.printStackTrace();
+					logger.error(e.getMessage(), e.getCause());
 				}
 			}			
 		}	

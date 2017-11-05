@@ -6,6 +6,7 @@ import java.util.List;
 
 import javax.transaction.Transactional;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Controller;
@@ -35,6 +36,7 @@ import com.skalvasociety.skalva.tmdbObject.TMDBRequest;
 //Permet de garder les choix de filtre et de titre de l'utilisateur durant toute sa session
 @SessionAttributes( value="serieModel", types={SerieViewModel.class})
 public class SerieController {
+	private Logger logger = Logger.getLogger(SerieController.class);
 	
 	@Autowired
 	ISerieService serieService;	
@@ -63,7 +65,7 @@ public class SerieController {
     }
      
     
-    @RequestMapping(value="/saisons" ,method = RequestMethod.GET)
+    @RequestMapping(value="/series/saisons" ,method = RequestMethod.GET)
 	public String serieById(@RequestParam(value="idSerie") Integer idSerie, ModelMap model){	
 		if (idSerie == null)
 			return "redirect:/series";
@@ -119,7 +121,7 @@ public class SerieController {
 	}    
     
 	
-	@RequestMapping(value = { "/majSerie" }, method = RequestMethod.GET)
+	@RequestMapping(value = { "/administration/majSerie" }, method = RequestMethod.GET)
     public String majFichiers(ModelMap model) {
 		List<MediaTMDB> listAjout = serieService.majSerie();
     	model.addAttribute("listAjout", listAjout);
@@ -127,7 +129,7 @@ public class SerieController {
         
     }
 	
-	@RequestMapping(value="/serieDetailsMaj" ,method = RequestMethod.GET)
+	@RequestMapping(value="/administration/serieDetailsMaj" ,method = RequestMethod.GET)
 	public String majFilm(
 			@RequestParam(value="idSerie") Integer idSerie,
 			ModelMap model){
@@ -141,13 +143,13 @@ public class SerieController {
 				List<ResultsSearchSerie> listSearchSerie = searchSerie.getResults();
 				model.addAttribute("listSearchSerie", listSearchSerie);			
 			} catch (IOException e) {				
-				e.printStackTrace();
+				logger.error(e.getMessage(), e.getCause());
 			}
 		}	
 		return "adminTMDB";
 	}
 	
-	@RequestMapping(value="/deleteSerie" ,method = RequestMethod.GET)
+	@RequestMapping(value="/administration/deleteSerie" ,method = RequestMethod.GET)
 	public String deleteSerie(ModelMap model){
 		List<MediaTMDB> listDelete = serieService.deleteSerieObsolete();
     	model.addAttribute("listDelete", listDelete);

@@ -20,6 +20,9 @@
 + Ajout de la date d'ajout à la BDD
 + Maj des fiches films si erreur de correpondance
 
-## V.0.4.0 
+## V.0.4.0 (05/11/17)
 + Gestion des droits d'accès (spring security)
-+ Gestion des droits BDD
++ Page erreur spécifique (erreur 404, erreur dowload...)
++ Implémentation du logger LOG4J
++ Amelioration de la page d'accueil
++ Modification mineures

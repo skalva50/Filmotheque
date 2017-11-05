@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1" isELIgnored="false" pageEncoding="ISO-8859-1"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" isELIgnored="false" pageEncoding="UTF-8"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <c:if test="${listMovie.size() >0}">
@@ -18,7 +18,7 @@
 			<div class="col-md-2">
 				${movie.release_date}
 			</div>
-			<c:url value="/majTMDB" var="urlmajTMDB">			
+			<c:url value="/administration/majTMDB" var="urlmajTMDB">			
 				<c:param name="idTMDB" value="${movie.id}"/>
 				<c:param name="idFilm" value="${film.id}"/>
 			</c:url>

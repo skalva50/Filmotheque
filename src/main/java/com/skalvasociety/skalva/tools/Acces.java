@@ -2,11 +2,18 @@ package com.skalvasociety.skalva.tools;
 
 import java.io.File;
 
+
 import javax.activation.MimetypesFileTypeMap;
+
+import org.apache.log4j.Logger;
+
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
 public class Acces {
+	private static Logger logger = Logger.getLogger(Acces.class);
+	
 	/**
 	 * Lit les dossiers d'un dossier (ne lit pas dans les sous-dossiers)
 	 * @param path
@@ -31,8 +38,8 @@ public class Acces {
 	 * @param path
 	 * @return Liste des noms de fichiers
 	 */
-	public List<String> listFichierVideo(String path){		
-		List<String> listFichier = new LinkedList<String>();
+	public List<FileMetaData> listFichierVideo(String path){		
+		List<FileMetaData> listFichier = new LinkedList<FileMetaData>();
 		File file = new File(path);
 		File[] files = file.listFiles();
 		if (files != null) {
@@ -42,10 +49,13 @@ public class Acces {
 					fileTypeMap.addMimeTypes("video/x-matroska mkv");
 					fileTypeMap.addMimeTypes("video/m4v m4v");
 					fileTypeMap.addMimeTypes("video/mp4 mp4");
-					if(fileTypeMap.getContentType(files[i].getName()).startsWith("video")){						
-						listFichier.add(files[i].getName());						
+					if(fileTypeMap.getContentType(files[i].getName()).startsWith("video")){	
+						FileMetaData fileMetaData = new FileMetaData();
+						fileMetaData.setNom(files[i].getName());						
+						fileMetaData.setDateModification(new Date(files[i].lastModified()));						
+						listFichier.add(fileMetaData);						
 					}else{
-						System.out.println("Probleme type Fichier " +files[i].getName() + " - type fichier: " + fileTypeMap.getContentType(files[i].getName()));
+						logger.error("Probleme type Fichier, Nom du fichier: " +files[i].getName() + " - type fichier: " + fileTypeMap.getContentType(files[i].getName()));
 					}
 				}
 			}

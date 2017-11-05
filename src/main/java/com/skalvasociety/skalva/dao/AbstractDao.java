@@ -140,5 +140,15 @@ public abstract class AbstractDao<PK extends Serializable, T> implements IDao<Se
 	public List<T> getByFiltre (IFiltre<T> filtre){
 		return filtre.filtrerListe(getAll());
 	}
+	
+	public boolean isExists(String uniqueProperties, Object name){
+		Criteria criteria = createEntityCriteria();
+		criteria.add(Restrictions.eq(uniqueProperties, name));
+		if(criteria.uniqueResult()!= null){
+			return true;
+		}else{
+			return false;
+		}
+	}
 }
  

@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1" isELIgnored="false" pageEncoding="ISO-8859-1"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" isELIgnored="false" pageEncoding="UTF-8"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
@@ -11,12 +11,12 @@
 		<img src ="https://image.tmdb.org/t/p/w500${realisateur.photo}" class="img-thumbnail img-responsive"/>
 	</div>
 	<div class ="col-md-6">
-		<h4 class ="text-center">Né le: <fmt:formatDate type="date" value="${realisateur.dateNaissance}" /> à ${realisateur.lieuNaissance} </h4>		
+		<h4 class ="text-center">NÃ© le: <fmt:formatDate type="date" value="${realisateur.dateNaissance}" /> Ã  ${realisateur.lieuNaissance} </h4>		
 		<hr/>		
 		<h4 class ="text-center">Biographie: </h4>
 		<p> ${realisateur.biographie}</p>		
 		<hr/>
-		<h4 class ="text-center">Popularité: </h4>
+		<h4 class ="text-center">PopularitÃ©: </h4>
 		<p><fmt:formatNumber type="number" maxFractionDigits = "2" value = "${realisateur.popularite}"/>/10</p>		
 	</div>	
 </div>
@@ -27,7 +27,7 @@
 		<c:forEach begin="0" end ="5" var="j">
 			<div class="col-sm-4 col-md-2">
 				<c:set var="k" scope="session" value="${(i*6)+j}"/>		
-				<c:url value="/filmDetails" var="url">
+				<c:url value="/films/filmDetails" var="url">
 					<c:param name="idFilm" value="${films[k].id}"/>
 				</c:url>
 				<c:if test="${k<films.size()}">								
@@ -49,7 +49,7 @@
 		<c:forEach begin="0" end ="5" var="j">
 			<div class="col-sm-4 col-md-2">
 				<c:set var="k" scope="session" value="${(i*6)+j}"/>		
-				<c:url value="/saisons" var="url">
+				<c:url value="/series/saisons" var="url">
 					<c:param name="idSerie" value="${series[k].id}"/>
 				</c:url>
 				<c:if test="${k<series.size()}">								

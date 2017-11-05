@@ -33,10 +33,6 @@ Cette application Web est destinée à créer et à présenter une bibliotheque 
     * trier
 * Telechargement des films et series
 
----
-#### /!\ En cours de developpement
-* Gestion des droits d'accès (V 0.4.0)
-
 -------
 
 ## Technologie

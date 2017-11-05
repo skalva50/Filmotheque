@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.transaction.Transactional;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Controller;
@@ -33,6 +34,8 @@ import com.skalvasociety.skalva.tmdbObject.TMDBRequest;
 //Permet de garder les choix de filtre et de titre de l'utilisateur durant toute sa session
 @SessionAttributes( value="filmModel", types={FilmViewModel.class})
 public class FilmController {
+	
+	private Logger logger = Logger.getLogger(FilmController.class);
 	
 	@Autowired
 	IFilmService filmService;
@@ -65,7 +68,7 @@ public class FilmController {
         return "films";
     }    
 
-	@RequestMapping(value="/filmDetails" ,method = RequestMethod.GET)
+	@RequestMapping(value="/films/filmDetails" ,method = RequestMethod.GET)
 	public String filmById(@RequestParam(value="idFilm") Integer idFilm, ModelMap model){	
 		if (idFilm == null)
 			return "redirect:/films";
@@ -111,14 +114,14 @@ public class FilmController {
 	
     
     
-    @RequestMapping(value = { "/majFilm" }, method = RequestMethod.GET)
+    @RequestMapping(value = { "/administration/majFilm" }, method = RequestMethod.GET)
     public String majFichiers(ModelMap model) {    	
     	List<MediaTMDB> listAjout = fichierService.majFichier();    	
     	model.addAttribute("listAjout", listAjout);
         return "administration";
     }
 	
-	@RequestMapping(value="/filmDetailsMaj" ,method = RequestMethod.GET)
+	@RequestMapping(value="/administration/filmDetailsMaj" ,method = RequestMethod.GET)
 	public String majFilm(
 			@RequestParam(value="idFilm") Integer idFilm,
 			ModelMap model){
@@ -129,16 +132,18 @@ public class FilmController {
 			TMDBRequest tmdbRequest = new TMDBRequest(API_KEY);
 			try {
 				SearchMovie movie = tmdbRequest.searchMovie(film.getFichier().getChemin());
-				List<ResultsSearchMovie> listMovie = movie.getResults();
-				model.addAttribute("listMovie", listMovie);			
+				if(movie != null){
+					List<ResultsSearchMovie> listMovie = movie.getResults();
+					model.addAttribute("listMovie", listMovie);			
+				}				
 			} catch (IOException e) {				
-				e.printStackTrace();
+				logger.error(e.getMessage(), e.getCause());
 			}
 		}	
 		return "adminTMDB";
 	}
 	
-	@RequestMapping(value="/deleteFilm" ,method = RequestMethod.GET)
+	@RequestMapping(value="/administration/deleteFilm" ,method = RequestMethod.GET)
 	public String majFilm(ModelMap model){
 		List<MediaTMDB> listDelete = filmService.deleteFilmObsolete();
 		model.addAttribute("listDelete", listDelete);

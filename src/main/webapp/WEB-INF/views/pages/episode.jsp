@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1" isELIgnored="false" pageEncoding="ISO-8859-1"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" isELIgnored="false" pageEncoding="UTF-8"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
@@ -18,7 +18,7 @@
 		</c:url>
 		<div class="row">
 			<div class ="col-md-2 col-md-offset-2">
-				<a  href="${urlEpisode}"><h3 class="titreClickable">Télécharger:</h3></a>
+				<a  href="${urlEpisode}"><h3 class="titreClickable">TÃ©lÃ©charger:</h3></a>
 			</div>
 			<div class ="col-md-2 col-md-offset-2">
 				<a class="btn text-right " href="${urlEpisode}" role="button">
@@ -27,13 +27,13 @@
 			</div>
 		</div>
 		<hr/>
-		<h4 class ="text-center">Titre épisode: </h4>
+		<h4 class ="text-center">Titre Ã©pisode: </h4>
 		<p> ${episode.titre}</p>		
 		<hr/>
 		<h4 class ="text-center">Date de sortie: </h4>
 			<p><fmt:formatDate type="date" value="${episode.dateSortie}" /></p> 
 		<hr/>
-		<h4 class ="text-center">Résumé: </h4>
+		<h4 class ="text-center">RÃ©sumÃ©: </h4>
 		<p> ${episode.resume}</p>	
 	</div>
 </div>
@@ -55,6 +55,6 @@
 		</c:forEach>
 	</c:if>	
 	<c:if test="${videos.size() == 0}">		
-		<p>Aucune bande annonce disponible pour cet épisode</p>
+		<p>Aucune bande annonce disponible pour cet Ã©pisode</p>
 	</c:if>	
 <hr/>

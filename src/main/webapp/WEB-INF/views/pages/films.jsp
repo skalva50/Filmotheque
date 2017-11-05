@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1" isELIgnored="false" pageEncoding="ISO-8859-1"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" isELIgnored="false" pageEncoding="UTF-8"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles"%>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
@@ -32,7 +32,7 @@
 		<form:form class="form-horizontal" method="GET" action="films" modelAttribute="filmModel">
 			<div class="form-group">
 		    	<label for="FilterByRealisateur">
-		    		Réalisateurs:		    				    		
+		    		RÃ©alisateurs:		    				    		
 		    		<form:button 
 		    			id="clearFilter"
 		    			name="clearFiltre"
@@ -147,7 +147,7 @@
 		<c:forEach begin="0" end ="5" var="j">
 			<div class="col-sm-2 col-md-4S">
 				<c:set var="k" scope="session" value="${(i*6)+j}"/>		
-				<c:url value="/filmDetails" var="url">
+				<c:url value="/films/filmDetails" var="url">
 					<c:param name="idFilm" value="${filmModel.liste[k].id}"/>
 				</c:url>
 				<c:if test="${k<filmModel.liste.size()}">								

@@ -29,7 +29,7 @@ public class PersonneController {
 	@Autowired
 	IRealisateurService realisateurService;
 	
-	@RequestMapping(value="/acteur" ,method = RequestMethod.GET)
+	@RequestMapping(value="/acteurs/acteur" ,method = RequestMethod.GET)
 	public String acteurById(@RequestParam(value="idActeur") Integer idActeur, ModelMap model){	
 		if (idActeur == null)
 			return "redirect:/films";
@@ -60,7 +60,7 @@ public class PersonneController {
 		}		
 	}
 	
-	@RequestMapping(value="/realisateur" ,method = RequestMethod.GET)
+	@RequestMapping(value="/realisateurs/realisateur" ,method = RequestMethod.GET)
 	public String realisateurById(@RequestParam(value="idRealisateur") Integer idRealisateur, ModelMap model){	
 		if (idRealisateur == null)
 			return "redirect:/films";

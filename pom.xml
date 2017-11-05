@@ -4,13 +4,14 @@
   <groupId>com.skalvasociety.skalva</groupId>
   <artifactId>Filmotheque</artifactId>
   <packaging>war</packaging>
-  <version>0.3.0-Release</version>
+  <version>0.4.0-RELEASE</version>
   <name>Filmotheque Maven Webapp</name>
   <url>http://maven.apache.org</url>
   
 	<properties>
-		<springframework.version>4.2.6.RELEASE</springframework.version>
-		<hibernate.version>4.3.6.Final</hibernate.version>
+		<springframework.version>4.3.11.RELEASE</springframework.version>
+		<springsecurity.version>4.0.1.RELEASE</springsecurity.version>
+		<hibernate.version>4.3.11.Final</hibernate.version>
 		<postgresql.version>9.3-1102-jdbc41</postgresql.version>
 		<apachetiles.version>3.0.7</apachetiles.version>
 		<joda-time.version>2.3</joda-time.version>
@@ -54,6 +55,18 @@
 			<artifactId>hibernate-core</artifactId>
 			<version>${hibernate.version}</version>
 		</dependency>
+		
+		<!-- Spring Security -->
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-web</artifactId>
+            <version>${springsecurity.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-config</artifactId>
+            <version>${springsecurity.version}</version>
+        </dependency>
 
 		<!-- jsr303 validation -->
 		<dependency>
@@ -171,8 +184,31 @@
 		    <version>2.2</version>
 		</dependency>
 		
+		<!-- https://mvnrepository.com/artifact/javax.activation/activation -->
+		<dependency>
+		    <groupId>javax.activation</groupId>
+		    <artifactId>activation</artifactId>
+		    <version>1.1</version>
+		</dependency>
+		
+		<!-- https://mvnrepository.com/artifact/log4j/log4j -->
+		<dependency>
+		    <groupId>log4j</groupId>
+		    <artifactId>log4j</artifactId>
+		    <version>1.2.17</version>
+		</dependency>
+		
 	</dependencies>
   <build>
+ 	<resources>
+		<resource>
+            <filtering>true</filtering>
+			<directory>src/main/resources</directory>
+			<includes>
+				<include>application.properties</include>
+			</includes>
+		</resource>
+	</resources>
  	<pluginManagement>
 		<plugins>
 			<plugin>
